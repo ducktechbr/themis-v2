@@ -1,11 +1,12 @@
-import SigIn from "@/screens/auth/signin";
 import { createStackNavigator } from "@react-navigation/stack";
-import { RootRoutesParamsList } from "./routes.types";
+import { SignIn } from "@/screens/auth";
+import { RoutesParamsList } from "@/types";
+
 export default function AuthRoutes() {
- const Stack = createStackNavigator<RootRoutesParamsList>();
- return (
-  <Stack.Navigator screenOptions={{ headerShown: false }}>
-   <Stack.Screen name="SignIn" component={SigIn} />
-  </Stack.Navigator>
- );
+  const Stack = createStackNavigator<RoutesParamsList>();
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="SignIn" component={SignIn} />
+    </Stack.Navigator>
+  );
 }

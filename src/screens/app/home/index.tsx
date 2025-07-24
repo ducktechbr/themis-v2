@@ -1,19 +1,26 @@
-import { Text, View } from "react-native";
-import { useAuthStore } from "@/stores";
+import { AppContainer, Header } from "@/components";
 
 import useViewModel from "./useViewModel";
+import { View, Text } from "react-native";
 
-export default function Home() {
-  const { user } = useAuthStore();
+export const Home = () => {
   const { data } = useViewModel();
 
   return (
-    <View className="bg-black justify-center items-center flex-1">
-      <Text className="text-white">
-        {data?.map((item, index) => (
-          <Text key={index}>{item.id_service_order}</Text>
-        ))}
-      </Text>
-    </View>
+    <AppContainer>
+      <Header />
+      {data?.map((item, index) => (
+        <View
+          key={index}
+          className="bg-white rounded p-2"
+          style={{ shadowOpacity: 0.5, shadowOffset: { width: 5, height: 5 } }}
+        >
+          <Text>{item.type_service_order}</Text>
+          <Text>{item.local}</Text>
+          <Text>{item.uniorg}</Text>
+          <Text>{item.id_service_order}</Text>
+        </View>
+      ))}
+    </AppContainer>
   );
-}
+};
