@@ -33,7 +33,6 @@ export const useAuthStore = create<AuthStoreProps>((set) => ({
     try {
       set({ loading: true });
       const response = await signIn(username, password);
-      console.log(response);
       if (!response || response === undefined) return;
       set({ loading: false, isAuthenticated: true, user: response });
     } catch (error) {

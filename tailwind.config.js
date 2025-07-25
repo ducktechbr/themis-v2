@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 const plugin = require("tailwindcss/plugin");
+
 module.exports = {
   presets: [require("nativewind/preset")],
   content: [

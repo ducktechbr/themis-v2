@@ -24,8 +24,6 @@ export const SignIn = () => {
     handleSingIn,
   } = useViewModel();
 
-  console.log("LOASDDSDASDASDSAHDAS");
-
   return (
     <SafeAreaView className="flex-1 bg-primary">
       <View className="flex-1 justify-center items-center">

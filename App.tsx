@@ -1,16 +1,15 @@
-import Routes from "@/router";
 import { NavigationContainer } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import "./global.css";
-import { useLoadFont } from "@/hooks";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useFonts } from "@expo-google-fonts/poppins";
+import { poppins } from "@/constants";
+import Routes from "@/router";
+import "./global.css";
 
 export default function App() {
-  const isFontLoaded = useLoadFont();
+  useFonts(poppins);
   const queryClient = new QueryClient();
-
-  if (!isFontLoaded) return null;
 
   return (
     <GestureHandlerRootView>
