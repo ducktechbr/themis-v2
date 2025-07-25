@@ -1,15 +1,13 @@
 import {
   SafeAreaView,
-  Text,
   TouchableOpacity,
   View,
   Image,
   TextInput,
-  KeyboardAvoidingView,
 } from "react-native";
 
-import logo from "@/assets/full_logo.png";
-import { Icon } from "@/components";
+import { Icon, MainButton } from "@/components";
+import logo from "@/assets/images/full_logo.png";
 
 import useViewModel from "./useViewModel";
 
@@ -18,21 +16,25 @@ export const SignIn = () => {
     username,
     password,
     isKeyboardOpen,
+    showPassword,
     setUsername,
     setPassword,
-    signIn,
+    setShowPassword,
     cn,
+    handleSingIn,
   } = useViewModel();
+
+  console.log("LOASDDSDASDASDSAHDAS");
 
   return (
     <SafeAreaView className="flex-1 bg-primary">
       <View className="flex-1 justify-center items-center">
-        <Image source={logo} />
+        <Image source={logo} className="w-[55%] h-[55%]" />
       </View>
       <View
         className={cn(
-          "flex-1 gap-5 w-[90%] mx-auto transform transition-all ease-in-out duration-700",
-          isKeyboardOpen ? "mb-72" : ""
+          "flex-1 gap-5 w-[90%] mx-auto transform transition-all ease-in-out duration-500",
+          isKeyboardOpen ? "mb-72" : "mb-0"
         )}
       >
         <View className="flex-row items-center w-full">
@@ -40,8 +42,9 @@ export const SignIn = () => {
             <Icon name="User" />
           </View>
           <TextInput
-            className="bg-white py-5 rounded-tr-lg rounded-br-lg text-neutral-800 font-semibold flex-1"
+            className="bg-white h-16 rounded-tr-lg rounded-br-lg text-neutral-800 font-semibold flex-1"
             placeholder="Usuário"
+            placeholderTextColor="#747474"
             value={username}
             onChangeText={setUsername}
             autoCapitalize="none"
@@ -52,24 +55,23 @@ export const SignIn = () => {
             <Icon name="Lock" size={22} />
           </View>
           <TextInput
-            className="bg-white py-5 rounded-tr-lg rounded-br-lg text-neutral-800 font-semibold flex-1 shadow-xl"
+            className="bg-white h-16  text-neutral-800 font-semibold flex-1 shadow-xl"
             placeholder="Senha"
+            placeholderTextColor="#747474"
+            secureTextEntry={showPassword}
             value={password}
             onChangeText={setPassword}
             autoCapitalize="none"
           />
+          <TouchableOpacity
+            activeOpacity={1}
+            className="bg-white h-full items-center flex-row rounded-tr-lg rounded-br-lg p-1 pr-2"
+            onPress={() => setShowPassword(!showPassword)}
+          >
+            <Icon name={!showPassword ? "EyeOff" : "Eye"} />
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          className="bg-success justify-center items-center py-4 rounded-lg"
-          onPress={() => signIn(username, password)}
-        >
-          <Text className="text-white font-bold text-xl">Entrar</Text>
-        </TouchableOpacity>
-        <TouchableOpacity className="flex-row gap-2 justify-center">
-          <Text className="text-white font-semibold text-lg">
-            Esqueceu sua senha? Clique aqui!
-          </Text>
-        </TouchableOpacity>
+        <MainButton title="Entrar" onPress={handleSingIn} />
       </View>
     </SafeAreaView>
   );

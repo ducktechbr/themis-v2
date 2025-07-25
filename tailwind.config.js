@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+const plugin = require("tailwindcss/plugin");
 module.exports = {
   presets: [require("nativewind/preset")],
   content: [
@@ -10,12 +11,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: [
-          "Montserrat_400Regular",
-          "Montserrat_500Medium",
-          "Montserrat_600SemiBold",
-          "Montserrat_700Bold",
-        ],
+        sans: ["Poppins_400Regular", "Poppins_600SemiBold", "Poppins_700Bold"],
       },
       colors: {
         primary: "#F57C00",
@@ -25,5 +21,13 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(({ addUtilities }) => {
+      addUtilities({
+        ".font-normal": { fontFamily: "Poppins_400Regular" },
+        ".font-semibold": { fontFamily: "Poppins_600SemiBold" },
+        ".font-bold": { fontFamily: "Poppins_700Bold" },
+      });
+    }),
+  ],
 };

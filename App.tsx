@@ -7,12 +7,10 @@ import { useLoadFont } from "@/hooks";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 export default function App() {
-  const isLoadFont = useLoadFont();
+  const isFontLoaded = useLoadFont();
   const queryClient = new QueryClient();
 
-  if (!isLoadFont) {
-    return;
-  }
+  if (!isFontLoaded) return null;
 
   return (
     <GestureHandlerRootView>
