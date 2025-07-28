@@ -10,8 +10,13 @@ export default function Routes() {
 
   if (loading) {
     return (
-      <View className="flex-1 bg-red-500">
-        <LottieView source={checklist} />
+      <View className="flex-1 bg-primary">
+        <LottieView
+          source={checklist}
+          style={{ flex: 1 }}
+          autoPlay
+          loop={false}
+        />
       </View>
     );
   }

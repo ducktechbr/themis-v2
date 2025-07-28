@@ -38,7 +38,7 @@ export const MainButton = ({
     <TouchableOpacity
       className={cn(
         "bg-success justify-center items-center h-14 rounded-lg",
-        disabled ? "bg-neutral-600" : ""
+        disabled ? "bg-neutral-500" : ""
       )}
       onPress={onPress}
       disabled={disabled}
