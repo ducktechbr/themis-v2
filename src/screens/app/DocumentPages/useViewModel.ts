@@ -3,9 +3,9 @@ import { useGetDocumentPages } from "@/services/queries";
 
 export default function useViewModel() {
   const { documentId } = useDocumentStore();
-  const { data, isPending } = useGetDocumentPages(documentId!);
+  const { data, isPending, error } = useGetDocumentPages(documentId!);
 
   console.log(data);
 
-  return { documentId };
+  return { documentId, data, isPending, error };
 }
