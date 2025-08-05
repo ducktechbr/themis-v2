@@ -1,4 +1,5 @@
 export type RoutesParamsList = {
-  Home: undefined;
+  SelectDocument: undefined;
+  DocumentPages: undefined;
   SignIn: undefined;
 };

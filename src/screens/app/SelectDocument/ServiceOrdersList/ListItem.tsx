@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { ServiceOrder } from "@/types";
 import { cn } from "@/utils";
+import { useDocumentStore } from "@/stores";
 
 type ListItemProps = {
   serviceOrder: ServiceOrder;
@@ -14,6 +15,13 @@ export const ListItem = ({
   selected,
   setSelected,
 }: ListItemProps) => {
+  const { setDocumentId } = useDocumentStore();
+
+  const selectDocument = () => {
+    setSelected(serviceOrder.id_service_order);
+    setDocumentId(serviceOrder.id_service_order);
+  };
+
   return (
     <TouchableOpacity
       className={cn(
@@ -23,7 +31,7 @@ export const ListItem = ({
           : "bg-zinc-100"
       )}
       style={{ shadowOpacity: 0.3, shadowOffset: { width: 5, height: 5 } }}
-      onPress={() => setSelected(serviceOrder.id_service_order)}
+      onPress={selectDocument}
     >
       <View className="flex-row gap-2 items-center">
         <Text

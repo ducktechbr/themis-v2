@@ -1,1 +1,2 @@
-export * from "./Home";
+export * from "./SelectDocument";
+export * from "./DocumentPages";

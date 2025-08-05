@@ -34,6 +34,7 @@ export const ServiceOrdersList = ({
       />
       <FlatList
         data={filteredOrders}
+        ItemSeparatorComponent={() => <View className="my-2" />}
         renderItem={({ item }) => (
           <ListItem
             serviceOrder={item}
