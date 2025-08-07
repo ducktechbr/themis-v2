@@ -1,0 +1,27 @@
+import { View, FlatList } from "react-native";
+
+import { ReportData, Section } from "@/types";
+import { ListItem } from "./ListItem";
+
+type SectionEntry = [string, Section];
+
+type ReportListProps = {
+  reportData: ReportData;
+};
+
+export const ReportList = ({ reportData }: ReportListProps) => {
+  const sections: SectionEntry[] = Object.entries(reportData);
+
+  return (
+    <View>
+      <FlatList
+        data={sections}
+        keyExtractor={(item) => item[0]}
+        ItemSeparatorComponent={() => <View className="my-2" />}
+        renderItem={({ item }) => (
+          <ListItem title={item[0]} section={item[1]} />
+        )}
+      />
+    </View>
+  );
+};

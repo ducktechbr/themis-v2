@@ -1,11 +1,11 @@
 import { AppContainer } from "@/components";
 import { View, Text, ActivityIndicator } from "react-native";
-import { Sections } from "./Sections";
+import { ReportList } from "./ReportList";
 
 import useViewModel from "./useViewModel";
 
 export const DocumentPages = () => {
-  const { documentId, data, isPending, error } = useViewModel();
+  const { documentId, reportData, isPending, error } = useViewModel();
 
   if (isPending) {
     return (
@@ -31,7 +31,7 @@ export const DocumentPages = () => {
     );
   }
 
-  if (!data) {
+  if (!reportData) {
     return (
       <AppContainer>
         <View className="flex-1 justify-center items-center">
@@ -47,7 +47,7 @@ export const DocumentPages = () => {
         <Text className="text-2xl font-bold text-center mb-4">
           Documento #{documentId}
         </Text>
-        <Sections reportData={data} />
+        <ReportList reportData={reportData} />
       </View>
     </AppContainer>
   );
