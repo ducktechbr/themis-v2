@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Text, Pressable, View } from "react-native";
+import { Text, Pressable, View, TouchableOpacity } from "react-native";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -8,6 +8,7 @@ import Animated, {
 import { Section, Item } from "@/types";
 import { cn } from "@/utils";
 import { Icon } from "@/components/";
+import { useAppNavigation } from "@/hooks";
 
 type ListItemProps = {
   title: string;
@@ -18,7 +19,7 @@ export const ListItem = ({ title, section }: ListItemProps) => {
   const [open, setOpen] = useState(false);
   const [contentHeight, setContentHeight] = useState(0);
   const animatedHeight = useSharedValue(0);
-
+  const { navigate } = useAppNavigation();
   const toggleOpen = () => {
     const newOpen = !open;
     setOpen(newOpen);
@@ -36,7 +37,10 @@ export const ListItem = ({ title, section }: ListItemProps) => {
   const renderContent = () => (
     <View className="rounded-b-lg bg-white p-2">
       {section.itens.map((item: Item) => (
-        <View
+        <TouchableOpacity
+          onPress={() => {
+            navigate("ReportQuestions", { refcod: item.refcod });
+          }}
           key={item.refcod}
           className={cn(
             "flex-row justify-between items-center  rounded-lg bg-neutral-300 h-14 px-4",
@@ -65,7 +69,7 @@ export const ListItem = ({ title, section }: ListItemProps) => {
               color={section.fulfilled ? "white" : "black"}
             />
           )}
-        </View>
+        </TouchableOpacity>
       ))}
     </View>
   );

@@ -1,4 +1,4 @@
-import { Report, ReportData } from "@/types";
+import { Report, ReportPages } from "@/types";
 import { axiosInstance } from "../config";
 
 export const getReports = async (): Promise<Report[]> => {
@@ -13,12 +13,14 @@ export const getReports = async (): Promise<Report[]> => {
   }
 };
 
-export const getReportPages = async (reportId: number): Promise<ReportData> => {
+export const getReportPages = async (
+  reportId: number
+): Promise<ReportPages> => {
   try {
     const formData = new FormData();
     formData.append("metodo", "GET_OS_KEYS");
     formData.append("OS", String(reportId));
-    const { data } = await axiosInstance.post<ReportData>("/", formData);
+    const { data } = await axiosInstance.post<ReportPages>("/", formData);
     return data;
   } catch (error) {
     console.log(error);
