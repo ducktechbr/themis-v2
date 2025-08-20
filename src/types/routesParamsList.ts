@@ -1,5 +1,5 @@
 export type RoutesParamsList = {
-  SelectDocument: undefined;
-  DocumentPages: undefined;
+  SelectReport: undefined;
+  ReportPages: undefined;
   SignIn: undefined;
 };

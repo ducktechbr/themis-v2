@@ -1,2 +1,2 @@
-export * from "./SelectDocument";
-export * from "./DocumentPages";
+export * from "./SelectReport";
+export * from "./ReportPages";

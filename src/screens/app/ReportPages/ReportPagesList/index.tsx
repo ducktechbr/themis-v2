@@ -5,11 +5,11 @@ import { ListItem } from "./ListItem";
 
 type SectionEntry = [string, Section];
 
-type ReportListProps = {
+type ReportPagesListProps = {
   reportData: ReportData;
 };
 
-export const ReportList = ({ reportData }: ReportListProps) => {
+export const ReportPagesList = ({ reportData }: ReportPagesListProps) => {
   const sections: SectionEntry[] = Object.entries(reportData);
 
   return (

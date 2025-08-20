@@ -1,10 +1,10 @@
 import { AppContainer } from "@/components";
 import { View, Text, ActivityIndicator } from "react-native";
-import { ReportList } from "./ReportList";
+import { ReportPagesList } from "./ReportPagesList";
 
 import useViewModel from "./useViewModel";
 
-export const DocumentPages = () => {
+export const ReportPages = () => {
   const { documentId, reportData, isPending, error } = useViewModel();
 
   if (isPending) {
@@ -47,7 +47,7 @@ export const DocumentPages = () => {
         <Text className="text-2xl font-bold text-center mb-4">
           Documento #{documentId}
         </Text>
-        <ReportList reportData={reportData} />
+        <ReportPagesList reportData={reportData} />
       </View>
     </AppContainer>
   );

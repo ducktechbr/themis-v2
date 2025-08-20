@@ -1,13 +1,13 @@
 import { View, Text } from "react-native";
 import { AppContainer, Header, MainButton } from "@/components";
-import { ServiceOrdersList } from "./ServiceOrdersList";
+import { ReportsList } from "./ReportsList";
 
 import LottieView from "lottie-react-native";
 import empty from "@/assets/animations/empty-state.json";
 
 import useViewModel from "./useViewModel";
 
-export const SelectDocument = () => {
+export const SelectReport = () => {
   const { serviceOrders, isPending, selected, setSelected, navigate } =
     useViewModel();
 
@@ -16,7 +16,7 @@ export const SelectDocument = () => {
       <Header />
       {!isPending && serviceOrders && serviceOrders.length > 0 && (
         <>
-          <ServiceOrdersList
+          <ReportsList
             serviceOrders={serviceOrders}
             selected={selected}
             setSelected={setSelected}
@@ -25,7 +25,7 @@ export const SelectDocument = () => {
             <MainButton
               title="Próximo"
               disabled={!selected}
-              onPress={() => navigate("DocumentPages")}
+              onPress={() => navigate("ReportPages")}
             />
           </View>
         </>

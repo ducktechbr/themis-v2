@@ -4,17 +4,17 @@ import { ServiceOrder } from "@/types";
 import { ListItem } from "./ListItem";
 import { useState } from "react";
 
-type ServiceOrdersListProps = {
+type ReportsListProps = {
   serviceOrders: ServiceOrder[];
   selected: number | null;
   setSelected: Dispatch<SetStateAction<number | null>>;
 };
 
-export const ServiceOrdersList = ({
+export const ReportsList = ({
   serviceOrders,
   selected,
   setSelected,
-}: ServiceOrdersListProps) => {
+}: ReportsListProps) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredOrders = serviceOrders.filter((order) =>
