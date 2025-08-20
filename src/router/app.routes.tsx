@@ -1,9 +1,9 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { ReportPages, SelectReport } from "@/screens/app";
-import { RoutesParamsList } from "@/types";
+import { RouteParams } from "@/types";
 
 export default function AppRoutes() {
-  const Stack = createStackNavigator<RoutesParamsList>();
+  const Stack = createStackNavigator<RouteParams>();
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="SelectReport" component={SelectReport} />

@@ -1,2 +1,2 @@
-export * from "./useListOrders";
-export * from "./useGetDocumentPages";
+export * from "./useGetReports";
+export * from "./useGetReportPages";

@@ -1,4 +1,4 @@
 export * from "./user";
-export * from "./serviceOrder";
-export * from "./routesParamsList";
+export * from "./report";
+export * from "./routes";
 export * from "./document";

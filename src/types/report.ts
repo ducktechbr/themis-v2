@@ -1,4 +1,4 @@
-export type ServiceOrder = {
+export type Report = {
   address: string;
   document_name: string;
   id_service_order: number;

@@ -8,29 +8,31 @@ import empty from "@/assets/animations/empty-state.json";
 import useViewModel from "./useViewModel";
 
 export const SelectReport = () => {
-  const { serviceOrders, isPending, selected, setSelected, navigate } =
+  const { reports, isPending, selectedReport, setSelectedReport, navigate } =
     useViewModel();
 
   return (
     <AppContainer>
       <Header />
-      {!isPending && serviceOrders && serviceOrders.length > 0 && (
+      {!isPending && reports && reports.length > 0 && (
         <>
           <ReportsList
-            serviceOrders={serviceOrders}
-            selected={selected}
-            setSelected={setSelected}
+            reports={reports}
+            selectedReport={selectedReport}
+            setSelectedReport={setSelectedReport}
           />
           <View className="mb-5">
             <MainButton
               title="Próximo"
-              disabled={!selected}
-              onPress={() => navigate("ReportPages")}
+              disabled={!selectedReport}
+              onPress={() =>
+                navigate("ReportPages", { reportId: selectedReport })
+              }
             />
           </View>
         </>
       )}
-      {!isPending && serviceOrders && serviceOrders.length === 0 && (
+      {!isPending && reports && reports.length === 0 && (
         <View className="flex-1 items-center justify-center">
           <Text className="text-white font-bold text-lg">
             Você não possuiu relatórios para preencher!

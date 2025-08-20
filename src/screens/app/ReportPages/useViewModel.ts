@@ -1,13 +1,9 @@
-import { useDocumentStore } from "@/stores";
-import { useGetDocumentPages } from "@/services/queries";
+import { useGetReportPages } from "@/services/queries";
+import { useRouteParams } from "@/hooks";
 
 export default function useViewModel() {
-  const { documentId } = useDocumentStore();
-  const {
-    data: reportData,
-    isPending,
-    error,
-  } = useGetDocumentPages(documentId!);
+  const { reportId } = useRouteParams("ReportPages");
+  const { data: reportData, isPending, error } = useGetReportPages(reportId);
 
-  return { documentId, reportData, isPending, error };
+  return { reportData, isPending, error };
 }

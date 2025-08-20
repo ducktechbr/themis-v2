@@ -18,6 +18,8 @@ export const ReportPagesList = ({ reportData }: ReportPagesListProps) => {
         data={sections}
         keyExtractor={(item) => item[0]}
         ItemSeparatorComponent={() => <View className="my-2" />}
+        contentContainerStyle={{ paddingBottom: 50 }}
+        showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
           <ListItem title={item[0]} section={item[1]} />
         )}

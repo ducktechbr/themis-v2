@@ -1,24 +1,24 @@
 import { Dispatch, SetStateAction } from "react";
 import { View, FlatList, TextInput } from "react-native";
-import { ServiceOrder } from "@/types";
+import { Report } from "@/types";
 import { ListItem } from "./ListItem";
 import { useState } from "react";
 
 type ReportsListProps = {
-  serviceOrders: ServiceOrder[];
-  selected: number | null;
-  setSelected: Dispatch<SetStateAction<number | null>>;
+  reports: Report[];
+  selectedReport: number | null;
+  setSelectedReport: Dispatch<SetStateAction<number | null>>;
 };
 
 export const ReportsList = ({
-  serviceOrders,
-  selected,
-  setSelected,
+  reports,
+  selectedReport,
+  setSelectedReport,
 }: ReportsListProps) => {
   const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredOrders = serviceOrders.filter((order) =>
-    Object.values(order)
+  const filteredReports = reports.filter((report) =>
+    Object.values(report)
       .join(" ")
       .toLowerCase()
       .includes(searchTerm.toLowerCase())
@@ -33,13 +33,13 @@ export const ReportsList = ({
         onChangeText={setSearchTerm}
       />
       <FlatList
-        data={filteredOrders}
+        data={filteredReports}
         ItemSeparatorComponent={() => <View className="my-2" />}
         renderItem={({ item }) => (
           <ListItem
-            serviceOrder={item}
-            selected={selected}
-            setSelected={setSelected}
+            report={item}
+            selectedReport={selectedReport}
+            setSelectedReport={setSelectedReport}
           />
         )}
         keyExtractor={(item) => String(item.id_service_order)}
