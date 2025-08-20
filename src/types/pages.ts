@@ -9,6 +9,6 @@ export type Section = {
   itens: Item[];
 };
 
-export type ReportData = {
+export type ReportPages = {
   [sectionTitle: string]: Section;
 };

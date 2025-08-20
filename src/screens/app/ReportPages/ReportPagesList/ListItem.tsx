@@ -33,25 +33,37 @@ export const ListItem = ({ title, section }: ListItemProps) => {
     overflow: "hidden",
   }));
 
-  // Renderiza o conteúdo para medir altura
   const renderContent = () => (
-    <View className={"rounded-b-lg bg-white"}>
+    <View className="rounded-b-lg bg-white p-2">
       {section.itens.map((item: Item) => (
         <View
           key={item.refcod}
-          className="flex-row justify-between items-center my-2 bg-red-500"
+          className={cn(
+            "flex-row justify-between items-center  rounded-lg bg-neutral-300 h-14 px-4",
+            item.fulfilled ? "bg-success" : "bg-neutral-300"
+          )}
         >
-          <Text className="text-base" testID="item-title">
+          <Text
+            className={cn(
+              "text-base",
+              item.fulfilled ? "text-white" : "text-black"
+            )}
+            testID="item-title"
+          >
             {item.itemTitle}
           </Text>
           {item.fulfilled ? (
-            <Text className="text-green-600" testID="item-status">
-              ✓
-            </Text>
+            <Icon
+              name="CircleCheck"
+              size={20}
+              color={section.fulfilled ? "white" : "black"}
+            />
           ) : (
-            <Text className="text-yellow-600" testID="item-status">
-              •
-            </Text>
+            <Icon
+              name="Circle"
+              size={20}
+              color={section.fulfilled ? "white" : "black"}
+            />
           )}
         </View>
       ))}
@@ -88,7 +100,6 @@ export const ListItem = ({ title, section }: ListItemProps) => {
         />
       </Pressable>
 
-      {/* Conteúdo oculto para medir altura */}
       <View
         style={{ position: "absolute", left: -9999, opacity: 0 }}
         onLayout={(event) => {
@@ -101,7 +112,6 @@ export const ListItem = ({ title, section }: ListItemProps) => {
         {renderContent()}
       </View>
 
-      {/* Container animado que expande/colapsa como gaveta */}
       <Animated.View style={animatedStyle}>{renderContent()}</Animated.View>
     </View>
   );

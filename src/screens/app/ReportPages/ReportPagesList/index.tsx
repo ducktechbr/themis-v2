@@ -1,16 +1,16 @@
 import { View, FlatList } from "react-native";
 
-import { ReportData, Section } from "@/types";
+import { ReportPages, Section } from "@/types";
 import { ListItem } from "./ListItem";
 
 type SectionEntry = [string, Section];
 
 type ReportPagesListProps = {
-  reportData: ReportData;
+  reportPages: ReportPages;
 };
 
-export const ReportPagesList = ({ reportData }: ReportPagesListProps) => {
-  const sections: SectionEntry[] = Object.entries(reportData);
+export const ReportPagesList = ({ reportPages }: ReportPagesListProps) => {
+  const sections: SectionEntry[] = Object.entries(reportPages);
 
   return (
     <View>

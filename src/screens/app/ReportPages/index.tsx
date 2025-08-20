@@ -5,7 +5,7 @@ import { ReportPagesList } from "./ReportPagesList";
 import useViewModel from "./useViewModel";
 
 export const ReportPages = () => {
-  const { documentId, reportData, isPending, error } = useViewModel();
+  const { reportPages, isPending, error } = useViewModel();
 
   if (isPending) {
     return (
@@ -31,7 +31,7 @@ export const ReportPages = () => {
     );
   }
 
-  if (!reportData) {
+  if (!reportPages) {
     return (
       <AppContainer>
         <View className="flex-1 justify-center items-center">
@@ -44,10 +44,8 @@ export const ReportPages = () => {
   return (
     <AppContainer>
       <View className="flex-1">
-        <Text className="text-2xl font-bold text-center mb-4">
-          Documento #{documentId}
-        </Text>
-        <ReportPagesList reportData={reportData} />
+        <Text className="text-2xl font-bold text-center mb-4">Relatório</Text>
+        <ReportPagesList reportPages={reportPages} />
       </View>
     </AppContainer>
   );
