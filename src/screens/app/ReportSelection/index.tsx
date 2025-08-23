@@ -7,7 +7,7 @@ import empty from "@/assets/animations/empty-state.json";
 
 import useViewModel from "./useViewModel";
 
-export const SelectReport = () => {
+export const ReportSelection = () => {
   const { reports, isPending, selectedReport, setSelectedReport, navigate } =
     useViewModel();
 

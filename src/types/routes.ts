@@ -1,5 +1,5 @@
 export type RouteParams = {
-  SelectReport: undefined;
+  ReportSelection: undefined;
   ReportPages: { reportId: number | null };
   SignIn: undefined;
   ReportQuestions: { refcod: number };

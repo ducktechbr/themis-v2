@@ -1,3 +1,3 @@
-export * from "./SelectReport";
+export * from "./ReportSelection";
 export * from "./ReportPages";
 export * from "./ReportQuestions";
