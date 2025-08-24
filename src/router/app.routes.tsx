@@ -3,7 +3,7 @@ import {
   ReportPages,
   ReportSelection,
   ReportQuestions,
-  QuestionOptions,
+  ReportOptions,
 } from "@/screens/app";
 import { RouteParams } from "@/types";
 
@@ -14,7 +14,7 @@ export default function AppRoutes() {
       <Stack.Screen name="ReportSelection" component={ReportSelection} />
       <Stack.Screen name="ReportPages" component={ReportPages} />
       <Stack.Screen name="ReportQuestions" component={ReportQuestions} />
-      <Stack.Screen name="QuestionOptions" component={QuestionOptions} />
+      <Stack.Screen name="ReportOptions" component={ReportOptions} />
     </Stack.Navigator>
   );
 }

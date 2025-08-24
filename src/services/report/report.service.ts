@@ -2,7 +2,9 @@ import {
   Report,
   ReportPages,
   ReportQuestions,
-  QuestionOptionsResponse,
+  OptionsResponse,
+  AnswerParams,
+  AnswerResponse,
 } from "@/types";
 import { axiosInstance } from "../config";
 
@@ -54,17 +56,34 @@ export const getReportOptions = async (
   reportId: number,
   refcod: number,
   questionId: number
-): Promise<QuestionOptionsResponse> => {
+): Promise<OptionsResponse> => {
   try {
     const formData = new FormData();
     formData.append("metodo", "GET_OPTIONS_BY_REF");
     formData.append("os", String(reportId));
     formData.append("refcod", String(refcod));
     formData.append("question", String(questionId));
-    const { data } = await axiosInstance.post<QuestionOptionsResponse>(
-      "/",
-      formData
-    );
+    const { data } = await axiosInstance.post<OptionsResponse>("/", formData);
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const sendQuestionAnswer = async (
+  params: AnswerParams
+): Promise<AnswerResponse> => {
+  try {
+    const formData = new FormData();
+    formData.append("metodo", "sendSOresponse");
+    formData.append("soid", String(params.reportId));
+    formData.append("itemREFcod", String(params.refcod));
+    formData.append("question", String(params.questionId));
+    formData.append("option", String(params.optionId));
+    formData.append("answer", String(params.answer));
+
+    const { data } = await axiosInstance.post<AnswerResponse>("/", formData);
     return data;
   } catch (error) {
     console.log(error);

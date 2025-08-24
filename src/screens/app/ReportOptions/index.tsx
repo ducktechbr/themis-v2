@@ -3,8 +3,8 @@ import { AppContainer } from "@/components";
 import useViewModel from "./useViewModel";
 import { OptionsList } from "./OptionsList";
 
-export const QuestionOptions = () => {
-  const { questionOptions, isPending, error } = useViewModel();
+export const ReportOptions = () => {
+  const { options, isPending, error } = useViewModel();
 
   if (isPending) {
     return (
@@ -28,12 +28,12 @@ export const QuestionOptions = () => {
 
   return (
     <AppContainer>
-      <View className="p-4">
+      <View className="p-4 flex-1">
         <Text className="text-xl font-bold mb-4">
-          {questionOptions?.question_title}
+          {options?.question_title}
         </Text>
 
-        {questionOptions && <OptionsList questionOptions={questionOptions} />}
+        {options && <OptionsList options={options.options} />}
       </View>
     </AppContainer>
   );

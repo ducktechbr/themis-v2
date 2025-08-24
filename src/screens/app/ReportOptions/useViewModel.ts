@@ -6,13 +6,13 @@ export default function useViewModel() {
     useReportStore();
 
   const {
-    data: questionOptions,
+    data: options,
     isPending,
     error,
   } = useGetReportOptions(currentReportId!, currentRefcod!, currentQuestionId!);
 
   return {
-    questionOptions,
+    options,
     isPending,
     error,
     currentQuestionId,

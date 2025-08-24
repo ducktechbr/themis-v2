@@ -21,7 +21,7 @@ export const QuestionItem = ({
 
   const handlePress = () => {
     setCurrentQuestionId(Number(questionId));
-    navigate("QuestionOptions");
+    navigate("ReportOptions");
     onPress?.();
   };
 

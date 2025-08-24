@@ -16,8 +16,6 @@ export const QuestionsList = ({ reportQuestions }: QuestionsListProps) => {
     console.log("Question pressed:", questionId);
   };
 
-  console.log(questions);
-
   return (
     <View>
       <FlatList
