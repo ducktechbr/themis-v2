@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Text, Pressable, View, TouchableOpacity } from "react-native";
 import Animated, {
   useSharedValue,
@@ -10,24 +10,37 @@ import { cn } from "@/utils";
 import { Icon } from "@/components/";
 import { useAppNavigation } from "@/hooks";
 
+const SPACING = {
+  HEADER_PADDING: 16,
+  CONTENT_PADDING: 16,
+  ITEM_PADDING: 16,
+  ITEM_MARGIN: 12,
+  ITEM_MIN_HEIGHT: 56,
+  HEADER_MIN_HEIGHT: 64,
+} as const;
+
 type ListItemProps = {
   title: string;
   section: Section;
+  isOpen: boolean;
+  onToggle: () => void;
 };
 
-export const ListItem = ({ title, section }: ListItemProps) => {
-  const [open, setOpen] = useState(false);
+export const ListItem = ({
+  title,
+  section,
+  isOpen,
+  onToggle,
+}: ListItemProps) => {
   const [contentHeight, setContentHeight] = useState(0);
   const animatedHeight = useSharedValue(0);
   const { navigate } = useAppNavigation();
-  const toggleOpen = () => {
-    const newOpen = !open;
-    setOpen(newOpen);
 
-    animatedHeight.value = withTiming(newOpen ? contentHeight : 0, {
+  useEffect(() => {
+    animatedHeight.value = withTiming(isOpen ? contentHeight : 0, {
       duration: 400,
     });
-  };
+  }, [isOpen, contentHeight]);
 
   const animatedStyle = useAnimatedStyle(() => ({
     height: animatedHeight.value,
@@ -35,39 +48,38 @@ export const ListItem = ({ title, section }: ListItemProps) => {
   }));
 
   const renderContent = () => (
-    <View className="rounded-b-lg bg-white p-2">
-      {section.itens.map((item: Item) => (
+    <View className="rounded-b-lg bg-white p-4">
+      {section.itens.map((item: Item, index: number) => (
         <TouchableOpacity
           onPress={() => {
             navigate("ReportQuestions", { refcod: item.refcod });
           }}
           key={item.refcod}
           className={cn(
-            "flex-row justify-between items-center  rounded-lg bg-neutral-300 h-14 px-4",
-            item.fulfilled ? "bg-success" : "bg-neutral-300"
+            "flex-row justify-between items-center rounded-lg",
+            item.fulfilled ? "bg-success" : "bg-neutral-200",
+            index !== section.itens.length - 1 && "mb-3"
           )}
+          style={{
+            minHeight: SPACING.ITEM_MIN_HEIGHT,
+            padding: SPACING.ITEM_PADDING,
+          }}
         >
           <Text
             className={cn(
-              "text-base",
+              "text-base flex-1 mr-3",
               item.fulfilled ? "text-white" : "text-black"
             )}
             testID="item-title"
+            numberOfLines={2}
+            ellipsizeMode="tail"
           >
             {item.itemTitle}
           </Text>
           {item.fulfilled ? (
-            <Icon
-              name="CircleCheck"
-              size={20}
-              color={section.fulfilled ? "white" : "black"}
-            />
+            <Icon name="CircleCheck" size={20} color="white" />
           ) : (
-            <Icon
-              name="Circle"
-              size={20}
-              color={section.fulfilled ? "white" : "black"}
-            />
+            <Icon name="Circle" size={20} color="black" />
           )}
         </TouchableOpacity>
       ))}
@@ -78,27 +90,30 @@ export const ListItem = ({ title, section }: ListItemProps) => {
     <View
       className={cn(
         section.fulfilled ? "bg-success" : "bg-white",
-        "rounded-lg"
+        "rounded-lg shadow-sm"
       )}
     >
       <Pressable
-        onPress={toggleOpen}
-        className="p-4 flex-row justify-between items-center"
+        onPress={onToggle}
+        className="flex-row justify-between items-center"
+        style={{
+          minHeight: SPACING.HEADER_MIN_HEIGHT,
+          padding: SPACING.HEADER_PADDING,
+        }}
       >
         <Text
           className={cn(
-            "text-lg font-semibold",
+            "text-base font-semibold flex-1 mr-3",
             section.fulfilled ? "text-white" : "text-black"
           )}
           testID="section-title"
+          numberOfLines={2}
+          ellipsizeMode="tail"
         >
           {title}
         </Text>
-        {/* <Text className="text-sm text-gray-500" testID="section-status">
-          {section.fulfilled ? "Concluído" : "Pendente"}
-        </Text> */}
         <Icon
-          name={open ? "ChevronUp" : "ChevronDown"}
+          name={isOpen ? "ChevronUp" : "ChevronDown"}
           size={20}
           color={section.fulfilled ? "white" : "black"}
         />
