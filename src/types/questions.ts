@@ -1,7 +1,11 @@
+export type Question = {
+  title: string;
+  fulfilled: boolean;
+};
+
 export type ReportQuestions = {
-  question_title: string;
-  options: {
-    option: string;
-    type: string;
-  }[];
+  "item-title": string;
+  questions: {
+    [key: string]: Question;
+  };
 };

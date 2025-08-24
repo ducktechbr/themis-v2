@@ -9,6 +9,7 @@ import { Section, Item } from "@/types";
 import { cn } from "@/utils";
 import { Icon } from "@/components/";
 import { useAppNavigation } from "@/hooks";
+import { useReportStore } from "@/stores";
 
 const SPACING = {
   HEADER_PADDING: 16,
@@ -35,6 +36,7 @@ export const ListItem = ({
   const [contentHeight, setContentHeight] = useState(0);
   const animatedHeight = useSharedValue(0);
   const { navigate } = useAppNavigation();
+  const { setCurrentRefcod } = useReportStore();
 
   useEffect(() => {
     animatedHeight.value = withTiming(isOpen ? contentHeight : 0, {
@@ -52,7 +54,8 @@ export const ListItem = ({
       {section.itens.map((item: Item, index: number) => (
         <TouchableOpacity
           onPress={() => {
-            navigate("ReportQuestions", { refcod: item.refcod });
+            setCurrentRefcod(item.refcod);
+            navigate("ReportQuestions");
           }}
           key={item.refcod}
           className={cn(

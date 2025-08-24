@@ -1,7 +1,20 @@
-import { useRouteParams } from "@/hooks";
+import { useGetReportQuestions } from "@/services/queries";
+import { useReportStore } from "@/stores";
 
 export default function useViewModel() {
-  const { refcod } = useRouteParams("ReportQuestions");
+  const { currentReportId, currentRefcod } = useReportStore();
 
-  return { refcod };
+  const {
+    data: reportQuestions,
+    isPending,
+    error,
+  } = useGetReportQuestions(currentReportId!, currentRefcod!);
+
+  return {
+    refcod: currentRefcod,
+    reportQuestions,
+    isPending,
+    error,
+    currentReportId,
+  };
 }
