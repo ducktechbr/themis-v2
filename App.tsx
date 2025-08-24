@@ -6,6 +6,7 @@ import { useFonts } from "@expo-google-fonts/poppins";
 import { poppins } from "@/constants";
 import Routes from "@/router";
 import "./global.css";
+import { ToastProvider } from "@/components";
 
 export default function App() {
   useFonts(poppins);
@@ -14,10 +15,12 @@ export default function App() {
   return (
     <GestureHandlerRootView>
       <QueryClientProvider client={queryClient}>
-        <NavigationContainer>
-          <StatusBar style="auto" />
-          <Routes />
-        </NavigationContainer>
+        <ToastProvider position="top">
+          <NavigationContainer>
+            <StatusBar style="auto" />
+            <Routes />
+          </NavigationContainer>
+        </ToastProvider>
       </QueryClientProvider>
     </GestureHandlerRootView>
   );
