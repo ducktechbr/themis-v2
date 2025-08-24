@@ -12,6 +12,7 @@ type MainButtonProps = {
   title: string;
   loading?: boolean;
   disabled?: boolean;
+  variant?: "default" | "success" | "error";
   onPress?: () => void;
 };
 
@@ -19,6 +20,7 @@ export const MainButton = ({
   title,
   loading,
   disabled,
+  variant = "default",
   onPress,
 }: MainButtonProps) => {
   const spinValue = useSharedValue(0);
@@ -34,11 +36,37 @@ export const MainButton = ({
     spinValue.value = withRepeat(withTiming(360, { duration: 1000 }), -1);
   }
 
+  const getButtonStyle = () => {
+    if (disabled) return "bg-neutral-500";
+
+    switch (variant) {
+      case "success":
+        return "bg-success";
+      case "error":
+        return "bg-red-500";
+      default:
+        return "bg-success";
+    }
+  };
+
+  const getTextStyle = () => {
+    if (disabled) return "text-neutral-400";
+
+    switch (variant) {
+      case "success":
+        return "text-white";
+      case "error":
+        return "text-white";
+      default:
+        return "text-white";
+    }
+  };
+
   return (
     <TouchableOpacity
       className={cn(
-        "bg-success justify-center items-center h-14 rounded-lg",
-        disabled ? "bg-neutral-500" : ""
+        "justify-center items-center h-14 rounded-lg w-full",
+        getButtonStyle()
       )}
       onPress={onPress}
       disabled={disabled}
@@ -50,14 +78,7 @@ export const MainButton = ({
         />
       )}
       {!loading && (
-        <Text
-          className={cn(
-            "text-white font-bold text-xl",
-            disabled ? "text-neutral-400" : ""
-          )}
-        >
-          {title}
-        </Text>
+        <Text className={cn("font-bold text-xl", getTextStyle())}>{title}</Text>
       )}
     </TouchableOpacity>
   );

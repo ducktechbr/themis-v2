@@ -33,7 +33,7 @@ export const ReportOptions = () => {
           {options?.question_title}
         </Text>
 
-        {options && <OptionsList options={options.options} />}
+        {options && <OptionsList options={options} />}
       </View>
     </AppContainer>
   );
