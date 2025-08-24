@@ -2,6 +2,8 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { Question } from "@/types";
 import { cn } from "@/utils";
 import { Icon } from "@/components";
+import { useReportStore } from "@/stores";
+import { useAppNavigation } from "@/hooks";
 
 type QuestionItemProps = {
   questionId: string;
@@ -14,11 +16,18 @@ export const QuestionItem = ({
   question,
   onPress,
 }: QuestionItemProps) => {
-  console.log(question);
+  const { setCurrentQuestionId } = useReportStore();
+  const { navigate } = useAppNavigation();
+
+  const handlePress = () => {
+    setCurrentQuestionId(Number(questionId));
+    navigate("QuestionOptions");
+    onPress?.();
+  };
 
   return (
     <TouchableOpacity
-      onPress={onPress}
+      onPress={handlePress}
       className={cn(
         "flex-row justify-between items-center rounded-lg p-4 min-h-16",
         question.fulfilled ? "bg-success" : "bg-white"

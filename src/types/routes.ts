@@ -3,4 +3,5 @@ export type RouteParams = {
   ReportPages: { reportId: number | null };
   SignIn: undefined;
   ReportQuestions: undefined;
+  QuestionOptions: undefined;
 };
