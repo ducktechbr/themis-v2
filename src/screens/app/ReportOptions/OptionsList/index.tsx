@@ -17,7 +17,6 @@ export const OptionsList = ({ options }: OptionsListProps) => {
 
   const handleOptionPress = (index: number) => {
     setSelectedOptionIndex(selectedOptionIndex === index ? null : index);
-    console.log("Option pressed at index:", index);
   };
 
   return (

@@ -2,6 +2,7 @@ export enum OptionTypeEnum {
   IMAGE = "image",
   TEXT = "text",
   SELECT = "select",
+  SELECT_TEXT = "select-text",
   LONG_TEXT = "long-text",
   DATE = "date",
 }

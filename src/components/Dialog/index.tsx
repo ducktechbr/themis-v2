@@ -37,7 +37,7 @@ export const Dialog: React.FC<DialogProps> = ({
       >
         <View className="flex flex-1 justify-center items-center bg-black/75">
           <TouchableOpacity
-            className="bg-white rounded-lg p-6 shadow-lg w-[90%]"
+            className="bg-white rounded-lg p-6 shadow-lg w-[90%] bottom-10"
             activeOpacity={1}
             onPress={(e) => e.stopPropagation()}
           >

@@ -5,8 +5,9 @@ import { cn } from "@/utils";
 import { Icon } from "@/components";
 import { useOptionAnswer } from "@/services/mutation";
 import { useReportStore } from "@/stores";
-import { Dialog, DialogContent, MainButton, useToast } from "@/components";
+import { useToast } from "@/components";
 import { useAppNavigation } from "@/hooks";
+import { AnswerModal } from "./AnswerModal";
 
 type OptionItemProps = {
   option: Option;
@@ -28,7 +29,6 @@ export const OptionItem = ({
   const { mutate: sendAnswer, isPending } = useOptionAnswer({
     onSuccess: () => {
       toast("Resposta enviada com sucesso!", "success");
-      goBack();
     },
     onError: () => {
       toast("Erro ao enviar resposta!", "destructive");
@@ -43,13 +43,13 @@ export const OptionItem = ({
     onPress();
   };
 
-  const handleSendAnswer = () => {
+  const handleSendAnswer = (answer?: string) => {
     sendAnswer({
       reportId: currentReportId!,
       refcod: currentRefcod!,
       questionId: currentQuestionId!,
       optionId: optionIndex,
-      answer: true,
+      answer: answer || "true",
     });
     setIsDialogOpen(false);
   };
@@ -88,26 +88,13 @@ export const OptionItem = ({
         <Icon name="Circle" size={20} color={isSelected ? "white" : "black"} />
       </TouchableOpacity>
 
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent>
-          <Text className="font-semibold text-xl text-dark text-center">
-            {questionTitle}
-          </Text>
-          <Text className="text-dark text-lg text-center font-semibold">
-            Opção selecionada:{" "}
-            <Text className="text-primary font-bold">{option.option}</Text>
-          </Text>
-
-          <View className="flex-row gap-2 max-w-[50%]">
-            <MainButton title="Enviar" onPress={handleSendAnswer} />
-            <MainButton
-              title="Cancelar"
-              onPress={() => setIsDialogOpen(false)}
-              variant="error"
-            />
-          </View>
-        </DialogContent>
-      </Dialog>
+      <AnswerModal
+        isDialogOpen={isDialogOpen}
+        setIsDialogOpen={setIsDialogOpen}
+        questionTitle={questionTitle}
+        option={option}
+        handleSendAnswer={handleSendAnswer}
+      />
     </>
   );
 };
