@@ -30,6 +30,9 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Check for EXPO_TOKEN
         run: |
           if [ -z "$EXPO_TOKEN" ]; then
@@ -41,7 +44,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: "yarn"
 
       - name: Setup Expo CLI
         uses: expo/expo-github-action@v8
@@ -64,6 +66,9 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Check for EXPO_TOKEN
         run: |
           if [ -z "$EXPO_TOKEN" ]; then
@@ -75,7 +80,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: "yarn"
 
       - name: Setup Expo CLI
         uses: expo/expo-github-action@v8
@@ -98,6 +102,9 @@ jobs:
     if: github.event_name == 'push' && github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop'
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Check for EXPO_TOKEN
         run: |
           if [ -z "$EXPO_TOKEN" ]; then
@@ -109,7 +116,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: "yarn"
 
       - name: Setup Expo CLI
         uses: expo/expo-github-action@v8
