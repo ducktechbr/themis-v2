@@ -4,9 +4,14 @@ import AuthRoutes from "./auth.routes";
 import LottieView from "lottie-react-native";
 import checklist from "@/assets/animations/chcklist.json";
 import { View } from "react-native";
+import { useEffect } from "react";
 
 export default function Routes() {
-  const { isAuthenticated, loading } = useAuthStore();
+  const { isAuthenticated, loading, initializeAuth } = useAuthStore();
+
+  useEffect(() => {
+    initializeAuth();
+  }, []);
 
   if (loading) {
     return (

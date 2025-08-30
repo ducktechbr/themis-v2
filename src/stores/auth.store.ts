@@ -1,12 +1,14 @@
 import { create } from "zustand";
 import { signIn } from "@/services/auth";
 import { User } from "@/types";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type AuthStoreProps = {
   user: User;
   isAuthenticated: boolean;
   loading: boolean;
-  signIn: (username: string, password: string) => void;
+  signIn: (username: string, password: string, rememberme: boolean) => void;
+  initializeAuth: () => void;
   signOut: () => void;
 };
 
@@ -29,11 +31,43 @@ export const useAuthStore = create<AuthStoreProps>((set) => ({
   isAuthenticated: false,
   loading: false,
   signOut: () => set({ isAuthenticated: false }),
-  signIn: async (username: string, password: string) => {
+  initializeAuth: async () => {
+    try {
+      set({ loading: true });
+
+      const username = await AsyncStorage.getItem("username");
+      const password = await AsyncStorage.getItem("password");
+
+      if (username && password) {
+        const response = await signIn(username, password);
+        if (response) {
+          set({ user: response, isAuthenticated: true });
+        } else {
+          await AsyncStorage.removeItem("username");
+          await AsyncStorage.removeItem("password");
+        }
+      }
+    } catch (error) {
+      console.error("Erro no auto login:", error);
+      try {
+        await AsyncStorage.removeItem("username");
+        await AsyncStorage.removeItem("password");
+      } catch (storageError) {
+        console.error("Erro ao remover credenciais:", storageError);
+      }
+    } finally {
+      set({ loading: false });
+    }
+  },
+  signIn: async (username: string, password: string, rememberme: boolean) => {
     try {
       set({ loading: true });
       const response = await signIn(username, password);
       if (!response || response === undefined) return;
+      if (rememberme) {
+        await AsyncStorage.setItem("username", username);
+        await AsyncStorage.setItem("password", password);
+      }
       set({ loading: false, isAuthenticated: true, user: response });
     } catch (error) {
       set({ loading: false });

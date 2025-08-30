@@ -4,3 +4,4 @@ export * from "./Header";
 export * from "./MainButton";
 export * from "./Dialog";
 export * from "./Toast";
+export * from "./Checkbox";

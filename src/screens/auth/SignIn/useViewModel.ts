@@ -10,13 +10,14 @@ export default function useViewModel() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(true);
+  const [rememberme, setRememberme] = useState(false);
 
   const handleSingIn = async () => {
     if (username === "" || password === "") {
       alert("Usuário e senha não podem ser vazios!");
       return;
     }
-    signIn(username, password);
+    signIn(username, password, rememberme);
   };
 
   return {
@@ -24,6 +25,8 @@ export default function useViewModel() {
     password,
     isKeyboardOpen,
     showPassword,
+    rememberme,
+    setRememberme,
     setUsername,
     setPassword,
     cn,

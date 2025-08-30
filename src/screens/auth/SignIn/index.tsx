@@ -6,8 +6,9 @@ import {
   TextInput,
 } from "react-native";
 
-import { Icon, MainButton } from "@/components";
+import { Icon, MainButton, Checkbox } from "@/components";
 import logo from "@/assets/images/full_logo.png";
+import { cn } from "@/utils";
 
 import useViewModel from "./useViewModel";
 
@@ -17,10 +18,12 @@ export const SignIn = () => {
     password,
     isKeyboardOpen,
     showPassword,
+    rememberme,
+    setRememberme,
     setUsername,
     setPassword,
     setShowPassword,
-    cn,
+
     handleSingIn,
   } = useViewModel();
 
@@ -69,6 +72,21 @@ export const SignIn = () => {
             <Icon name={!showPassword ? "EyeOff" : "Eye"} />
           </TouchableOpacity>
         </View>
+        <TouchableOpacity onPress={() => setRememberme(!rememberme)}>
+          <Checkbox
+            label="Me manter conectado"
+            labelClasses={cn(
+              "text-white font-semibold text-base",
+              rememberme && "text-[#2E7D32]"
+            )}
+            checkboxClasses="w-5 h-5 border-2 border-white "
+            checked={rememberme}
+            onCheckedChange={setRememberme}
+            iconColor="#2E7D32"
+            iconSize={14}
+            checkedBorderColor="#2E7D32"
+          />
+        </TouchableOpacity>
         <MainButton title="Entrar" onPress={handleSingIn} />
       </View>
     </SafeAreaView>
