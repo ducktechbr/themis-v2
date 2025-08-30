@@ -34,7 +34,9 @@ export const ReportsList = ({
       />
       <FlatList
         data={filteredReports}
+        contentContainerStyle={{ paddingBottom: 30 }}
         ItemSeparatorComponent={() => <View className="my-2" />}
+        showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
           <ListItem
             report={item}

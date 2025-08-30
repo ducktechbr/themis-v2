@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import { AppContainer, Header, MainButton } from "@/components";
+import { AppContainer, MainButton } from "@/components";
 import { ReportsList } from "./ReportsList";
 
 import LottieView from "lottie-react-native";
@@ -13,7 +13,6 @@ export const ReportSelection = () => {
 
   return (
     <AppContainer>
-      <Header />
       {!isPending && reports && reports.length > 0 && (
         <>
           <ReportsList
