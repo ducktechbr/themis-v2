@@ -10,6 +10,7 @@ export enum OptionTypeEnum {
 export type Option = {
   option: string;
   type: OptionTypeEnum;
+  fulfilled?: boolean;
 };
 
 export type OptionsResponse = {

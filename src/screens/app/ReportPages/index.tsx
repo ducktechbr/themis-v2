@@ -44,9 +44,6 @@ export const ReportPages = () => {
   return (
     <AppContainer>
       <View className="flex-1">
-        <Text className="text-2xl font-bold text-center mb-4">
-          Relatório {reportId}
-        </Text>
         <ReportPagesList reportPages={reportPages} />
       </View>
     </AppContainer>

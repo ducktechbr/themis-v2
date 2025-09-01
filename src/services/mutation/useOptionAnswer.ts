@@ -13,9 +13,19 @@ export const useOptionAnswer = ({
 
   return useMutation<AnswerResponse, Error, AnswerParams>({
     mutationFn: sendQuestionAnswer,
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["reportQuestions"] });
-      queryClient.invalidateQueries({ queryKey: ["reportOptions"] });
+    onSuccess: (data, variables) => {
+      // Invalidate specific queries with parameters
+      queryClient.invalidateQueries({
+        queryKey: ["reportQuestions", variables.reportId, variables.refcod],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [
+          "reportOptions",
+          variables.reportId,
+          variables.refcod,
+          variables.questionId,
+        ],
+      });
 
       onSuccess();
     },

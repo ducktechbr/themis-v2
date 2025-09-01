@@ -11,6 +11,8 @@ export default function useViewModel() {
     error,
   } = useGetReportOptions(currentReportId!, currentRefcod!, currentQuestionId!);
 
+  console.log(options);
+
   return {
     options,
     isPending,

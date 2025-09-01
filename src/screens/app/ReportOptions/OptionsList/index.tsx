@@ -1,7 +1,6 @@
 import { View, FlatList } from "react-native";
 import { OptionItem } from "./OptionItem";
 import { Option } from "@/types";
-import { useState } from "react";
 
 type OptionsListProps = {
   options: {
@@ -11,14 +10,6 @@ type OptionsListProps = {
 };
 
 export const OptionsList = ({ options }: OptionsListProps) => {
-  const [selectedOptionIndex, setSelectedOptionIndex] = useState<number | null>(
-    null
-  );
-
-  const handleOptionPress = (index: number) => {
-    setSelectedOptionIndex(selectedOptionIndex === index ? null : index);
-  };
-
   return (
     <View>
       <FlatList
@@ -32,8 +23,6 @@ export const OptionsList = ({ options }: OptionsListProps) => {
             option={item}
             questionTitle={options.question_title}
             optionIndex={index}
-            isSelected={selectedOptionIndex === index}
-            onPress={() => handleOptionPress(index)}
           />
         )}
       />

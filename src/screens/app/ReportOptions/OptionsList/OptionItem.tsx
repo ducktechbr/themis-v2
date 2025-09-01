@@ -13,35 +13,51 @@ type OptionItemProps = {
   option: Option;
   questionTitle: string;
   optionIndex: number;
-  isSelected: boolean;
-  onPress: () => void;
 };
 
 export const OptionItem = ({
   option,
   questionTitle,
   optionIndex,
-  isSelected,
-  onPress,
 }: OptionItemProps) => {
   const { goBack } = useAppNavigation();
   const { toast } = useToast();
+  const {
+    currentReportId,
+    currentRefcod,
+    currentQuestionId,
+    markOptionAsAnswered,
+    isOptionAnswered,
+  } = useReportStore();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  // Debug: log option data
+  console.log(`Option ${optionIndex}:`, {
+    option: option.option,
+    fulfilled: option.fulfilled,
+    currentQuestionId,
+    isAnswered: currentQuestionId
+      ? isOptionAnswered(currentQuestionId, optionIndex)
+      : false,
+  });
+
+  const isFulfilled =
+    option.fulfilled ||
+    (currentQuestionId
+      ? isOptionAnswered(currentQuestionId, optionIndex)
+      : false);
+
   const { mutate: sendAnswer, isPending } = useOptionAnswer({
     onSuccess: () => {
+      if (currentQuestionId) {
+        markOptionAsAnswered(currentQuestionId, optionIndex);
+      }
       toast("Resposta enviada com sucesso!", "success");
     },
     onError: () => {
       toast("Erro ao enviar resposta!", "destructive");
     },
   });
-  const { currentReportId, currentRefcod, currentQuestionId } =
-    useReportStore();
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-  const handlePress = () => {
-    setIsDialogOpen(true);
-    onPress();
-  };
 
   const handleSendAnswer = (answer?: string) => {
     sendAnswer({
@@ -57,35 +73,31 @@ export const OptionItem = ({
   return (
     <>
       <TouchableOpacity
-        onPress={handlePress}
+        onPress={() => setIsDialogOpen(true)}
         disabled={isPending}
         className={cn(
           "flex-row justify-between items-center rounded-lg p-4 mb-3 min-h-16",
-          isSelected ? "bg-success" : "bg-white"
+          isFulfilled ? "bg-success" : "bg-white"
         )}
       >
         <View className="flex-1 mr-3">
           <Text
             className={cn(
               "text-base font-medium",
-              isSelected ? "text-white" : "text-black"
+              isFulfilled ? "text-white" : "text-black"
             )}
             numberOfLines={2}
             ellipsizeMode="tail"
           >
             {option.option}
           </Text>
-          <Text
-            className={cn(
-              "text-sm mt-1",
-              isSelected ? "text-white/80" : "text-gray-500"
-            )}
-          >
-            Tipo: {option.type}
-          </Text>
         </View>
 
-        <Icon name="Circle" size={20} color={isSelected ? "white" : "black"} />
+        <Icon
+          name={isFulfilled ? "CircleCheck" : "Circle"}
+          size={20}
+          color={isFulfilled ? "white" : "black"}
+        />
       </TouchableOpacity>
 
       <AnswerModal
