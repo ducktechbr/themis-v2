@@ -1,9 +1,10 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Linking } from "react-native";
 import { Icon } from "../Icon";
-import { getScreenDisplayName } from "@/utils";
+import { getScreenDisplayName, cn } from "@/utils";
 import { useRoute } from "@react-navigation/native";
 import { RouteParams } from "@/types";
 import { useAppNavigation } from "@/hooks";
+import { useAuthStore } from "@/stores";
 import { Dialog, DialogContent } from "../Dialog";
 import { useState } from "react";
 
@@ -14,6 +15,20 @@ export const Header = () => {
   );
   const { goBack } = useAppNavigation();
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const { signOut } = useAuthStore();
+
+  const settingsActions = [
+    {
+      title: "Login na Web",
+      onPress: () => Linking.openURL("https://sistemathemis.com"),
+    },
+    {
+      title: "Política de Privacidade",
+      onPress: () => Linking.openURL("https://sistemathemis.com/privacy"),
+    },
+    { title: "Sair", onPress: () => signOut() },
+  ];
+
   return (
     <>
       <View className="flex-row items-center justify-between py-4 mb-2">
@@ -34,7 +49,27 @@ export const Header = () => {
       </View>
       <Dialog open={settingsOpen} onOpenChange={setSettingsOpen}>
         <DialogContent>
-          <Text>Settings</Text>
+          {settingsActions.map((action) => (
+            <TouchableOpacity
+              className="flex-row justify-between items-center p-4 border-b border-primary"
+              key={action.title}
+              onPress={action.onPress}
+            >
+              <Text
+                className={cn(
+                  "font-semibold text-lg",
+                  action.title === "Sair" && "text-red-500"
+                )}
+              >
+                {action.title}
+              </Text>
+              <Icon
+                name="ChevronRight"
+                size={24}
+                color={action.title === "Sair" ? "red" : "black"}
+              />
+            </TouchableOpacity>
+          ))}
         </DialogContent>
       </Dialog>
     </>
