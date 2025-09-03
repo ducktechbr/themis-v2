@@ -1,9 +1,10 @@
 import { View, Text, TouchableOpacity } from "react-native";
+
+import { Icon } from "@/components";
+import { useAppNavigation } from "@/hooks";
+import { useReportStore } from "@/stores";
 import { Question } from "@/types";
 import { cn } from "@/utils";
-import { Icon } from "@/components";
-import { useReportStore } from "@/stores";
-import { useAppNavigation } from "@/hooks";
 
 type QuestionItemProps = {
   questionId: string;

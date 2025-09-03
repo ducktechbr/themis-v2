@@ -6,11 +6,12 @@ import {
   TextInput,
 } from "react-native";
 
-import { Icon, MainButton, Checkbox } from "@/components";
+import useViewModel from "./useViewModel";
+
 import logo from "@/assets/images/full_logo.png";
+import { Icon, MainButton, Checkbox } from "@/components";
 import { cn } from "@/utils";
 
-import useViewModel from "./useViewModel";
 
 export const SignIn = () => {
   const {

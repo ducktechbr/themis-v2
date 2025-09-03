@@ -5,11 +5,12 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
-import { Section, Item } from "@/types";
-import { cn } from "@/utils";
+
 import { Icon } from "@/components/";
 import { useAppNavigation } from "@/hooks";
 import { useReportStore } from "@/stores";
+import { Section, Item } from "@/types";
+import { cn } from "@/utils";
 
 const SPACING = {
   HEADER_PADDING: 16,

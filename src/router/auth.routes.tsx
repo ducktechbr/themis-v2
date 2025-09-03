@@ -1,4 +1,5 @@
 import { createStackNavigator } from "@react-navigation/stack";
+
 import { SignIn } from "@/screens/auth";
 import { RouteParams } from "@/types";
 

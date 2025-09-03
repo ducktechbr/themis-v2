@@ -1,11 +1,12 @@
-import { AppContainer } from "@/components";
 import { View, Text, ActivityIndicator } from "react-native";
-import { ReportPagesList } from "./ReportPagesList";
 
+import { ReportPagesList } from "./ReportPagesList";
 import useViewModel from "./useViewModel";
 
+import { AppContainer } from "@/components";
+
 export const ReportPages = () => {
-  const { reportPages, isPending, error, reportId } = useViewModel();
+  const { reportPages, isPending, error } = useViewModel();
 
   if (isPending) {
     return (

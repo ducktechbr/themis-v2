@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
-import { Option } from "@/types";
-import { cn } from "@/utils";
+
+import { AnswerModal } from "./AnswerModal";
+
 import { Icon } from "@/components";
+import { useToast } from "@/components";
 import { useOptionAnswer } from "@/services/mutation";
 import { useReportStore } from "@/stores";
-import { useToast } from "@/components";
-import { useAppNavigation } from "@/hooks";
-import { AnswerModal } from "./AnswerModal";
+import { Option } from "@/types";
+import { cn } from "@/utils";
 
 type OptionItemProps = {
   option: Option;
@@ -20,7 +21,6 @@ export const OptionItem = ({
   questionTitle,
   optionIndex,
 }: OptionItemProps) => {
-  const { goBack } = useAppNavigation();
   const { toast } = useToast();
   const {
     currentReportId,

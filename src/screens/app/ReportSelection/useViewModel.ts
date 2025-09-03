@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useGetReports } from "@/services/queries";
+
 import { useAppNavigation } from "@/hooks";
+import { useGetReports } from "@/services/queries";
 
 export default function useViewModel() {
   const { data: reports, isPending } = useGetReports();

@@ -1,5 +1,6 @@
-import { User } from "@/types";
 import { axiosInstance } from "../config";
+
+import { User } from "@/types";
 
 export const signIn = async (
   username: string,

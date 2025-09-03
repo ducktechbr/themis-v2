@@ -1,10 +1,12 @@
-import { useAuthStore } from "@/stores";
+import LottieView from "lottie-react-native";
+import { useEffect } from "react";
+import { View } from "react-native";
+
 import AppRoutes from "./app.routes";
 import AuthRoutes from "./auth.routes";
-import LottieView from "lottie-react-native";
+
 import checklist from "@/assets/animations/chcklist.json";
-import { View } from "react-native";
-import { useEffect } from "react";
+import { useAuthStore } from "@/stores";
 
 export default function Routes() {
   const { isAuthenticated, loading, initializeAuth } = useAuthStore();

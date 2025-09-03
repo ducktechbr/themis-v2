@@ -1,10 +1,12 @@
 import { Text, View, ActivityIndicator } from "react-native";
-import { AppContainer } from "@/components";
-import useViewModel from "./useViewModel";
+
 import { QuestionsList } from "./QuestionsList/index";
+import useViewModel from "./useViewModel";
+
+import { AppContainer } from "@/components";
 
 export const ReportQuestions = () => {
-  const { refcod, reportQuestions, isPending, error } = useViewModel();
+  const { reportQuestions, isPending } = useViewModel();
 
   return (
     <AppContainer>

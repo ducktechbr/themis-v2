@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text, TouchableOpacity, Modal as RNModal } from "react-native";
+import { View, TouchableOpacity, Modal as RNModal } from "react-native";
+
 import { cn } from "@/utils";
 
 interface DialogProps {
@@ -10,7 +11,6 @@ interface DialogProps {
 
 interface DialogTriggerProps {
   children: React.ReactNode;
-  asChild?: boolean;
 }
 
 interface DialogContentProps {
@@ -49,10 +49,7 @@ export const Dialog: React.FC<DialogProps> = ({
   );
 };
 
-export const DialogTrigger: React.FC<DialogTriggerProps> = ({
-  children,
-  asChild,
-}) => {
+export const DialogTrigger: React.FC<DialogTriggerProps> = ({ children }) => {
   return <>{children}</>;
 };
 

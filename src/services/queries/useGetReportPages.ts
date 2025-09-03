@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+
 import { getReportPages } from "@/services/report";
 import { ReportPages } from "@/types";
 

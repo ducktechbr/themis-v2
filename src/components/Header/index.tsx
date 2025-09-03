@@ -1,12 +1,16 @@
-import { View, Text, TouchableOpacity, Linking } from "react-native";
-import { Icon } from "../Icon";
-import { getScreenDisplayName, cn } from "@/utils";
 import { useRoute } from "@react-navigation/native";
-import { RouteParams } from "@/types";
+import { useState } from "react";
+import { View, Text, TouchableOpacity, Linking } from "react-native";
+
+import { Dialog, DialogContent } from "../Dialog";
+import { Icon } from "../Icon";
+
 import { useAppNavigation } from "@/hooks";
 import { useAuthStore } from "@/stores";
-import { Dialog, DialogContent } from "../Dialog";
-import { useState } from "react";
+import { RouteParams } from "@/types";
+import { getScreenDisplayName, cn } from "@/utils";
+
+
 
 export const Header = () => {
   const route = useRoute();

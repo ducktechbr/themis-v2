@@ -1,11 +1,11 @@
-import { View, Text } from "react-native";
-import { AppContainer, MainButton } from "@/components";
-import { ReportsList } from "./ReportsList";
-
 import LottieView from "lottie-react-native";
-import empty from "@/assets/animations/empty-state.json";
+import { View, Text } from "react-native";
 
+import { ReportsList } from "./ReportsList";
 import useViewModel from "./useViewModel";
+
+import empty from "@/assets/animations/empty-state.json";
+import { AppContainer, MainButton } from "@/components";
 
 export const ReportSelection = () => {
   const { reports, isPending, selectedReport, setSelectedReport, navigate } =

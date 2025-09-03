@@ -1,13 +1,8 @@
-import {
-  View,
-  Text,
-  TextInput,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
+import { useState } from "react";
+import { View, Text, TextInput, TouchableOpacity } from "react-native";
+
 import { Dialog, DialogContent, MainButton } from "@/components";
 import { Option, OptionTypeEnum } from "@/types";
-import { useState } from "react";
 
 type AnswerModalProps = {
   isDialogOpen: boolean;

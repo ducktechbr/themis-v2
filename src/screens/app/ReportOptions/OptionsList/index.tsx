@@ -1,5 +1,7 @@
 import { View, FlatList } from "react-native";
+
 import { OptionItem } from "./OptionItem";
+
 import { Option } from "@/types";
 
 type OptionsListProps = {

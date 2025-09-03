@@ -1,7 +1,9 @@
 import { Text, View, ActivityIndicator } from "react-native";
-import { AppContainer } from "@/components";
-import useViewModel from "./useViewModel";
+
 import { OptionsList } from "./OptionsList";
+import useViewModel from "./useViewModel";
+
+import { AppContainer } from "@/components";
 
 export const ReportOptions = () => {
   const { options, isPending, error } = useViewModel();

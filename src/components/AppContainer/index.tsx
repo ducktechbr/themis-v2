@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { SafeAreaView, View } from "react-native";
+
 import { Header } from "../Header";
 
 type AppContainerProps = {

@@ -1,8 +1,10 @@
 import { Dispatch, SetStateAction } from "react";
-import { View, FlatList, TextInput } from "react-native";
-import { Report } from "@/types";
-import { ListItem } from "./ListItem";
 import { useState } from "react";
+import { View, FlatList, TextInput } from "react-native";
+
+import { ListItem } from "./ListItem";
+
+import { Report } from "@/types";
 
 type ReportsListProps = {
   reports: Report[];

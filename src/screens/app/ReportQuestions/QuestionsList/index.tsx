@@ -1,6 +1,8 @@
 import { View, FlatList } from "react-native";
-import { ReportQuestions } from "@/types";
+
 import { QuestionItem } from "./QuestionItem";
+
+import { ReportQuestions } from "@/types";
 
 type QuestionEntry = [string, import("@/types").Question];
 

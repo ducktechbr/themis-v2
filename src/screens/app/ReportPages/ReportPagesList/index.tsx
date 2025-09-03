@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { View, FlatList } from "react-native";
 
-import { ReportPages, Section } from "@/types";
 import { ListItem } from "./ListItem";
+
+import { ReportPages, Section } from "@/types";
 
 type SectionEntry = [string, Section];
 

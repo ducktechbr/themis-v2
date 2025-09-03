@@ -1,3 +1,5 @@
+import { axiosInstance } from "../config";
+
 import {
   Report,
   ReportPages,
@@ -6,7 +8,6 @@ import {
   AnswerParams,
   AnswerResponse,
 } from "@/types";
-import { axiosInstance } from "../config";
 
 export const getReports = async (): Promise<Report[]> => {
   try {

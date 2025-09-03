@@ -1,7 +1,8 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { create } from "zustand";
+
 import { signIn } from "@/services/auth";
 import { User } from "@/types";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type AuthStoreProps = {
   user: User;
