@@ -91,3 +91,19 @@ export const sendQuestionAnswer = async (
     throw error;
   }
 };
+
+export const startReportFill = async (
+  reportId: number
+): Promise<{ success: boolean; message?: string }> => {
+  try {
+    const formData = new FormData();
+    formData.append("metodo", "startReportFill");
+    formData.append("report_id", String(reportId));
+
+    const { data } = await axiosInstance.post("/", formData);
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
