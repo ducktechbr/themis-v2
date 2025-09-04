@@ -15,7 +15,7 @@ export const ReportSelection = () => {
       {!isPending && reports && reports.length > 0 && (
         <>
           <ReportsList reports={reports} />
-          <View className="mb-5">
+          <View className="mb-5 mt-2">
             <MainButton
               title="Próximo"
               disabled={!reportId || isPending}

@@ -7,6 +7,7 @@ export type Item = {
 export type Section = {
   fulfilled: boolean;
   itens: Item[];
+  duplicatable: boolean;
 };
 
 export type ReportPages = {
