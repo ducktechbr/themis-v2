@@ -5,7 +5,7 @@ import { AnswerModal } from "./AnswerModal";
 
 import { Icon } from "@/components";
 import { useToast } from "@/components";
-import { useOptionAnswer } from "@/services/mutation";
+import { useOptionAnswer } from "@/services/mutations";
 import { useReportStore } from "@/stores";
 import { Option } from "@/types";
 import { cn } from "@/utils";
