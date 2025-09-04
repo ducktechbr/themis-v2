@@ -2,6 +2,7 @@ const js = require("@eslint/js");
 const tseslint = require("@typescript-eslint/eslint-plugin");
 const tsparser = require("@typescript-eslint/parser");
 const importPlugin = require("eslint-plugin-import");
+const unusedImportsPlugin = require("eslint-plugin-unused-imports");
 
 module.exports = [
   // Configuração de arquivos ignorados
@@ -44,9 +45,23 @@ module.exports = [
     plugins: {
       "@typescript-eslint": tseslint,
       import: importPlugin,
+      "unused-imports": unusedImportsPlugin,
     },
     rules: {
       ...tseslint.configs.recommended.rules,
+      // Regras para remover imports não utilizados
+      "@typescript-eslint/no-unused-vars": "error",
+      "unused-imports/no-unused-imports": "error",
+      "unused-imports/no-unused-vars": [
+        "warn",
+        {
+          vars: "all",
+          varsIgnorePattern: "^_",
+          args: "after-used",
+          argsIgnorePattern: "^_",
+        },
+      ],
+      // Regras de organização de imports
       "import/order": [
         "warn",
         {

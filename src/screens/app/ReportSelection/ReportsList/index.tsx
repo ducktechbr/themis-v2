@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
 import { View, FlatList, TextInput } from "react-native";
 
@@ -8,15 +7,9 @@ import { Report } from "@/types";
 
 type ReportsListProps = {
   reports: Report[];
-  selectedReport: number | null;
-  setSelectedReport: Dispatch<SetStateAction<number | null>>;
 };
 
-export const ReportsList = ({
-  reports,
-  selectedReport,
-  setSelectedReport,
-}: ReportsListProps) => {
+export const ReportsList = ({ reports }: ReportsListProps) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredReports = reports.filter((report) =>
@@ -39,13 +32,7 @@ export const ReportsList = ({
         contentContainerStyle={{ paddingBottom: 30 }}
         ItemSeparatorComponent={() => <View className="my-2" />}
         showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => (
-          <ListItem
-            report={item}
-            selectedReport={selectedReport}
-            setSelectedReport={setSelectedReport}
-          />
-        )}
+        renderItem={({ item }) => <ListItem report={item} />}
         keyExtractor={(item) => String(item.id_service_order)}
       />
     </View>

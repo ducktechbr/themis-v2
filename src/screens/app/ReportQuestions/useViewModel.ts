@@ -2,19 +2,19 @@ import { useGetReportQuestions } from "@/services/queries";
 import { useReportStore } from "@/stores";
 
 export default function useViewModel() {
-  const { currentReportId, currentRefcod } = useReportStore();
+  const { reportId, refcod } = useReportStore();
 
   const {
     data: reportQuestions,
     isPending,
     error,
-  } = useGetReportQuestions(currentReportId!, currentRefcod!);
+  } = useGetReportQuestions(reportId!, refcod!);
 
   return {
-    refcod: currentRefcod,
+    refcod,
     reportQuestions,
     isPending,
     error,
-    currentReportId,
+    reportId,
   };
 }

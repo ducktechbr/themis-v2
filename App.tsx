@@ -1,12 +1,13 @@
+import { useFonts } from "@expo-google-fonts/poppins";
 import { NavigationContainer } from "@react-navigation/native";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { StatusBar } from "expo-status-bar";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useFonts } from "@expo-google-fonts/poppins";
+
+import { ToastProvider } from "@/components";
 import { poppins } from "@/constants";
 import Routes from "@/router";
 import "./global.css";
-import { ToastProvider } from "@/components";
 
 export default function App() {
   useFonts(poppins);
@@ -15,12 +16,12 @@ export default function App() {
   return (
     <GestureHandlerRootView>
       <QueryClientProvider client={queryClient}>
-        <ToastProvider position="top">
-          <NavigationContainer>
-            <StatusBar style="auto" />
+        <NavigationContainer>
+          <StatusBar style="auto" />
+          <ToastProvider position="bottom">
             <Routes />
-          </NavigationContainer>
-        </ToastProvider>
+          </ToastProvider>
+        </NavigationContainer>
       </QueryClientProvider>
     </GestureHandlerRootView>
   );

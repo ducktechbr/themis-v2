@@ -1,40 +1,29 @@
-import { Dispatch, SetStateAction } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 
+import { useReportStore } from "@/stores";
 import { Report } from "@/types";
 import { cn } from "@/utils";
 
 type ListItemProps = {
   report: Report;
-  selectedReport: number | null;
-  setSelectedReport: Dispatch<SetStateAction<number | null>>;
 };
 
-export const ListItem = ({
-  report,
-  selectedReport,
-  setSelectedReport,
-}: ListItemProps) => {
-  const selectReport = () => {
-    setSelectedReport(report.id_service_order);
-  };
-
+export const ListItem = ({ report }: ListItemProps) => {
+  const { setReportStore, reportId } = useReportStore();
   return (
     <TouchableOpacity
       className={cn(
         "rounded p-2 gap-2",
-        selectedReport === report.id_service_order
-          ? "bg-success"
-          : "bg-zinc-100"
+        reportId === report.id_service_order ? "bg-success" : "bg-zinc-100"
       )}
       style={{ shadowOpacity: 0.3, shadowOffset: { width: 5, height: 5 } }}
-      onPress={selectReport}
+      onPress={() => setReportStore({ reportId: report.id_service_order })}
     >
       <View className="flex-row gap-2 items-center">
         <Text
           className={cn(
             "uppercase",
-            selectedReport === report.id_service_order
+            reportId === report.id_service_order
               ? "text-neutral-300"
               : "text-neutral-700"
           )}
@@ -44,7 +33,7 @@ export const ListItem = ({
         <Text
           className={cn(
             "uppercase font-semibold",
-            selectedReport === report.id_service_order
+            reportId === report.id_service_order
               ? "text-neutral-300"
               : "text-neutral-700"
           )}
@@ -56,7 +45,7 @@ export const ListItem = ({
         <Text
           className={cn(
             "uppercase",
-            selectedReport === report.id_service_order
+            reportId === report.id_service_order
               ? "text-neutral-300"
               : "text-neutral-700"
           )}
@@ -66,7 +55,7 @@ export const ListItem = ({
         <Text
           className={cn(
             "uppercase font-semibold",
-            selectedReport === report.id_service_order
+            reportId === report.id_service_order
               ? "text-neutral-300"
               : "text-neutral-700"
           )}
@@ -78,7 +67,7 @@ export const ListItem = ({
         <Text
           className={cn(
             "uppercase",
-            selectedReport === report.id_service_order
+            reportId === report.id_service_order
               ? "text-neutral-300"
               : "text-neutral-700"
           )}
@@ -88,7 +77,7 @@ export const ListItem = ({
         <Text
           className={cn(
             "uppercase font-semibold",
-            selectedReport === report.id_service_order
+            reportId === report.id_service_order
               ? "text-neutral-300"
               : "text-neutral-700"
           )}
@@ -100,7 +89,7 @@ export const ListItem = ({
         <Text
           className={cn(
             "uppercase",
-            selectedReport === report.id_service_order
+            reportId === report.id_service_order
               ? "text-neutral-300"
               : "text-neutral-700"
           )}
@@ -110,7 +99,7 @@ export const ListItem = ({
         <Text
           className={cn(
             "uppercase font-semibold",
-            selectedReport === report.id_service_order
+            reportId === report.id_service_order
               ? "text-neutral-300"
               : "text-neutral-700"
           )}

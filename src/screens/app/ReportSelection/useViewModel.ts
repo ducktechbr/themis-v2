@@ -1,13 +1,12 @@
-import { useState } from "react";
-
 import { useAppNavigation } from "@/hooks";
 import { useGetReports } from "@/services/queries";
+import { useReportStore } from "@/stores";
 
 export default function useViewModel() {
   const { data: reports, isPending } = useGetReports();
-  const [selectedReport, setSelectedReport] = useState<number | null>(null);
+  const { reportId } = useReportStore();
 
   const { navigate } = useAppNavigation();
 
-  return { selectedReport, reports, isPending, setSelectedReport, navigate };
+  return { reports, isPending, navigate, reportId };
 }

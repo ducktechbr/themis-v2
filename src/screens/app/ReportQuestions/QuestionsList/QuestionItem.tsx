@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 
 import { Icon } from "@/components";
 import { useAppNavigation } from "@/hooks";
@@ -9,26 +9,18 @@ import { cn } from "@/utils";
 type QuestionItemProps = {
   questionId: string;
   question: Question;
-  onPress?: () => void;
 };
 
-export const QuestionItem = ({
-  questionId,
-  question,
-  onPress,
-}: QuestionItemProps) => {
-  const { setCurrentQuestionId } = useReportStore();
+export const QuestionItem = ({ questionId, question }: QuestionItemProps) => {
+  const { setReportStore } = useReportStore();
   const { navigate } = useAppNavigation();
-
-  const handlePress = () => {
-    setCurrentQuestionId(Number(questionId));
-    navigate("ReportOptions");
-    onPress?.();
-  };
 
   return (
     <TouchableOpacity
-      onPress={handlePress}
+      onPress={() => {
+        setReportStore({ questionId: Number(questionId) });
+        navigate("ReportOptions");
+      }}
       className={cn(
         "flex-row justify-between items-center rounded-lg p-4 min-h-16",
         question.fulfilled ? "bg-success" : "bg-white"

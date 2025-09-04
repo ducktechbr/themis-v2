@@ -2,21 +2,18 @@ import { useGetReportOptions } from "@/services/queries";
 import { useReportStore } from "@/stores";
 
 export default function useViewModel() {
-  const { currentReportId, currentRefcod, currentQuestionId } =
-    useReportStore();
+  const { reportId, refcod, questionId } = useReportStore();
 
   const {
     data: options,
     isPending,
     error,
-  } = useGetReportOptions(currentReportId!, currentRefcod!, currentQuestionId!);
-
-  console.log(options);
+  } = useGetReportOptions(reportId!, refcod!, questionId!);
 
   return {
     options,
     isPending,
     error,
-    currentQuestionId,
+    questionId,
   };
 }

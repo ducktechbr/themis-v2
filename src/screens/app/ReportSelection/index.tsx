@@ -1,5 +1,5 @@
 import LottieView from "lottie-react-native";
-import { View, Text } from "react-native";
+import { Text, View } from "react-native";
 
 import { ReportsList } from "./ReportsList";
 import useViewModel from "./useViewModel";
@@ -8,25 +8,18 @@ import empty from "@/assets/animations/empty-state.json";
 import { AppContainer, MainButton } from "@/components";
 
 export const ReportSelection = () => {
-  const { reports, isPending, selectedReport, setSelectedReport, navigate } =
-    useViewModel();
+  const { reports, isPending, navigate, reportId } = useViewModel();
 
   return (
     <AppContainer>
       {!isPending && reports && reports.length > 0 && (
         <>
-          <ReportsList
-            reports={reports}
-            selectedReport={selectedReport}
-            setSelectedReport={setSelectedReport}
-          />
+          <ReportsList reports={reports} />
           <View className="mb-5">
             <MainButton
               title="Próximo"
-              disabled={!selectedReport}
-              onPress={() =>
-                navigate("ReportPages", { reportId: selectedReport })
-              }
+              disabled={!reportId || isPending}
+              onPress={() => navigate("ReportPages")}
             />
           </View>
         </>

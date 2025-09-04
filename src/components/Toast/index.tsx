@@ -59,7 +59,7 @@ function Toast({
     <Animated.View
       className={`
         ${toastVariants[variant]}
-        m-2 mb-1 p-4 rounded-lg shadow-md transform transition-all
+        m-2 mb-20 mx-4 p-4 rounded-lg shadow-md transform transition-all
       `}
       style={{
         opacity,
@@ -180,4 +180,4 @@ function useToast() {
   return context;
 }
 
-export { ToastProvider, ToastVariant, Toast, toastVariants, useToast };
+export { Toast, ToastProvider, ToastVariant, toastVariants, useToast };

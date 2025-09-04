@@ -1,4 +1,4 @@
-import { Text, View, ActivityIndicator } from "react-native";
+import { ActivityIndicator, Text, View } from "react-native";
 
 import { OptionsList } from "./OptionsList";
 import useViewModel from "./useViewModel";
@@ -30,8 +30,8 @@ export const ReportOptions = () => {
 
   return (
     <AppContainer>
-      <View className="p-4 flex-1">
-        <Text className="text-xl font-bold mb-4">
+      <View className="px-4 flex-1">
+        <Text className="text-xl font-bold mb-4 text-white">
           {options?.question_title}
         </Text>
 

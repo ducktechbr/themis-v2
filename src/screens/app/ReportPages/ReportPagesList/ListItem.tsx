@@ -1,15 +1,15 @@
-import { useState, useEffect } from "react";
-import { Text, Pressable, View, TouchableOpacity } from "react-native";
+import { useEffect, useState } from "react";
+import { Pressable, Text, TouchableOpacity, View } from "react-native";
 import Animated, {
-  useSharedValue,
   useAnimatedStyle,
+  useSharedValue,
   withTiming,
 } from "react-native-reanimated";
 
 import { Icon } from "@/components/";
 import { useAppNavigation } from "@/hooks";
 import { useReportStore } from "@/stores";
-import { Section, Item } from "@/types";
+import { Item, Section } from "@/types";
 import { cn } from "@/utils";
 
 const SPACING = {
@@ -37,7 +37,7 @@ export const ListItem = ({
   const [contentHeight, setContentHeight] = useState(0);
   const animatedHeight = useSharedValue(0);
   const { navigate } = useAppNavigation();
-  const { setCurrentRefcod } = useReportStore();
+  const { setReportStore } = useReportStore();
 
   useEffect(() => {
     animatedHeight.value = withTiming(isOpen ? contentHeight : 0, {
@@ -55,7 +55,7 @@ export const ListItem = ({
       {section.itens.map((item: Item, index: number) => (
         <TouchableOpacity
           onPress={() => {
-            setCurrentRefcod(item.refcod);
+            setReportStore({ refcod: item.refcod });
             navigate("ReportQuestions");
           }}
           key={item.refcod}

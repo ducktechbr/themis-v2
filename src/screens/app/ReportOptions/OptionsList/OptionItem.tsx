@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 
 import { AnswerModal } from "./AnswerModal";
 
-import { Icon } from "@/components";
-import { useToast } from "@/components";
+import { Icon, useToast } from "@/components";
 import { useOptionAnswer } from "@/services/mutations";
 import { useReportStore } from "@/stores";
 import { Option } from "@/types";
@@ -22,35 +21,16 @@ export const OptionItem = ({
   optionIndex,
 }: OptionItemProps) => {
   const { toast } = useToast();
-  const {
-    currentReportId,
-    currentRefcod,
-    currentQuestionId,
-    markOptionAsAnswered,
-    isOptionAnswered,
-  } = useReportStore();
+  const { reportId, refcod, questionId } = useReportStore();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  // Debug: log option data
-  console.log(`Option ${optionIndex}:`, {
-    option: option.option,
-    fulfilled: option.fulfilled,
-    currentQuestionId,
-    isAnswered: currentQuestionId
-      ? isOptionAnswered(currentQuestionId, optionIndex)
-      : false,
-  });
-
   const isFulfilled =
-    option.fulfilled ||
-    (currentQuestionId
-      ? isOptionAnswered(currentQuestionId, optionIndex)
-      : false);
+    option.fulfilled || (questionId ? option.fulfilled : false);
 
   const { mutate: sendAnswer, isPending } = useOptionAnswer({
     onSuccess: () => {
-      if (currentQuestionId) {
-        markOptionAsAnswered(currentQuestionId, optionIndex);
+      if (questionId) {
+        option.fulfilled = true;
       }
       toast("Resposta enviada com sucesso!", "success");
     },
@@ -61,9 +41,9 @@ export const OptionItem = ({
 
   const handleSendAnswer = (answer?: string) => {
     sendAnswer({
-      reportId: currentReportId!,
-      refcod: currentRefcod!,
-      questionId: currentQuestionId!,
+      reportId: reportId!,
+      refcod: refcod!,
+      questionId: questionId!,
       optionId: optionIndex,
       answer: answer || "true",
     });
