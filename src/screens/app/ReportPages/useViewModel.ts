@@ -1,5 +1,4 @@
-import { useFocusEffect } from "@react-navigation/native";
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 
 import { useGetReportPages, useStartReportFill } from "@/hooks";
 import { useReportStore } from "@/stores";
@@ -23,11 +22,11 @@ export default function useViewModel() {
     }
   }, [reportId, startReportFill]);
 
-  useFocusEffect(
-    useCallback(() => {
-      refetch();
-    }, [refetch])
-  );
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     refetch();
+  //   }, [refetch])
+  // );
 
   return {
     reportPages,

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Pressable, Text, TouchableOpacity, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
@@ -36,39 +36,27 @@ export const ListItem = ({
 }: ListItemProps) => {
   const [contentHeight, setContentHeight] = useState(0);
   const animatedHeight = useSharedValue(0);
+  const chevronRotation = useSharedValue(0);
   const { navigate } = useAppNavigation();
   const { setReportStore } = useReportStore();
+
   useEffect(() => {
     animatedHeight.value = withTiming(isOpen ? contentHeight : 0, {
       duration: 400,
     });
+    chevronRotation.value = withTiming(isOpen ? 180 : 0, {
+      duration: 300,
+    });
   }, [isOpen, contentHeight]);
-
-  const subtitleOpacity = useSharedValue(0);
-  const chevronRotation = useSharedValue(0);
-
-  useEffect(() => {
-    subtitleOpacity.value = withTiming(isOpen ? 1 : 0, { duration: 400 });
-    chevronRotation.value = withTiming(isOpen ? 180 : 0, { duration: 300 });
-  }, [isOpen]);
-
-  const subtitleStyle = useAnimatedStyle(() => ({
-    opacity: subtitleOpacity.value,
-  }));
-
-  const chevronStyle = useAnimatedStyle(() => ({
-    transform: [{ rotate: `${chevronRotation.value}deg` }],
-  }));
 
   const animatedStyle = useAnimatedStyle(() => ({
     height: animatedHeight.value,
     overflow: "hidden",
   }));
 
-  const isDuplicatable = useMemo(
-    () => section.duplicatable,
-    [section.duplicatable]
-  );
+  const chevronStyle = useAnimatedStyle(() => ({
+    transform: [{ rotate: `${chevronRotation.value}deg` }],
+  }));
 
   const renderContent = () => (
     <View className="rounded-b-lg bg-white p-4">
@@ -119,16 +107,16 @@ export const ListItem = ({
     >
       <Pressable
         onPress={onToggle}
-        className="flex-row justify-between"
+        className="flex-row items-center justify-between"
         style={{
           minHeight: SPACING.HEADER_MIN_HEIGHT,
           padding: SPACING.HEADER_PADDING,
         }}
       >
-        <View>
+        <View className="flex-1">
           <Text
             className={cn(
-              "text-base font-semibold flex-1 mr-3",
+              "text-base font-semibold",
               section.fulfilled ? "text-white" : "text-black"
             )}
             testID="section-title"
@@ -137,34 +125,33 @@ export const ListItem = ({
           >
             {title}
           </Text>
-          {isOpen && isDuplicatable && (
-            <Animated.View
-              style={subtitleStyle}
-              className="gap-2 mt-5 flex-row items-center"
-            >
-              <TouchableOpacity className="flex-row items-center gap-2 border p-1">
-                <Icon name="CopyPlus" size={20} color="black" />
-                <Text className="text-sm">Duplicar</Text>
+          {section.duplicatable && isOpen && (
+            <View className="flex-row gap-2 mt-5">
+              <TouchableOpacity className="flex-row items-center gap-2 border p-1 rounded">
+                <Icon name="Copy" size={20} color="black" />
+                <Text>Duplicar</Text>
               </TouchableOpacity>
-              <TouchableOpacity className="flex-row items-center gap-2 border p-1">
+              <TouchableOpacity className="flex-row items-center gap-2 border p-1 rounded">
                 <Icon name="Pencil" size={20} color="black" />
-                <Text className="text-sm">Renomear</Text>
+                <Text>Renomear</Text>
               </TouchableOpacity>
-            </Animated.View>
+            </View>
           )}
         </View>
-        <Animated.View
-          style={chevronStyle}
+        <View
           className={cn(
-            isDuplicatable && isOpen ? "self-start" : "self-center"
+            "ml-3",
+            section.duplicatable && isOpen ? "self-start" : "self-center"
           )}
         >
-          <Icon
-            name="ChevronDown"
-            size={20}
-            color={section.fulfilled ? "white" : "black"}
-          />
-        </Animated.View>
+          <Animated.View style={chevronStyle}>
+            <Icon
+              name="ChevronDown"
+              size={20}
+              color={section.fulfilled ? "white" : "black"}
+            />
+          </Animated.View>
+        </View>
       </Pressable>
 
       <View
