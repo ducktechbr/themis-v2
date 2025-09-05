@@ -1,8 +1,7 @@
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback, useEffect } from "react";
 
-import { useStartReportFill } from "@/services/mutations";
-import { useGetReportPages } from "@/services/queries";
+import { useGetReportPages, useStartReportFill } from "@/hooks";
 import { useReportStore } from "@/stores";
 
 export default function useViewModel() {

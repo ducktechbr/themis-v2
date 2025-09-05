@@ -1,5 +1,5 @@
 import { useAppNavigation } from "@/hooks";
-import { useGetReports } from "@/services/queries";
+import { useGetReports } from "@/hooks/queries";
 import { useReportStore } from "@/stores";
 
 export default function useViewModel() {

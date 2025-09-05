@@ -4,7 +4,7 @@ import { Text, TouchableOpacity, View } from "react-native";
 import { AnswerModal } from "./AnswerModal";
 
 import { Icon, useToast } from "@/components";
-import { useOptionAnswer } from "@/services/mutations";
+import { useOptionAnswer } from "@/hooks/mutations";
 import { useReportStore } from "@/stores";
 import { Option } from "@/types";
 import { cn } from "@/utils";

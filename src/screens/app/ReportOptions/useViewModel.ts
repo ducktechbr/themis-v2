@@ -1,4 +1,4 @@
-import { useGetReportOptions } from "@/services/queries";
+import { useGetReportOptions } from "@/hooks/queries";
 import { useReportStore } from "@/stores";
 
 export default function useViewModel() {
