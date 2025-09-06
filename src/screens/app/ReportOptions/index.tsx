@@ -6,7 +6,8 @@ import useViewModel from "./useViewModel";
 import { AppContainer } from "@/components";
 
 export const ReportOptions = () => {
-  const { options, isPending, error } = useViewModel();
+  const { options, isPending, error, imageAnswer, imageSource } =
+    useViewModel();
 
   if (isPending) {
     return (
@@ -35,7 +36,13 @@ export const ReportOptions = () => {
           {options?.question_title}
         </Text>
 
-        {options && <OptionsList options={options} />}
+        {options && (
+          <OptionsList
+            options={options}
+            imageAnswer={imageAnswer}
+            imageSource={imageSource}
+          />
+        )}
       </View>
     </AppContainer>
   );

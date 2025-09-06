@@ -1,8 +1,16 @@
 import { useState } from "react";
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, Text, View } from "react-native";
 
-import { Dialog, DialogContent, Icon, MainButton } from "@/components";
-import { useAppNavigation } from "@/hooks";
+import {
+  DateAnswerInput,
+  ImageAnswerInput,
+  LongTextAnswerInput,
+  TextAnswerInput,
+} from "./AnswerInputs";
+
+import { Dialog, DialogContent, MainButton } from "@/components";
+import { useSendImage } from "@/hooks/mutations";
+import { useAuthStore, useReportStore } from "@/stores";
 import { Option, OptionTypeEnum } from "@/types";
 
 type AnswerModalProps = {
@@ -11,6 +19,10 @@ type AnswerModalProps = {
   questionTitle: string;
   option: Option;
   handleSendAnswer: (answer?: string) => void;
+  reportId: number;
+  refcod: number;
+  questionId: number;
+  optionId: number;
 };
 
 export const AnswerModal = ({
@@ -19,121 +31,35 @@ export const AnswerModal = ({
   questionTitle,
   option,
   handleSendAnswer,
+  reportId,
+  refcod,
+  questionId,
+  optionId,
 }: AnswerModalProps) => {
   const [inputValue, setInputValue] = useState("");
-  const { navigate } = useAppNavigation();
-  const renderInputByType = () => {
-    switch (option.type) {
-      case OptionTypeEnum.TEXT:
-        return (
-          <View className="w-full">
-            <Text className="text-dark text-sm font-medium mb-2">
-              Digite sua resposta:
-            </Text>
-            <TextInput
-              className="border border-gray-300 rounded-md p-3 text-dark"
-              placeholder="Digite aqui..."
-              value={inputValue}
-              onChangeText={setInputValue}
-              multiline={false}
-            />
-          </View>
-        );
+  const { user } = useAuthStore();
+  const { imageAnswer } = useReportStore();
 
-      case OptionTypeEnum.LONG_TEXT:
-        return (
-          <View className="w-full">
-            <Text className="text-dark text-sm font-medium mb-2">
-              Digite sua resposta detalhada:
-            </Text>
-            <TextInput
-              className="border border-gray-300 rounded-md p-3 text-dark min-h-[100px]"
-              placeholder="Digite aqui..."
-              value={inputValue}
-              onChangeText={setInputValue}
-              multiline={true}
-              textAlignVertical="top"
-            />
-          </View>
-        );
-
-      case OptionTypeEnum.DATE:
-        return (
-          <View className="w-full">
-            <Text className="text-dark text-sm font-medium mb-2">
-              Selecione uma data:
-            </Text>
-            <TextInput
-              className="border border-gray-300 rounded-md p-3 text-dark"
-              placeholder="DD/MM/AAAA"
-              value={inputValue}
-              onChangeText={setInputValue}
-              keyboardType="numeric"
-            />
-          </View>
-        );
-
-      case OptionTypeEnum.SELECT:
-        return null;
-
-      case OptionTypeEnum.SELECT_TEXT:
-        return (
-          <View className="w-full">
-            <Text className="text-dark text-sm font-medium mb-2">
-              Digite sua resposta:
-            </Text>
-            <TextInput
-              className="border border-gray-300 rounded-md p-3 text-dark"
-              placeholder="Digite aqui..."
-              value={inputValue}
-              onChangeText={setInputValue}
-              multiline={false}
-            />
-          </View>
-        );
-
-      case OptionTypeEnum.IMAGE:
-        return (
-          <View className="w-full">
-            <Text className="text-dark text-sm font-medium mb-2">
-              Upload de imagem:
-            </Text>
-            <View className="flex-row gap-2">
-              <TouchableOpacity className=" items-center border h-24 flex-1 justify-center">
-                <Icon name="Image" size={20} color="black" />
-                <Text className="text-dark font-semibold">Fotos</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                className=" items-center border h-24 flex-1 justify-center"
-                onPress={() => {
-                  setIsDialogOpen(false);
-                  navigate("Camera");
-                }}
-              >
-                <Icon name="Camera" size={20} color="black" />
-                <Text className="text-dark font-semibold">Câmera</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        );
-
-      default:
-        return null;
-    }
-  };
-
+  const { mutate: sendImage, isPending: isSendingImage } = useSendImage({
+    onSuccess: () => {
+      handleSendAnswer("image_uploaded");
+      setIsDialogOpen(false);
+      setReportStore({ imageAnswer: null });
+    },
+    onError: () => {
+      Alert.alert("Erro ao enviar imagem");
+    },
+  });
+  const { setReportStore } = useReportStore();
   const getAnswerValue = () => {
     switch (option.type) {
       case OptionTypeEnum.TEXT:
-        return inputValue;
       case OptionTypeEnum.LONG_TEXT:
-        return inputValue;
       case OptionTypeEnum.DATE:
+      case OptionTypeEnum.SELECT_TEXT:
         return inputValue;
       case OptionTypeEnum.SELECT:
         return "true";
-      case OptionTypeEnum.SELECT_TEXT:
-        return inputValue;
       case OptionTypeEnum.IMAGE:
         return "image_uploaded";
       default:
@@ -142,15 +68,66 @@ export const AnswerModal = ({
   };
 
   const handleSubmit = () => {
-    const answer = getAnswerValue();
-    handleSendAnswer(answer);
-    setIsDialogOpen(false);
-    setInputValue("");
+    if (option.type === OptionTypeEnum.IMAGE) {
+      if (imageAnswer) {
+        sendImage({
+          reportId,
+          refcod,
+          questionId,
+          optionId,
+          image: imageAnswer,
+          latitude: user.latitude,
+          longitude: user.longitude,
+        });
+      }
+    } else {
+      const answer = getAnswerValue();
+      handleSendAnswer(answer);
+      setIsDialogOpen(false);
+      setInputValue("");
+    }
   };
 
   const handleCancel = () => {
     setIsDialogOpen(false);
     setInputValue("");
+    setReportStore({ imageAnswer: null, imageSource: null });
+  };
+
+  const renderAnswerInput = () => {
+    switch (option.type) {
+      case OptionTypeEnum.TEXT:
+        return (
+          <TextAnswerInput value={inputValue} onChangeText={setInputValue} />
+        );
+
+      case OptionTypeEnum.LONG_TEXT:
+        return (
+          <LongTextAnswerInput
+            value={inputValue}
+            onChangeText={setInputValue}
+          />
+        );
+
+      case OptionTypeEnum.DATE:
+        return (
+          <DateAnswerInput value={inputValue} onChangeText={setInputValue} />
+        );
+
+      case OptionTypeEnum.SELECT_TEXT:
+        return (
+          <TextAnswerInput value={inputValue} onChangeText={setInputValue} />
+        );
+
+      case OptionTypeEnum.IMAGE:
+        return <ImageAnswerInput onClose={() => setIsDialogOpen(false)} />;
+
+      case OptionTypeEnum.SELECT:
+        return null;
+
+      default:
+        return null;
+    }
   };
 
   return (
@@ -166,10 +143,17 @@ export const AnswerModal = ({
           {option.option}
         </Text>
 
-        {renderInputByType()}
+        {renderAnswerInput()}
 
         <View className="flex-row gap-2 justify-center w-[50%] mx-auto">
-          <MainButton title="Enviar" onPress={handleSubmit} />
+          <MainButton
+            title="Enviar"
+            onPress={handleSubmit}
+            disabled={
+              isSendingImage ||
+              (option.type === OptionTypeEnum.IMAGE && !imageAnswer)
+            }
+          />
           <MainButton title="Cancelar" onPress={handleCancel} variant="error" />
         </View>
       </DialogContent>

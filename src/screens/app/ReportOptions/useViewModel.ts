@@ -2,7 +2,8 @@ import { useGetReportOptions } from "@/hooks/queries";
 import { useReportStore } from "@/stores";
 
 export default function useViewModel() {
-  const { reportId, refcod, questionId } = useReportStore();
+  const { reportId, refcod, questionId, imageAnswer, imageSource } =
+    useReportStore();
 
   const {
     data: options,
@@ -15,5 +16,7 @@ export default function useViewModel() {
     isPending,
     error,
     questionId,
+    imageAnswer,
+    imageSource,
   };
 }

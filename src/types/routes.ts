@@ -5,4 +5,5 @@ export type RouteParams = {
   ReportQuestions: undefined;
   ReportOptions: undefined;
   Camera: undefined;
+  Preview: undefined;
 };

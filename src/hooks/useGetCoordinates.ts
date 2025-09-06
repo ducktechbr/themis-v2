@@ -1,4 +1,9 @@
-import * as Location from "expo-location";
+import {
+  Accuracy,
+  getCurrentPositionAsync,
+  getForegroundPermissionsAsync,
+  requestForegroundPermissionsAsync,
+} from "expo-location";
 import { useCallback, useEffect, useState } from "react";
 import { Alert, Linking } from "react-native";
 
@@ -21,21 +26,14 @@ export const useGetCoordinates = () => {
   });
 
   const requestLocation = useCallback(async () => {
-    console.log("requestLocation chamada");
     try {
       setStatus((prev) => ({ ...prev, isLoading: true, error: null }));
 
       const { status: permissionStatus } =
-        await Location.getForegroundPermissionsAsync();
-
-      console.log("Status atual da permissão:", permissionStatus);
+        await getForegroundPermissionsAsync();
 
       if (permissionStatus !== "granted") {
-        console.log("Solicitando nova permissão...");
-        const { status: newStatus } =
-          await Location.requestForegroundPermissionsAsync();
-
-        console.log("Novo status da permissão:", newStatus);
+        const { status: newStatus } = await requestForegroundPermissionsAsync();
 
         if (newStatus !== "granted") {
           Alert.alert(
@@ -72,8 +70,8 @@ export const useGetCoordinates = () => {
         }
       }
 
-      const location = await Location.getCurrentPositionAsync({
-        accuracy: Location.Accuracy.Balanced,
+      const location = await getCurrentPositionAsync({
+        accuracy: Accuracy.Balanced,
       });
 
       const { latitude, longitude } = location.coords;
@@ -109,8 +107,7 @@ export const useGetCoordinates = () => {
   }, [requestLocation, user.latitude, user.longitude]);
 
   const checkPermissionStatus = useCallback(async () => {
-    const { status } = await Location.getForegroundPermissionsAsync();
-    console.log("Verificando status da permissão:", status);
+    const { status } = await getForegroundPermissionsAsync();
 
     if (status === "granted") {
       await requestLocation();

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
 import { AnswerModal } from "./AnswerModal";
@@ -13,17 +13,26 @@ type OptionItemProps = {
   option: Option;
   questionTitle: string;
   optionIndex: number;
+  shouldAutoOpen?: boolean;
 };
 
 export const OptionItem = ({
   option,
   questionTitle,
   optionIndex,
+  shouldAutoOpen = false,
 }: OptionItemProps) => {
   const { toast } = useToast();
   const { reportId, refcod, questionId } = useReportStore();
   const { user } = useAuthStore();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  // Abrir modal automaticamente quando a imagem é da câmera
+  useEffect(() => {
+    if (shouldAutoOpen) {
+      setIsDialogOpen(true);
+    }
+  }, [shouldAutoOpen]);
 
   const isFulfilled =
     option.fulfilled || (questionId ? option.fulfilled : false);
@@ -89,6 +98,10 @@ export const OptionItem = ({
         questionTitle={questionTitle}
         option={option}
         handleSendAnswer={handleSendAnswer}
+        reportId={reportId!}
+        refcod={refcod!}
+        questionId={questionId!}
+        optionId={optionIndex}
       />
     </>
   );

@@ -1,3 +1,5 @@
+import { ImagePickerAsset } from "expo-image-picker";
+
 import { axiosInstance } from "../config";
 
 import {
@@ -157,6 +159,44 @@ export const finishReport = async (
     const formData = new FormData();
     formData.append("metodo", "endServiceOrder");
     formData.append("id_service_order", String(reportId));
+
+    const { data } = await axiosInstance.post("/", formData);
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const sendImage = async (params: {
+  reportId: number;
+  refcod: number;
+  questionId: number;
+  optionId: number;
+  image: ImagePickerAsset;
+  latitude?: number;
+  longitude?: number;
+}): Promise<{ success: boolean; message?: string }> => {
+  try {
+    const formData = new FormData();
+    formData.append("metodo", "uploadSOImage");
+    formData.append("SOID", String(params.reportId));
+    formData.append("itemrefcod", String(params.refcod));
+    formData.append("question", String(params.questionId));
+    formData.append("option", String(params.optionId));
+
+    formData.append("image", {
+      uri: params.image.uri,
+      type: params.image.type || "image/jpeg",
+      name: params.image.fileName || "image.jpg",
+    });
+
+    if (params.latitude !== undefined) {
+      formData.append("latitude", String(params.latitude));
+    }
+    if (params.longitude !== undefined) {
+      formData.append("longitude", String(params.longitude));
+    }
 
     const { data } = await axiosInstance.post("/", formData);
     return data;

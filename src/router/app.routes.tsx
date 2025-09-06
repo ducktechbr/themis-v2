@@ -2,6 +2,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import {
   Camera,
+  Preview,
   ReportOptions,
   ReportPages,
   ReportQuestions,
@@ -18,6 +19,7 @@ export default function AppRoutes() {
       <Stack.Screen name="ReportQuestions" component={ReportQuestions} />
       <Stack.Screen name="ReportOptions" component={ReportOptions} />
       <Stack.Screen name="Camera" component={Camera} />
+      <Stack.Screen name="Preview" component={Preview} />
     </Stack.Navigator>
   );
 }
