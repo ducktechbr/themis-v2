@@ -11,6 +11,7 @@ import { useAppNavigation } from "@/hooks";
 import { useReportStore } from "@/stores";
 import { Item, Section } from "@/types";
 import { cn } from "@/utils";
+import { SectionActionDialog } from "./SectionActionDialog";
 
 const SPACING = {
   HEADER_PADDING: 16,
@@ -29,6 +30,10 @@ export const ListItem = ({ item }: ListItemProps) => {
   const [title, section] = item;
   const [isOpen, setIsOpen] = useState(false);
   const [contentHeight, setContentHeight] = useState(0);
+  const [dialogVisible, setDialogVisible] = useState(false);
+  const [dialogAction, setDialogAction] = useState<"duplicate" | "rename">(
+    "duplicate"
+  );
   const animatedHeight = useSharedValue(0);
   const chevronRotation = useSharedValue(0);
   const { navigate } = useAppNavigation();
@@ -51,6 +56,20 @@ export const ListItem = ({ item }: ListItemProps) => {
   const chevronStyle = useAnimatedStyle(() => ({
     transform: [{ rotate: `${chevronRotation.value}deg` }],
   }));
+
+  const handleDuplicate = () => {
+    setDialogAction("duplicate");
+    setDialogVisible(true);
+  };
+
+  const handleRename = () => {
+    setDialogAction("rename");
+    setDialogVisible(true);
+  };
+
+  const handleCloseDialog = () => {
+    setDialogVisible(false);
+  };
 
   const renderContent = () => (
     <View className="rounded-b-lg bg-white p-4">
@@ -120,11 +139,17 @@ export const ListItem = ({ item }: ListItemProps) => {
           </Text>
           {section.duplicatable && isOpen && (
             <View className="flex-row gap-2 mt-5">
-              <TouchableOpacity className="flex-row items-center gap-2 border p-1 rounded">
+              <TouchableOpacity
+                className="flex-row items-center gap-2 border p-1 rounded"
+                onPress={handleDuplicate}
+              >
                 <Icon name="Copy" size={20} color="black" />
                 <Text>Duplicar</Text>
               </TouchableOpacity>
-              <TouchableOpacity className="flex-row items-center gap-2 border p-1 rounded">
+              <TouchableOpacity
+                className="flex-row items-center gap-2 border p-1 rounded"
+                onPress={handleRename}
+              >
                 <Icon name="Pencil" size={20} color="black" />
                 <Text>Renomear</Text>
               </TouchableOpacity>
@@ -160,6 +185,13 @@ export const ListItem = ({ item }: ListItemProps) => {
       </View>
 
       <Animated.View style={animatedStyle}>{renderContent()}</Animated.View>
+
+      <SectionActionDialog
+        visible={dialogVisible}
+        onClose={handleCloseDialog}
+        sectionTitle={title}
+        action={dialogAction}
+      />
     </View>
   );
 };

@@ -109,3 +109,43 @@ export const startReportFill = async (
     throw error;
   }
 };
+
+export const duplicateSection = async (params: {
+  documentId: number;
+  sectionTitle: string;
+  newSectionTitle: string;
+}): Promise<{ success: boolean; message?: string }> => {
+  try {
+    const formData = new FormData();
+    formData.append("metodo", "duplicateSection");
+    formData.append("documentId", String(params.documentId));
+    formData.append("sectionTitle", params.sectionTitle);
+    formData.append("newSectionTitle", params.newSectionTitle);
+
+    const { data } = await axiosInstance.post("/", formData);
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export const renameSection = async (params: {
+  documentId: number;
+  sectionTitle: string;
+  newSectionTitle: string;
+}): Promise<{ success: boolean; message?: string }> => {
+  try {
+    const formData = new FormData();
+    formData.append("metodo", "renameSection");
+    formData.append("documentId", String(params.documentId));
+    formData.append("sectionTitle", params.sectionTitle);
+    formData.append("newSectionTitle", params.newSectionTitle);
+
+    const { data } = await axiosInstance.post("/", formData);
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
