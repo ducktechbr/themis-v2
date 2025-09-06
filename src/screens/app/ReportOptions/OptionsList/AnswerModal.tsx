@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { Text, TextInput, TouchableOpacity, View } from "react-native";
 
-import { Dialog, DialogContent, MainButton } from "@/components";
+import { Dialog, DialogContent, Icon, MainButton } from "@/components";
+import { useAppNavigation } from "@/hooks";
 import { Option, OptionTypeEnum } from "@/types";
 
 type AnswerModalProps = {
@@ -20,7 +21,7 @@ export const AnswerModal = ({
   handleSendAnswer,
 }: AnswerModalProps) => {
   const [inputValue, setInputValue] = useState("");
-
+  const { navigate } = useAppNavigation();
   const renderInputByType = () => {
     switch (option.type) {
       case OptionTypeEnum.TEXT:
@@ -97,14 +98,22 @@ export const AnswerModal = ({
             <Text className="text-dark text-sm font-medium mb-2">
               Upload de imagem:
             </Text>
-            <TouchableOpacity className="border-2 border-dashed border-gray-300 rounded-md p-6 items-center">
-              <Text className="text-gray-500 text-center">
-                Toque para selecionar uma imagem
-              </Text>
-              <Text className="text-gray-400 text-xs mt-1">
-                JPG, PNG ou GIF até 5MB
-              </Text>
-            </TouchableOpacity>
+            <View className="flex-row gap-2">
+              <TouchableOpacity className=" items-center border h-24 flex-1 justify-center">
+                <Icon name="Image" size={20} color="black" />
+                <Text className="text-dark font-semibold">Galeria</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                className=" items-center border h-24 flex-1 justify-center"
+                onPress={() => {
+                  setIsDialogOpen(false);
+                  navigate("Camera");
+                }}
+              >
+                <Icon name="Camera" size={20} color="black" />
+                <Text className="text-dark font-semibold">Tirar foto</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         );
 
@@ -152,7 +161,9 @@ export const AnswerModal = ({
         </Text>
         <Text className="text-dark text-lg text-center font-semibold">
           Opção selecionada:{" "}
-          <Text className="text-primary font-bold">{option.option}</Text>
+        </Text>
+        <Text className="text-primary font-bold text-center">
+          {option.option}
         </Text>
 
         {renderInputByType()}

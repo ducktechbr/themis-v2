@@ -1,4 +1,4 @@
-export * from "./AttachImage";
+export * from "./Camera";
 export * from "./ReportOptions";
 export * from "./ReportPages";
 export * from "./ReportQuestions";

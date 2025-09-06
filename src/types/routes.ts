@@ -4,4 +4,5 @@ export type RouteParams = {
   SignIn: undefined;
   ReportQuestions: undefined;
   ReportOptions: undefined;
+  Camera: undefined;
 };
