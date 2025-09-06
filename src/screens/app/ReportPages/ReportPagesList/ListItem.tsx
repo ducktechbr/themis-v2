@@ -22,18 +22,12 @@ const SPACING = {
 } as const;
 
 type ListItemProps = {
-  title: string;
-  section: Section;
-  isOpen: boolean;
-  onToggle: () => void;
+  item: [string, Section];
 };
 
-export const ListItem = ({
-  title,
-  section,
-  isOpen,
-  onToggle,
-}: ListItemProps) => {
+export const ListItem = ({ item }: ListItemProps) => {
+  const [title, section] = item;
+  const [isOpen, setIsOpen] = useState(false);
   const [contentHeight, setContentHeight] = useState(0);
   const animatedHeight = useSharedValue(0);
   const chevronRotation = useSharedValue(0);
@@ -106,7 +100,7 @@ export const ListItem = ({
       )}
     >
       <Pressable
-        onPress={onToggle}
+        onPress={() => setIsOpen(!isOpen)}
         className="flex-row items-center justify-between"
         style={{
           minHeight: SPACING.HEADER_MIN_HEIGHT,
@@ -119,7 +113,6 @@ export const ListItem = ({
               "text-base font-semibold",
               section.fulfilled ? "text-white" : "text-black"
             )}
-            testID="section-title"
             numberOfLines={2}
             ellipsizeMode="tail"
           >

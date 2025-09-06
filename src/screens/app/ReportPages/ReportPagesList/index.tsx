@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { FlatList, View } from "react-native";
 
 import { ListItem } from "./ListItem";
@@ -12,12 +11,7 @@ type ReportPagesListProps = {
 };
 
 export const ReportPagesList = ({ reportPages }: ReportPagesListProps) => {
-  const [openSection, setOpenSection] = useState<string | null>(null);
   const sections: SectionEntry[] = Object.entries(reportPages);
-
-  const handleToggleSection = (sectionTitle: string) => {
-    setOpenSection(openSection === sectionTitle ? null : sectionTitle);
-  };
 
   return (
     <View>
@@ -27,14 +21,7 @@ export const ReportPagesList = ({ reportPages }: ReportPagesListProps) => {
         ItemSeparatorComponent={() => <View className="my-3" />}
         contentContainerStyle={{ paddingBottom: 50 }}
         showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => (
-          <ListItem
-            title={item[0]}
-            section={item[1]}
-            isOpen={openSection === item[0]}
-            onToggle={() => handleToggleSection(item[0])}
-          />
-        )}
+        renderItem={({ item }) => <ListItem item={item} />}
       />
     </View>
   );
