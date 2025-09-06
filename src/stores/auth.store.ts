@@ -11,6 +11,8 @@ type AuthStoreProps = {
   signIn: (username: string, password: string, rememberme: boolean) => void;
   initializeAuth: () => void;
   signOut: () => void;
+  setUser: (user: User) => void;
+  updateUserCoordinates: (latitude: number, longitude: number) => void;
 };
 
 export const useAuthStore = create<AuthStoreProps>((set) => ({
@@ -32,6 +34,15 @@ export const useAuthStore = create<AuthStoreProps>((set) => ({
   isAuthenticated: false,
   loading: false,
   signOut: () => set({ isAuthenticated: false }),
+  setUser: (user: User) => set({ user }),
+  updateUserCoordinates: (latitude: number, longitude: number) =>
+    set((state) => ({
+      user: {
+        ...state.user,
+        latitude,
+        longitude,
+      },
+    })),
   initializeAuth: async () => {
     try {
       set({ loading: true });

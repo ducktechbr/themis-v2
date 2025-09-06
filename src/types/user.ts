@@ -12,4 +12,6 @@ export type User = {
   matricula: string | null;
   device_token: string;
   status_user: number;
+  latitude?: number;
+  longitude?: number;
 };

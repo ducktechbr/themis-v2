@@ -24,6 +24,8 @@ export type AnswerParams = {
   questionId: number;
   optionId: number;
   answer: string | boolean;
+  latitude?: number;
+  longitude?: number;
 };
 
 export type AnswerResponse = {

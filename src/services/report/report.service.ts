@@ -1,12 +1,12 @@
 import { axiosInstance } from "../config";
 
 import {
+  AnswerParams,
+  AnswerResponse,
+  OptionsResponse,
   Report,
   ReportPages,
   ReportQuestions,
-  OptionsResponse,
-  AnswerParams,
-  AnswerResponse,
 } from "@/types";
 
 export const getReports = async (): Promise<Report[]> => {
@@ -83,6 +83,8 @@ export const sendQuestionAnswer = async (
     formData.append("question", String(params.questionId));
     formData.append("option", String(params.optionId));
     formData.append("answer", String(params.answer));
+    formData.append("latitude", String(params.latitude));
+    formData.append("longitude", String(params.longitude));
 
     const { data } = await axiosInstance.post<AnswerResponse>("/", formData);
     return data;

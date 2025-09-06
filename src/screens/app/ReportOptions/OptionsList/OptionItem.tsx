@@ -5,7 +5,7 @@ import { AnswerModal } from "./AnswerModal";
 
 import { Icon, useToast } from "@/components";
 import { useOptionAnswer } from "@/hooks/mutations";
-import { useReportStore } from "@/stores";
+import { useAuthStore, useReportStore } from "@/stores";
 import { Option } from "@/types";
 import { cn } from "@/utils";
 
@@ -22,6 +22,7 @@ export const OptionItem = ({
 }: OptionItemProps) => {
   const { toast } = useToast();
   const { reportId, refcod, questionId } = useReportStore();
+  const { user } = useAuthStore();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const isFulfilled =
@@ -46,6 +47,8 @@ export const OptionItem = ({
       questionId: questionId!,
       optionId: optionIndex,
       answer: answer || "true",
+      latitude: user.latitude,
+      longitude: user.longitude,
     });
     setIsDialogOpen(false);
   };

@@ -1,11 +1,24 @@
-import { useEffect } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback, useEffect } from "react";
 
-import { useGetReportPages, useStartReportFill } from "@/hooks";
+import {
+  useGetCoordinates,
+  useGetReportPages,
+  useStartReportFill,
+} from "@/hooks";
 import { useReportStore } from "@/stores";
 
 export default function useViewModel() {
   const { reportId } = useReportStore();
 
+  const {
+    isLoading,
+    hasPermission,
+    hasCoordinates,
+    error: coordinatesError,
+    retry: retryLocation,
+    checkPermission: checkLocationPermission,
+  } = useGetCoordinates();
   const { mutate: startReportFill, isPending: isStartingReport } =
     useStartReportFill();
 
@@ -22,16 +35,22 @@ export default function useViewModel() {
     }
   }, [reportId, startReportFill]);
 
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     refetch();
-  //   }, [refetch])
-  // );
+  useFocusEffect(
+    useCallback(() => {
+      refetch();
+    }, [refetch])
+  );
 
   return {
     reportPages,
     isPending: isPending || isStartingReport,
     error,
     reportId,
+    isLoading,
+    hasPermission,
+    hasCoordinates,
+    coordinatesError,
+    retryLocation,
+    checkLocationPermission,
   };
 }
