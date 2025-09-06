@@ -101,7 +101,7 @@ export const AnswerModal = ({
             <View className="flex-row gap-2">
               <TouchableOpacity className=" items-center border h-24 flex-1 justify-center">
                 <Icon name="Image" size={20} color="black" />
-                <Text className="text-dark font-semibold">Galeria</Text>
+                <Text className="text-dark font-semibold">Fotos</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 className=" items-center border h-24 flex-1 justify-center"
@@ -111,7 +111,7 @@ export const AnswerModal = ({
                 }}
               >
                 <Icon name="Camera" size={20} color="black" />
-                <Text className="text-dark font-semibold">Tirar foto</Text>
+                <Text className="text-dark font-semibold">Câmera</Text>
               </TouchableOpacity>
             </View>
           </View>

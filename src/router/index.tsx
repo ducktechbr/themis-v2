@@ -1,11 +1,9 @@
-import LottieView from "lottie-react-native";
 import { useEffect } from "react";
-import { View } from "react-native";
 
 import AppRoutes from "./app.routes";
 import AuthRoutes from "./auth.routes";
 
-import checklist from "@/assets/animations/chcklist.json";
+import { ScreenLoading } from "@/components";
 import { useAuthStore } from "@/stores";
 
 export default function Routes() {
@@ -15,18 +13,7 @@ export default function Routes() {
     initializeAuth();
   }, []);
 
-  if (loading) {
-    return (
-      <View className="flex-1 bg-primary">
-        <LottieView
-          source={checklist}
-          style={{ flex: 1 }}
-          autoPlay
-          loop={false}
-        />
-      </View>
-    );
-  }
+  if (loading) return <ScreenLoading />;
 
   return isAuthenticated ? <AppRoutes /> : <AuthRoutes />;
 }

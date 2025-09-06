@@ -149,3 +149,19 @@ export const renameSection = async (params: {
     throw error;
   }
 };
+
+export const finishReport = async (
+  reportId: number
+): Promise<{ success: boolean; message?: string }> => {
+  try {
+    const formData = new FormData();
+    formData.append("metodo", "endServiceOrder");
+    formData.append("id_service_order", String(reportId));
+
+    const { data } = await axiosInstance.post("/", formData);
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};

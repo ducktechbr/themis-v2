@@ -1,4 +1,4 @@
-import { TouchableOpacity, Text } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -12,7 +12,7 @@ type MainButtonProps = {
   title: string;
   loading?: boolean;
   disabled?: boolean;
-  variant?: "default" | "success" | "error";
+  variant?: "default" | "success" | "error" | "dark";
   onPress?: () => void;
 };
 
@@ -44,6 +44,8 @@ export const MainButton = ({
         return "bg-success";
       case "error":
         return "bg-red-500";
+      case "dark":
+        return "bg-dark";
       default:
         return "bg-success";
     }
@@ -56,6 +58,8 @@ export const MainButton = ({
       case "success":
         return "text-white";
       case "error":
+        return "text-white";
+      case "dark":
         return "text-white";
       default:
         return "text-white";

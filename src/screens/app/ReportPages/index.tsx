@@ -1,9 +1,9 @@
-import { ActivityIndicator, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
 import { ReportPagesList } from "./ReportPagesList";
 import useViewModel from "./useViewModel";
 
-import { AppContainer, MainButton } from "@/components";
+import { AppContainer, MainButton, ScreenLoading } from "@/components";
 
 export const ReportPages = () => {
   const {
@@ -18,16 +18,7 @@ export const ReportPages = () => {
     checkLocationPermission,
   } = useViewModel();
 
-  if (isPending || isLoading) {
-    return (
-      <AppContainer>
-        <View className="flex-1 justify-center items-center">
-          <ActivityIndicator size="large" color="#0000ff" />
-          <Text className="mt-4 text-lg">Carregando seções...</Text>
-        </View>
-      </AppContainer>
-    );
-  }
+  if (isPending || isLoading) return <ScreenLoading />;
 
   if (coordinatesError && !hasPermission) {
     return (
@@ -46,7 +37,6 @@ export const ReportPages = () => {
             <MainButton
               title="Permitir Localização"
               onPress={() => {
-                console.log("Botão de retry pressionado");
                 retryLocation();
               }}
             />
