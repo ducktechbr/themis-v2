@@ -194,7 +194,7 @@ export const Preview = () => {
         </View>
       </View>
 
-      <View className="flex-row gap-4 px-4 pb-10">
+      <View className="flex-row gap-4 px-4 pb-10 mt-5">
         <View className="flex-1">
           <MainButton
             title="Tirar outra"
