@@ -1,6 +1,6 @@
 import { useRoute } from "@react-navigation/native";
 import { useState } from "react";
-import { View, Text, TouchableOpacity, Linking } from "react-native";
+import { Linking, Text, TouchableOpacity, View } from "react-native";
 
 import { Dialog, DialogContent } from "../Dialog";
 import { Icon } from "../Icon";
@@ -8,11 +8,13 @@ import { Icon } from "../Icon";
 import { useAppNavigation } from "@/hooks";
 import { useAuthStore } from "@/stores";
 import { RouteParams } from "@/types";
-import { getScreenDisplayName, cn } from "@/utils";
+import { cn, getScreenDisplayName } from "@/utils";
 
+type HeaderProps = {
+  renderSettings?: boolean;
+};
 
-
-export const Header = () => {
+export const Header = ({ renderSettings = true }: HeaderProps) => {
   const route = useRoute();
   const screenDisplayName = getScreenDisplayName(
     route.name as keyof RouteParams
@@ -44,12 +46,14 @@ export const Header = () => {
         <Text className="text-white text-xl font-bold flex-1 text-center">
           {screenDisplayName}
         </Text>
-        <TouchableOpacity
-          className="absolute right-0"
-          onPress={() => setSettingsOpen(true)}
-        >
-          <Icon name="Settings" size={24} color="white" />
-        </TouchableOpacity>
+        {renderSettings && (
+          <TouchableOpacity
+            className="absolute right-0"
+            onPress={() => setSettingsOpen(true)}
+          >
+            <Icon name="Settings" size={24} color="white" />
+          </TouchableOpacity>
+        )}
       </View>
       <Dialog open={settingsOpen} onOpenChange={setSettingsOpen}>
         <DialogContent>

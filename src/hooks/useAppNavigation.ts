@@ -1,4 +1,4 @@
-import { useNavigation, NavigationProp } from "@react-navigation/native";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 
 import { RouteParams } from "@/types";
 

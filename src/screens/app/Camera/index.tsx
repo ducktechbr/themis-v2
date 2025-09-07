@@ -70,9 +70,10 @@ export const Camera = () => {
           disabled={isCapturing}
         >
           <View
-            className={`w-10 h-10 rounded-full ${
+            className={cn(
+              "w-10 h-10 rounded-full",
               isCapturing ? "bg-gray-400" : "bg-primary"
-            }`}
+            )}
           />
         </TouchableOpacity>
 

@@ -1,3 +1,4 @@
+import { CommonActions } from "@react-navigation/native";
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
 import { useState } from "react";
 import {
@@ -8,12 +9,13 @@ import {
   View,
 } from "react-native";
 
-import { Icon, MainButton } from "@/components";
+import { Header, Icon, MainButton } from "@/components";
 import { useAppNavigation } from "@/hooks";
 import { useReportStore } from "@/stores";
+import { cn } from "@/utils";
 
 export const Preview = () => {
-  const { navigate, goBack } = useAppNavigation();
+  const { navigate, goBack, dispatch } = useAppNavigation();
   const { imageAnswer, setReportStore } = useReportStore();
   const [isRotating, setIsRotating] = useState(false);
   const [currentImageUri, setCurrentImageUri] = useState(
@@ -74,19 +76,10 @@ export const Preview = () => {
     }
   };
 
-  const handleTakeAnother = () => {
-    setReportStore({ imageAnswer: null, imageSource: null });
-    goBack();
-  };
-
-  const handleKeepPhoto = () => {
-    navigate("ReportOptions");
-  };
-
   if (!imageAnswer) {
     return (
       <SafeAreaView className="flex-1 bg-primary">
-        <View className="flex-1 justify-center items-center">
+        <View className="flex-1 justify-center items-center px-4 gap-2">
           <Text className="text-white text-lg font-bold">
             Nenhuma imagem encontrada
           </Text>
@@ -98,21 +91,18 @@ export const Preview = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-black">
-      <View className="flex-row items-center justify-between p-4">
-        <TouchableOpacity onPress={goBack}>
-          <Icon name="ArrowLeft" size={24} color="white" />
-        </TouchableOpacity>
-        <Text className="text-white text-lg font-semibold">Preview</Text>
-        <View className="w-6" />
+      <View className="px-4">
+        <Header renderSettings={false} />
       </View>
 
       <View className="flex-row justify-between items-center py-4 px-4">
         <TouchableOpacity
           onPress={rotateLeft}
           disabled={isRotating}
-          className={`p-4 rounded-full ${
+          className={cn(
+            "p-4 rounded-full",
             isRotating ? "bg-white/10" : "bg-white/20"
-          }`}
+          )}
         >
           <Icon
             name="CornerUpLeft"
@@ -128,9 +118,10 @@ export const Preview = () => {
         <TouchableOpacity
           onPress={rotateRight}
           disabled={isRotating}
-          className={`p-4 rounded-full ${
+          className={cn(
+            "p-4 rounded-full",
             isRotating ? "bg-white/10" : "bg-white/20"
-          }`}
+          )}
         >
           <Icon
             name="CornerUpRight"
@@ -152,12 +143,28 @@ export const Preview = () => {
         <View className="flex-1">
           <MainButton
             title="Tirar outra"
-            onPress={handleTakeAnother}
+            onPress={() => {
+              setReportStore({ imageAnswer: null, imageSource: null });
+              goBack();
+            }}
             variant="error"
           />
         </View>
         <View className="flex-1">
-          <MainButton title="Ficou boa" onPress={handleKeepPhoto} />
+          <MainButton
+            title="Ficou boa"
+            onPress={() => {
+              dispatch(
+                CommonActions.reset({
+                  index: 1,
+                  routes: [
+                    { name: "ReportQuestions" },
+                    { name: "ReportOptions" },
+                  ],
+                })
+              );
+            }}
+          />
         </View>
       </View>
     </SafeAreaView>
