@@ -1,11 +1,21 @@
 import { ImagePickerAsset } from "expo-image-picker";
 import { create } from "zustand";
 
+// Estender ImagePickerAsset para incluir orientação
+type ImageAssetWithOrientation = ImagePickerAsset & {
+  orientation?:
+    | "portrait"
+    | "landscape"
+    | "portrait-upside-down"
+    | "landscape-left"
+    | "landscape-right";
+};
+
 type ReportStore = {
   reportId: number | null;
   refcod: number | null;
   questionId: number | null;
-  imageAnswer: ImagePickerAsset | null;
+  imageAnswer: ImageAssetWithOrientation | null;
   imageSource: "camera" | "gallery" | null;
   setReportStore: (data: Partial<ReportStore>) => void;
 };

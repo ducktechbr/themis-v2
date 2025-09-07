@@ -1,7 +1,8 @@
 import { CommonActions } from "@react-navigation/native";
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
+  Dimensions,
   Image,
   SafeAreaView,
   Text,
@@ -21,6 +22,50 @@ export const Preview = () => {
   const [currentImageUri, setCurrentImageUri] = useState(
     imageAnswer?.uri || ""
   );
+
+  const screenDimensions = useMemo(() => {
+    const { width, height } = Dimensions.get("window");
+    const captureAreaHeight = height * 0.65;
+    return {
+      width,
+      height: captureAreaHeight,
+    };
+  }, []);
+
+  const imageStyle = useMemo(() => {
+    if (!imageAnswer?.orientation) {
+      return {
+        width: screenDimensions.width - 32,
+        height: screenDimensions.height,
+      };
+    }
+
+    const { orientation } = imageAnswer;
+    let rotation = 0;
+
+    switch (orientation) {
+      case "portrait":
+        rotation = 0;
+        break;
+      case "portrait-upside-down":
+        rotation = 180; // 180° rotation
+        break;
+      case "landscape-left":
+        rotation = 90;
+        break;
+      case "landscape-right":
+        rotation = -90;
+        break;
+      default:
+        rotation = 0;
+    }
+
+    return {
+      width: screenDimensions.width - 32,
+      height: screenDimensions.height,
+      transform: [{ rotate: `${rotation}deg` }],
+    };
+  }, [imageAnswer, screenDimensions]);
 
   const rotateLeft = async () => {
     if (!imageAnswer || isRotating) return;
@@ -131,12 +176,22 @@ export const Preview = () => {
         </TouchableOpacity>
       </View>
 
-      <View className="flex-1">
-        <Image
-          source={{ uri: currentImageUri }}
-          className="w-full h-full"
-          resizeMode="contain"
-        />
+      <View className="flex-1 justify-center items-center px-4">
+        <View
+          style={{
+            width: screenDimensions.width - 32,
+            height: screenDimensions.height,
+            borderRadius: 8,
+            overflow: "hidden",
+          }}
+          className="justify-center items-center"
+        >
+          <Image
+            source={{ uri: currentImageUri }}
+            style={imageStyle}
+            resizeMode="contain"
+          />
+        </View>
       </View>
 
       <View className="flex-row gap-4 px-4 pb-10">

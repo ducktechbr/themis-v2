@@ -44,13 +44,18 @@ export const Camera = () => {
           <View className="absolute top-4 right-4 bg-black/60 px-3 py-2 rounded-lg flex-row items-center">
             <Icon
               name={
-                orientation === "portrait" ? "Smartphone" : "TabletSmartphone"
+                orientation.includes("portrait")
+                  ? "Smartphone"
+                  : "TabletSmartphone"
               }
               size={16}
               color="white"
             />
             <Text className="text-white text-xs font-medium ml-2 capitalize">
-              {orientation === "portrait" ? "Retrato" : "Paisagem"}
+              {orientation === "portrait" && "Retrato"}
+              {orientation === "portrait-upside-down" && "Retrato Invertido"}
+              {orientation === "landscape-left" && "Paisagem ←"}
+              {orientation === "landscape-right" && "Paisagem →"}
             </Text>
           </View>
 

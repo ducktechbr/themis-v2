@@ -1,5 +1,5 @@
 import { CameraView } from "expo-camera";
-import { Gyroscope } from "expo-sensors";
+import { Accelerometer } from "expo-sensors";
 import { useEffect, useRef, useState } from "react";
 
 import { useAppNavigation, useCameraPermission } from "@/hooks";
@@ -12,23 +12,41 @@ export default function useViewModel() {
   const { setReportStore } = useReportStore();
   const cameraRef = useRef<CameraView>(null);
   const [isCapturing, setIsCapturing] = useState(false);
-  const [orientation, setOrientation] = useState<"portrait" | "landscape">(
-    "portrait"
-  );
+  const [orientation, setOrientation] = useState<
+    | "portrait"
+    | "landscape"
+    | "portrait-upside-down"
+    | "landscape-left"
+    | "landscape-right"
+  >("portrait");
 
   useEffect(() => {
-    // Configurar o giroscópio para detectar orientação
-    Gyroscope.setUpdateInterval(500); // Atualizar a cada 500ms
+    Accelerometer.setUpdateInterval(300);
 
-    const subscription = Gyroscope.addListener((gyroscopeData) => {
-      const { y } = gyroscopeData;
+    const subscription = Accelerometer.addListener((accelerometerData) => {
+      const { x, y } = accelerometerData;
 
-      // Detectar orientação baseado na rotação do eixo Y
-      // Valores positivos indicam rotação para landscape
-      if (Math.abs(y) > 0.5) {
-        setOrientation("landscape");
+      // Determinar orientação baseada na gravidade
+      // Corrigido para iOS - valores invertidos
+      // y < -0.6: portrait (normal) - gravidade para baixo no iOS
+      // y > 0.6: portrait-upside-down - gravidade para cima no iOS
+      // x < -0.6: landscape-right - gravidade para direita no iOS
+      // x > 0.6: landscape-left - gravidade para esquerda no iOS
+
+      const threshold = 0.6; // Limiar para evitar mudanças muito sensíveis
+
+      if (Math.abs(y) > Math.abs(x)) {
+        if (y < -threshold) {
+          setOrientation("portrait");
+        } else if (y > threshold) {
+          setOrientation("portrait-upside-down");
+        }
       } else {
-        setOrientation("portrait");
+        if (x < -threshold) {
+          setOrientation("landscape-right");
+        } else if (x > threshold) {
+          setOrientation("landscape-left");
+        }
       }
     });
 
@@ -47,14 +65,14 @@ export default function useViewModel() {
       });
 
       if (photo) {
-        // Salvar a foto no store como um objeto similar ao ImagePickerAsset
         const imageAsset = {
           uri: photo.uri,
           width: photo.width,
           height: photo.height,
           type: "image" as const,
           fileName: `camera_photo_${Date.now()}.jpg`,
-          fileSize: undefined, // Será definido pelo sistema
+          fileSize: undefined,
+          orientation: orientation,
         };
 
         setReportStore({ imageAnswer: imageAsset, imageSource: "camera" });
