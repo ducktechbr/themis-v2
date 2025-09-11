@@ -20,6 +20,7 @@ export default function useViewModel() {
     | "landscape-right"
   >("portrait");
   const [flash, setFlash] = useState<"on" | "off" | "auto">("off");
+  const [zoom, setZoom] = useState(0);
 
   useEffect(() => {
     Accelerometer.setUpdateInterval(300);
@@ -93,6 +94,20 @@ export default function useViewModel() {
     });
   };
 
+  const handleZoomChange = (newZoom: number) => {
+    // Limita o zoom entre 0 e 1 (0 = 1x, 1 = 5x)
+    const clampedZoom = Math.max(0, Math.min(newZoom, 1));
+    setZoom(clampedZoom);
+  };
+
+  const handlePinchGesture = (scale: number) => {
+    // Calcula o novo zoom baseado na escala do gesto
+    const sensitivity = 0.015; // Sensibilidade reduzida para controle mais suave
+    const zoomIncrement = (scale - 1) * sensitivity;
+    const newZoom = zoom + zoomIncrement;
+    handleZoomChange(newZoom);
+  };
+
   return {
     hasPermission,
     requestPermission,
@@ -105,5 +120,8 @@ export default function useViewModel() {
     flash,
     setFlash,
     handleToggleFlashMode,
+    zoom,
+    handleZoomChange,
+    handlePinchGesture,
   };
 }
