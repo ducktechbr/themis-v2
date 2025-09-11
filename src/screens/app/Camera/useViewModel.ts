@@ -19,6 +19,7 @@ export default function useViewModel() {
     | "landscape-left"
     | "landscape-right"
   >("portrait");
+  const [flash, setFlash] = useState<"on" | "off" | "auto">("off");
 
   useEffect(() => {
     Accelerometer.setUpdateInterval(300);
@@ -26,14 +27,7 @@ export default function useViewModel() {
     const subscription = Accelerometer.addListener((accelerometerData) => {
       const { x, y } = accelerometerData;
 
-      // Determinar orientação baseada na gravidade
-      // Corrigido para iOS - valores invertidos
-      // y < -0.6: portrait (normal) - gravidade para baixo no iOS
-      // y > 0.6: portrait-upside-down - gravidade para cima no iOS
-      // x < -0.6: landscape-right - gravidade para direita no iOS
-      // x > 0.6: landscape-left - gravidade para esquerda no iOS
-
-      const threshold = 0.6; // Limiar para evitar mudanças muito sensíveis
+      const threshold = 0.6;
 
       if (Math.abs(y) > Math.abs(x)) {
         if (y < -threshold) {
@@ -85,6 +79,20 @@ export default function useViewModel() {
     }
   };
 
+  const handleToggleFlashMode = () => {
+    setFlash((prevFlashMode) => {
+      switch (prevFlashMode) {
+        case "off":
+          return "on";
+        case "on":
+          return "auto";
+        case "auto":
+        default:
+          return "off";
+      }
+    });
+  };
+
   return {
     hasPermission,
     requestPermission,
@@ -94,5 +102,8 @@ export default function useViewModel() {
     isCapturing,
     orientation,
     capturePhoto,
+    flash,
+    setFlash,
+    handleToggleFlashMode,
   };
 }

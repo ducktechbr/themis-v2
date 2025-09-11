@@ -1,3 +1,4 @@
+import { MaterialIcons } from "@expo/vector-icons";
 import { CameraView } from "expo-camera";
 import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 
@@ -13,7 +14,9 @@ export const Camera = () => {
     cameraRef,
     isCapturing,
     orientation,
+    flash,
     capturePhoto,
+    handleToggleFlashMode,
   } = useViewModel();
 
   if (!hasPermission) {
@@ -36,29 +39,50 @@ export const Camera = () => {
 
   return (
     <View className="flex-1">
-      <CameraView ref={cameraRef} style={{ flex: 1 }} />
+      <CameraView ref={cameraRef} style={{ flex: 1 }} flash={flash} />
 
       <View className="absolute inset-0">
         <View className="flex-1 bg-black/50" />
         <View className="h-[65%]">
-          <View className="absolute top-4 right-4 bg-black/60 px-3 py-2 rounded-lg flex-row items-center">
-            <Icon
-              name={
-                orientation.includes("portrait")
-                  ? "Smartphone"
-                  : "TabletSmartphone"
-              }
-              size={16}
-              color="white"
-            />
-            <Text className="text-white text-xs font-medium ml-2 capitalize">
-              {orientation === "portrait" && "Retrato"}
-              {orientation === "portrait-upside-down" && "Retrato Invertido"}
-              {orientation === "landscape-left" && "Paisagem ←"}
-              {orientation === "landscape-right" && "Paisagem →"}
-            </Text>
+          <View className="flex-row items-center justify-between px-4 pt-1">
+            <TouchableOpacity
+              className={cn(
+                "items-center justify-center border border-white rounded-full p-1",
+                flash === "on" && "bg-white/20",
+                flash === "auto" && "bg-yellow-500/30"
+              )}
+              onPress={handleToggleFlashMode}
+            >
+              <MaterialIcons
+                name={
+                  flash === "on"
+                    ? "flash-on"
+                    : flash === "off"
+                    ? "flash-off"
+                    : "flash-auto"
+                }
+                size={20}
+                color={flash === "auto" ? "yellow" : "white"}
+              />
+            </TouchableOpacity>
+            <View className="bg-black/60 px-3 py-2 rounded-lg flex-row items-center">
+              <Icon
+                name={
+                  orientation.includes("portrait")
+                    ? "Smartphone"
+                    : "TabletSmartphone"
+                }
+                size={16}
+                color="white"
+              />
+              <Text className="text-white text-xs font-medium ml-2 capitalize">
+                {orientation === "portrait" && "Retrato"}
+                {orientation === "portrait-upside-down" && "Retrato Invertido"}
+                {orientation === "landscape-left" && "Paisagem ←"}
+                {orientation === "landscape-right" && "Paisagem →"}
+              </Text>
+            </View>
           </View>
-
           <View className="absolute bottom-8 left-0 right-0 items-center">
             <Text className="text-white text-center text-sm font-medium bg-black/30 px-4 py-2 rounded-lg">
               Posicione o item dentro da área
