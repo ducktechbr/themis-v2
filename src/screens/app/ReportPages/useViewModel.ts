@@ -26,7 +26,7 @@ export default function useViewModel() {
     data: reportPages,
     isPending,
     error,
-    refetch,
+    refetch: refetchReport,
   } = useGetReportPages(reportId!);
 
   useEffect(() => {
@@ -37,8 +37,8 @@ export default function useViewModel() {
 
   useFocusEffect(
     useCallback(() => {
-      refetch();
-    }, [refetch])
+      refetchReport();
+    }, [refetchReport])
   );
 
   return {
@@ -52,5 +52,6 @@ export default function useViewModel() {
     coordinatesError,
     retryLocation,
     checkLocationPermission,
+    refetchReport,
   };
 }

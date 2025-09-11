@@ -10,6 +10,7 @@ type SectionActionDialogProps = {
   onClose: () => void;
   sectionTitle: string;
   action: "duplicate" | "rename";
+  refetchReport: () => void;
 };
 
 export const SectionActionDialog = ({
@@ -17,6 +18,7 @@ export const SectionActionDialog = ({
   onClose,
   sectionTitle,
   action,
+  refetchReport,
 }: SectionActionDialogProps) => {
   const [newSectionName, setNewSectionName] = useState("");
   const [loading, setLoading] = useState(false);
@@ -26,6 +28,7 @@ export const SectionActionDialog = ({
     onSuccess: () => {
       setNewSectionName("");
       setLoading(false);
+      refetchReport();
       onClose();
     },
     onError: () => {
@@ -38,6 +41,7 @@ export const SectionActionDialog = ({
     onSuccess: () => {
       setNewSectionName("");
       setLoading(false);
+      refetchReport();
       onClose();
     },
     onError: () => {

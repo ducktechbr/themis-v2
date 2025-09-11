@@ -11,9 +11,13 @@ type SectionEntry = [string, Section];
 
 type ReportPagesListProps = {
   reportPages: ReportPages;
+  refetchReport: () => void;
 };
 
-export const ReportPagesList = ({ reportPages }: ReportPagesListProps) => {
+export const ReportPagesList = ({
+  reportPages,
+  refetchReport,
+}: ReportPagesListProps) => {
   const sections: SectionEntry[] = Object.entries(reportPages);
   const { reportId } = useReportStore();
   const { navigate } = useAppNavigation();
@@ -54,7 +58,9 @@ export const ReportPagesList = ({ reportPages }: ReportPagesListProps) => {
         ItemSeparatorComponent={() => <View className="my-3" />}
         contentContainerStyle={{ paddingBottom: 20 }}
         showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => <ListItem item={item} />}
+        renderItem={({ item }) => (
+          <ListItem item={item} refetchReport={refetchReport} />
+        )}
         ListFooterComponent={() => (
           <View className="mt-6 ">
             <MainButton

@@ -6,12 +6,13 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
+import { SectionActionDialog } from "./SectionActionDialog";
+
 import { Icon } from "@/components/";
 import { useAppNavigation } from "@/hooks";
 import { useReportStore } from "@/stores";
 import { Item, Section } from "@/types";
 import { cn } from "@/utils";
-import { SectionActionDialog } from "./SectionActionDialog";
 
 const SPACING = {
   HEADER_PADDING: 16,
@@ -24,9 +25,10 @@ const SPACING = {
 
 type ListItemProps = {
   item: [string, Section];
+  refetchReport: () => void;
 };
 
-export const ListItem = ({ item }: ListItemProps) => {
+export const ListItem = ({ item, refetchReport }: ListItemProps) => {
   const [title, section] = item;
   const [isOpen, setIsOpen] = useState(false);
   const [contentHeight, setContentHeight] = useState(0);
@@ -191,6 +193,7 @@ export const ListItem = ({ item }: ListItemProps) => {
         onClose={handleCloseDialog}
         sectionTitle={title}
         action={dialogAction}
+        refetchReport={refetchReport}
       />
     </View>
   );

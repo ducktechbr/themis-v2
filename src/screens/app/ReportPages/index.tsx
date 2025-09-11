@@ -16,6 +16,7 @@ export const ReportPages = () => {
     coordinatesError,
     retryLocation,
     checkLocationPermission,
+    refetchReport,
   } = useViewModel();
 
   if (isPending || isLoading) return <ScreenLoading />;
@@ -79,7 +80,10 @@ export const ReportPages = () => {
   return (
     <AppContainer>
       <View className="flex-1">
-        <ReportPagesList reportPages={reportPages} />
+        <ReportPagesList
+          reportPages={reportPages}
+          refetchReport={refetchReport}
+        />
       </View>
     </AppContainer>
   );
