@@ -1,4 +1,3 @@
-import { CommonActions } from "@react-navigation/native";
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
 import { useMemo, useState } from "react";
 import {
@@ -16,7 +15,7 @@ import { useReportStore } from "@/stores";
 import { cn } from "@/utils";
 
 export const Preview = () => {
-  const { navigate, goBack, dispatch } = useAppNavigation();
+  const { navigate, goBack } = useAppNavigation();
   const { imageAnswer, setReportStore } = useReportStore();
   const [isRotating, setIsRotating] = useState(false);
   const [currentImageUri, setCurrentImageUri] = useState(
@@ -48,7 +47,7 @@ export const Preview = () => {
         rotation = 0;
         break;
       case "portrait-upside-down":
-        rotation = 180; // 180° rotation
+        rotation = 180;
         break;
       case "landscape-left":
         rotation = 90;
@@ -209,15 +208,8 @@ export const Preview = () => {
           <MainButton
             title="Ficou boa"
             onPress={() => {
-              dispatch(
-                CommonActions.reset({
-                  index: 1,
-                  routes: [
-                    { name: "ReportQuestions" },
-                    { name: "ReportOptions" },
-                  ],
-                })
-              );
+              goBack();
+              goBack();
             }}
           />
         </View>
