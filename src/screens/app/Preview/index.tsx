@@ -1,5 +1,5 @@
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Dimensions,
   Image,
@@ -10,17 +10,28 @@ import {
 } from "react-native";
 
 import { Header, Icon, MainButton } from "@/components";
-import { useAppNavigation } from "@/hooks";
+import { useAppNavigation, useRouteParams } from "@/hooks";
 import { useReportStore } from "@/stores";
 import { cn } from "@/utils";
 
 export const Preview = () => {
-  const { navigate, goBack } = useAppNavigation();
-  const { imageAnswer, setReportStore } = useReportStore();
+  const { goBack } = useAppNavigation();
+  const { imageAnswer, setReportStore, previewImageUri } = useReportStore();
+  const params = useRouteParams<"Preview">();
+  const viewOnly = params?.viewOnly;
+
   const [isRotating, setIsRotating] = useState(false);
   const [currentImageUri, setCurrentImageUri] = useState(
-    imageAnswer?.uri || ""
+    viewOnly ? previewImageUri : imageAnswer?.uri || "",
   );
+
+  useEffect(() => {
+    return () => {
+      if (viewOnly) {
+        setReportStore({ previewImageUri: null });
+      }
+    };
+  }, [viewOnly, setReportStore]);
 
   const screenDimensions = useMemo(() => {
     const { width, height } = Dimensions.get("window");
@@ -32,7 +43,7 @@ export const Preview = () => {
   }, []);
 
   const imageStyle = useMemo(() => {
-    if (!imageAnswer?.orientation) {
+    if (viewOnly || !imageAnswer?.orientation) {
       return {
         width: screenDimensions.width - 32,
         height: screenDimensions.height,
@@ -64,28 +75,30 @@ export const Preview = () => {
       height: screenDimensions.height,
       transform: [{ rotate: `${rotation}deg` }],
     };
-  }, [imageAnswer, screenDimensions]);
+  }, [imageAnswer, screenDimensions, viewOnly]);
 
   const rotateLeft = async () => {
-    if (!imageAnswer || isRotating) return;
+    if (!currentImageUri || isRotating) return;
 
     setIsRotating(true);
     try {
       const manipulatedImage = await manipulateAsync(
         currentImageUri,
         [{ rotate: -90 }],
-        { compress: 0.8, format: SaveFormat.JPEG }
+        { compress: 0.8, format: SaveFormat.JPEG },
       );
 
       setCurrentImageUri(manipulatedImage.uri);
 
-      const updatedImage = {
-        ...imageAnswer,
-        uri: manipulatedImage.uri,
-        width: manipulatedImage.width,
-        height: manipulatedImage.height,
-      };
-      setReportStore({ imageAnswer: updatedImage });
+      if (imageAnswer) {
+        const updatedImage = {
+          ...imageAnswer,
+          uri: manipulatedImage.uri,
+          width: manipulatedImage.width,
+          height: manipulatedImage.height,
+        };
+        setReportStore({ imageAnswer: updatedImage });
+      }
     } catch (error) {
       console.error("Error rotating image:", error);
     } finally {
@@ -94,25 +107,27 @@ export const Preview = () => {
   };
 
   const rotateRight = async () => {
-    if (!imageAnswer || isRotating) return;
+    if (!currentImageUri || isRotating) return;
 
     setIsRotating(true);
     try {
       const manipulatedImage = await manipulateAsync(
         currentImageUri,
         [{ rotate: 90 }],
-        { compress: 0.8, format: SaveFormat.JPEG }
+        { compress: 0.8, format: SaveFormat.JPEG },
       );
 
       setCurrentImageUri(manipulatedImage.uri);
 
-      const updatedImage = {
-        ...imageAnswer,
-        uri: manipulatedImage.uri,
-        width: manipulatedImage.width,
-        height: manipulatedImage.height,
-      };
-      setReportStore({ imageAnswer: updatedImage });
+      if (imageAnswer) {
+        const updatedImage = {
+          ...imageAnswer,
+          uri: manipulatedImage.uri,
+          width: manipulatedImage.width,
+          height: manipulatedImage.height,
+        };
+        setReportStore({ imageAnswer: updatedImage });
+      }
     } catch (error) {
       console.error("Error rotating image:", error);
     } finally {
@@ -120,14 +135,14 @@ export const Preview = () => {
     }
   };
 
-  if (!imageAnswer) {
+  if (!currentImageUri) {
     return (
       <SafeAreaView className="flex-1 bg-primary">
         <View className="flex-1 justify-center items-center px-4 gap-2">
           <Text className="text-white text-lg font-bold">
             Nenhuma imagem encontrada
           </Text>
-          <MainButton title="Voltar" onPress={() => navigate("Camera")} />
+          <MainButton title="Voltar" onPress={goBack} />
         </View>
       </SafeAreaView>
     );
@@ -139,41 +154,43 @@ export const Preview = () => {
         <Header renderSettings={false} />
       </View>
 
-      <View className="flex-row justify-between items-center py-4 px-4">
-        <TouchableOpacity
-          onPress={rotateLeft}
-          disabled={isRotating}
-          className={cn(
-            "p-4 rounded-full",
-            isRotating ? "bg-white/10" : "bg-white/20"
-          )}
-        >
-          <Icon
-            name="CornerUpLeft"
-            size={24}
-            color={isRotating ? "gray" : "white"}
-          />
-        </TouchableOpacity>
+      {!viewOnly && (
+        <View className="flex-row justify-between items-center py-4 px-4">
+          <TouchableOpacity
+            onPress={rotateLeft}
+            disabled={isRotating}
+            className={cn(
+              "p-4 rounded-full",
+              isRotating ? "bg-white/10" : "bg-white/20",
+            )}
+          >
+            <Icon
+              name="CornerUpLeft"
+              size={24}
+              color={isRotating ? "gray" : "white"}
+            />
+          </TouchableOpacity>
 
-        <Text className="text-white text-lg font-semibold">
-          {isRotating ? "Rotacionando imagem..." : "Rotacionar"}
-        </Text>
+          <Text className="text-white text-lg font-semibold">
+            {isRotating ? "Rotacionando imagem..." : "Rotacionar"}
+          </Text>
 
-        <TouchableOpacity
-          onPress={rotateRight}
-          disabled={isRotating}
-          className={cn(
-            "p-4 rounded-full",
-            isRotating ? "bg-white/10" : "bg-white/20"
-          )}
-        >
-          <Icon
-            name="CornerUpRight"
-            size={24}
-            color={isRotating ? "gray" : "white"}
-          />
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity
+            onPress={rotateRight}
+            disabled={isRotating}
+            className={cn(
+              "p-4 rounded-full",
+              isRotating ? "bg-white/10" : "bg-white/20",
+            )}
+          >
+            <Icon
+              name="CornerUpRight"
+              size={24}
+              color={isRotating ? "gray" : "white"}
+            />
+          </TouchableOpacity>
+        </View>
+      )}
 
       <View className="flex-1 justify-center items-center px-4">
         <View
@@ -193,27 +210,29 @@ export const Preview = () => {
         </View>
       </View>
 
-      <View className="flex-row gap-4 px-4 pb-10 mt-5">
-        <View className="flex-1">
-          <MainButton
-            title="Tirar outra"
-            onPress={() => {
-              setReportStore({ imageAnswer: null, imageSource: null });
-              goBack();
-            }}
-            variant="error"
-          />
+      {!viewOnly && (
+        <View className="flex-row gap-4 px-4 pb-10 mt-5">
+          <View className="flex-1">
+            <MainButton
+              title="Tirar outra"
+              onPress={() => {
+                setReportStore({ imageAnswer: null, imageSource: null });
+                goBack();
+              }}
+              variant="error"
+            />
+          </View>
+          <View className="flex-1">
+            <MainButton
+              title="Ficou boa"
+              onPress={() => {
+                goBack();
+                goBack();
+              }}
+            />
+          </View>
         </View>
-        <View className="flex-1">
-          <MainButton
-            title="Ficou boa"
-            onPress={() => {
-              goBack();
-              goBack();
-            }}
-          />
-        </View>
-      </View>
+      )}
     </SafeAreaView>
   );
 };

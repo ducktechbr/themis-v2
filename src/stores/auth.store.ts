@@ -1,6 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { create } from "zustand";
 
+import { useReportStore } from "./report.store";
+
 import { signIn } from "@/services/auth";
 import { User } from "@/types";
 
@@ -33,7 +35,44 @@ export const useAuthStore = create<AuthStoreProps>((set) => ({
   },
   isAuthenticated: false,
   loading: false,
-  signOut: () => set({ isAuthenticated: false }),
+  signOut: async () => {
+    try {
+      await AsyncStorage.removeItem("username");
+      await AsyncStorage.removeItem("password");
+
+      const reportStore = useReportStore.getState();
+      reportStore.setReportStore({
+        reportId: null,
+        refcod: null,
+        questionId: null,
+        imageAnswer: null,
+        imageSource: null,
+        previewImageUri: null,
+      });
+
+      set({
+        isAuthenticated: false,
+        user: {
+          id: 0,
+          entitie_id: 0,
+          idlocal: null,
+          user_group_id: 0,
+          document: "",
+          name: "",
+          email: "",
+          username: "",
+          assinatura: null,
+          last_date_login: null,
+          matricula: null,
+          device_token: "",
+          status_user: 0,
+        },
+      });
+    } catch (error) {
+      console.error("Erro ao fazer logout:", error);
+      set({ isAuthenticated: false });
+    }
+  },
   setUser: (user: User) => set({ user }),
   updateUserCoordinates: (latitude: number, longitude: number) =>
     set((state) => ({

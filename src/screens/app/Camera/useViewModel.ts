@@ -71,7 +71,7 @@ export default function useViewModel() {
         };
 
         setReportStore({ imageAnswer: imageAsset, imageSource: "camera" });
-        navigate("Preview");
+        navigate("Preview", { viewOnly: false });
       }
     } catch (error) {
       console.error("Error capturing photo:", error);

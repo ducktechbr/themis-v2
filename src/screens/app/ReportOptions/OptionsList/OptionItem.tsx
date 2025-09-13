@@ -4,6 +4,7 @@ import { Text, TouchableOpacity, View } from "react-native";
 import { AnswerModal } from "./AnswerModal";
 
 import { Icon, useToast } from "@/components";
+import { useAppNavigation } from "@/hooks";
 import { useOptionAnswer } from "@/hooks/mutations";
 import { useAuthStore, useReportStore } from "@/stores";
 import { Option } from "@/types";
@@ -23,9 +24,10 @@ export const OptionItem = ({
   shouldAutoOpen = false,
 }: OptionItemProps) => {
   const { toast } = useToast();
-  const { reportId, refcod, questionId } = useReportStore();
+  const { reportId, refcod, questionId, setReportStore } = useReportStore();
   const { user } = useAuthStore();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const { navigate } = useAppNavigation();
 
   // Abrir modal automaticamente quando a imagem é da câmera
   useEffect(() => {
@@ -62,6 +64,15 @@ export const OptionItem = ({
     setIsDialogOpen(false);
   };
 
+  const handlePreview = (e: any) => {
+    e.stopPropagation();
+    if (option.value) {
+      const imageUrl = `https://app.sistemathemis.com/${option.value}`;
+      setReportStore({ previewImageUri: imageUrl });
+      navigate("Preview", { viewOnly: true });
+    }
+  };
+
   return (
     <>
       <TouchableOpacity
@@ -85,11 +96,18 @@ export const OptionItem = ({
           </Text>
         </View>
 
-        <Icon
-          name={isFulfilled ? "CircleCheck" : "Circle"}
-          size={20}
-          color={isFulfilled ? "white" : "black"}
-        />
+        <View className="flex-row items-center">
+          {isFulfilled && option.type === "image" && option.value && (
+            <TouchableOpacity onPress={handlePreview} className="mr-3">
+              <Icon name="Eye" size={24} color="white" />
+            </TouchableOpacity>
+          )}
+          <Icon
+            name={isFulfilled ? "CircleCheck" : "Circle"}
+            size={20}
+            color={isFulfilled ? "white" : "black"}
+          />
+        </View>
       </TouchableOpacity>
 
       <AnswerModal

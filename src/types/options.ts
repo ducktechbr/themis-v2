@@ -11,6 +11,7 @@ export type Option = {
   option: string;
   type: OptionTypeEnum;
   fulfilled?: boolean;
+  value?: string;
 };
 
 export type OptionsResponse = {

@@ -17,6 +17,7 @@ type ReportStore = {
   questionId: number | null;
   imageAnswer: ImageAssetWithOrientation | null;
   imageSource: "camera" | "gallery" | null;
+  previewImageUri: string | null;
   setReportStore: (data: Partial<ReportStore>) => void;
 };
 
@@ -26,5 +27,6 @@ export const useReportStore = create<ReportStore>((set) => ({
   questionId: null,
   imageAnswer: null,
   imageSource: null,
+  previewImageUri: null,
   setReportStore: (data) => set((state) => ({ ...state, ...data })),
 }));
