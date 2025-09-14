@@ -24,7 +24,7 @@ export const getReports = async (): Promise<Report[]> => {
 };
 
 export const getReportPages = async (
-  reportId: number
+  reportId: number,
 ): Promise<ReportPages> => {
   try {
     const formData = new FormData();
@@ -40,7 +40,7 @@ export const getReportPages = async (
 
 export const getReportQuestions = async (
   reportId: number,
-  refcod: number
+  refcod: number,
 ): Promise<ReportQuestions> => {
   try {
     const formData = new FormData();
@@ -58,7 +58,7 @@ export const getReportQuestions = async (
 export const getReportOptions = async (
   reportId: number,
   refcod: number,
-  questionId: number
+  questionId: number,
 ): Promise<OptionsResponse> => {
   try {
     const formData = new FormData();
@@ -75,7 +75,7 @@ export const getReportOptions = async (
 };
 
 export const sendQuestionAnswer = async (
-  params: AnswerParams
+  params: AnswerParams,
 ): Promise<AnswerResponse> => {
   try {
     const formData = new FormData();
@@ -97,7 +97,7 @@ export const sendQuestionAnswer = async (
 };
 
 export const startReportFill = async (
-  reportId: number
+  reportId: number,
 ): Promise<{ success: boolean; message?: string }> => {
   try {
     const formData = new FormData();
@@ -153,7 +153,7 @@ export const renameSection = async (params: {
 };
 
 export const finishReport = async (
-  reportId: number
+  reportId: number,
 ): Promise<{ success: boolean; message?: string }> => {
   try {
     const formData = new FormData();

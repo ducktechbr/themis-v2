@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { GestureResponderEvent, Text, TouchableOpacity, View } from "react-native";
 
 import { AnswerModal } from "./AnswerModal";
 
@@ -64,7 +64,7 @@ export const OptionItem = ({
     setIsDialogOpen(false);
   };
 
-  const handlePreview = (e: any) => {
+  const handlePreview = (e: GestureResponderEvent) => {
     e.stopPropagation();
     if (option.value) {
       const imageUrl = `https://app.sistemathemis.com/${option.value}`;
