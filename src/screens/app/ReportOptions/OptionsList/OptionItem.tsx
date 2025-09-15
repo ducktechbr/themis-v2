@@ -1,3 +1,4 @@
+import { useIsFocused } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import {
   GestureResponderEvent,
@@ -33,12 +34,13 @@ export const OptionItem = ({
   const { user } = useAuthStore();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { navigate } = useAppNavigation();
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    if (shouldAutoOpen) {
+    if (shouldAutoOpen && isFocused) {
       setIsDialogOpen(true);
     }
-  }, [shouldAutoOpen]);
+  }, [shouldAutoOpen, isFocused]);
 
   const isFulfilled =
     option.fulfilled || (questionId ? option.fulfilled : false);
