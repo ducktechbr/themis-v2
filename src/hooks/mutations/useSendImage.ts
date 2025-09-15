@@ -20,7 +20,7 @@ export const useSendImage = ({
   onError,
 }: {
   onSuccess: () => void;
-  onError: () => void;
+  onError: (error?: string) => void;
 }) => {
   const queryClient = useQueryClient();
 
@@ -35,8 +35,16 @@ export const useSendImage = ({
       });
       onSuccess();
     },
-    onError: () => {
-      onError();
+    onError: (error) => {
+      console.error("Erro no upload:", error);
+      // Tratamento específico de erros
+      if (error.message.includes("Network Error")) {
+        onError("Erro de conexão. Verifique sua internet e tente novamente.");
+      } else if (error.message.includes("timeout")) {
+        onError("Upload demorou muito. Tente novamente.");
+      } else {
+        onError("Erro ao enviar imagem. Tente novamente.");
+      }
     },
   });
 };

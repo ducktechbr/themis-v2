@@ -48,8 +48,8 @@ export const AnswerModal = ({
       setIsDialogOpen(false);
       setReportStore({ imageAnswer: null });
     },
-    onError: () => {
-      Alert.alert("Erro ao enviar imagem");
+    onError: (errorMessage) => {
+      Alert.alert("Erro ao enviar imagem", errorMessage || "Tente novamente.");
     },
   });
   const { setReportStore } = useReportStore();

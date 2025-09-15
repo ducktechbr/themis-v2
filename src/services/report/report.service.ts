@@ -1,6 +1,23 @@
 import { ImagePickerAsset } from "expo-image-picker";
+import { Platform } from "react-native";
 
 import { axiosInstance } from "../config";
+
+type ImageFormDataObject = {
+  uri: string;
+  type: string;
+  name: string;
+};
+
+const createImageFormDataObject = (
+  uri: string,
+  mimeType: string,
+  fileName: string,
+): ImageFormDataObject => ({
+  uri,
+  type: mimeType,
+  name: fileName,
+});
 
 import {
   AnswerParams,
@@ -168,6 +185,36 @@ export const finishReport = async (
   }
 };
 
+const normalizeUriForAndroid = (uri: string): string => {
+  console.log("URI original:", uri);
+
+  if (Platform.OS === "android") {
+    let normalizedUri = uri;
+
+    if (uri.startsWith("content://")) {
+      return normalizedUri;
+    }
+
+    if (uri.startsWith("file:/") && !uri.startsWith("file:///")) {
+      normalizedUri = uri.replace("file:/", "file:///");
+      return normalizedUri;
+    }
+
+    if (uri.startsWith("file:///")) {
+      return normalizedUri;
+    }
+
+    if (!uri.startsWith("file://") && !uri.startsWith("content://")) {
+      normalizedUri = `file://${uri}`;
+      return normalizedUri;
+    }
+
+    return normalizedUri;
+  }
+
+  return uri;
+};
+
 export const sendImage = async (params: {
   reportId: number;
   refcod: number;
@@ -185,11 +232,28 @@ export const sendImage = async (params: {
     formData.append("question", String(params.questionId));
     formData.append("option", String(params.optionId));
 
-    formData.append("image", {
-      uri: params.image.uri,
-      type: params.image.type || "image/jpeg",
-      name: params.image.fileName || "image.jpg",
-    });
+    const normalizedUri = normalizeUriForAndroid(params.image.uri);
+
+    let mimeType = params.image.type || "image/jpeg";
+    if (mimeType === "image") {
+      const fileName = params.image.fileName || "";
+      if (fileName.toLowerCase().includes(".png")) {
+        mimeType = "image/png";
+      } else if (fileName.toLowerCase().includes(".gif")) {
+        mimeType = "image/gif";
+      } else {
+        mimeType = "image/jpeg";
+      }
+    }
+
+    const imageObject = createImageFormDataObject(
+      normalizedUri,
+      mimeType,
+      params.image.fileName || `image_${Date.now()}.jpg`,
+    );
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    formData.append("image", imageObject as any);
 
     if (params.latitude !== undefined) {
       formData.append("latitude", String(params.latitude));
@@ -198,7 +262,23 @@ export const sendImage = async (params: {
       formData.append("longitude", String(params.longitude));
     }
 
-    const { data } = await axiosInstance.post("/", formData);
+    const config =
+      Platform.OS === "android"
+        ? {
+            timeout: 60000,
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        : {
+            timeout: 60000,
+            headers: {
+              "Content-Type": undefined,
+            },
+          };
+
+    const { data } = await axiosInstance.post("/", formData, config);
+
     return data;
   } catch (error) {
     console.log(error);
