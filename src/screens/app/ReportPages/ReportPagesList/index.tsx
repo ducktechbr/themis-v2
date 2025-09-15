@@ -1,10 +1,10 @@
-import { Alert, FlatList, View } from "react-native";
+import { Alert, FlatList, Text, View } from "react-native";
 
 import { ListItem } from "./ListItem";
 
 import { MainButton, useToast } from "@/components";
 import { useAppNavigation, useFinishReport } from "@/hooks";
-import { useReportStore } from "@/stores";
+import { useAuthStore, useReportStore } from "@/stores";
 import { ReportPages, Section } from "@/types";
 
 type SectionEntry = [string, Section];
@@ -19,9 +19,11 @@ export const ReportPagesList = ({
   refetchReport,
 }: ReportPagesListProps) => {
   const sections: SectionEntry[] = Object.entries(reportPages);
-  const { reportId } = useReportStore();
+  const { reportId, responsibleId } = useReportStore();
+  const { user } = useAuthStore();
   const { navigate } = useAppNavigation();
   const { toast } = useToast();
+  const canFinishReport = responsibleId !== user.id;
   const { mutate: finishReport, isPending } = useFinishReport({
     onSuccess: () => {
       toast("Relatório finalizado com sucesso!", "success");
@@ -34,8 +36,8 @@ export const ReportPagesList = ({
 
   const handleFinishReport = () => {
     Alert.alert(
-      "Finalizar Relatório",
-      "Tem certeza que deseja finalizar este relatório? Esta ação não pode ser desfeita.",
+      "Finalizar ordem de serviço",
+      "Tem certeza que deseja finalizar esta ordem de serviço? Esta ação só poderá ser desfeita pelo administrador.",
       [
         {
           text: "Cancelar",
@@ -46,7 +48,7 @@ export const ReportPagesList = ({
           style: "destructive",
           onPress: () => finishReport(reportId!),
         },
-      ]
+      ],
     );
   };
 
@@ -62,13 +64,20 @@ export const ReportPagesList = ({
           <ListItem item={item} refetchReport={refetchReport} />
         )}
         ListFooterComponent={() => (
-          <View className="mt-6 ">
-            <MainButton
-              title="Finalizar Relatório"
-              onPress={handleFinishReport}
-              disabled={isPending}
-              variant="dark"
-            />
+          <View className="mb-10 mt-6">
+            {canFinishReport && (
+              <MainButton
+                title="Finalizar ordem de serviço"
+                onPress={handleFinishReport}
+                disabled={isPending}
+                variant="dark"
+              />
+            )}
+            {!canFinishReport && (
+              <Text className="text-neutral-600 text-center">
+                Somente o técnico responsável pode finalizar a ordem de serviço.
+              </Text>
+            )}
           </View>
         )}
       />

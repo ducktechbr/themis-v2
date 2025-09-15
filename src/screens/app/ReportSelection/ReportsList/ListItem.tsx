@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 
 import { useReportStore } from "@/stores";
 import { Report } from "@/types";
@@ -14,10 +14,15 @@ export const ListItem = ({ report }: ListItemProps) => {
     <TouchableOpacity
       className={cn(
         "rounded p-2 gap-2",
-        reportId === report.id_service_order ? "bg-success" : "bg-zinc-100"
+        reportId === report.id_service_order ? "bg-success" : "bg-zinc-100",
       )}
       style={{ shadowOpacity: 0.3, shadowOffset: { width: 5, height: 5 } }}
-      onPress={() => setReportStore({ reportId: report.id_service_order })}
+      onPress={() =>
+        setReportStore({
+          reportId: report.id_service_order,
+          responsibleId: report.user_id,
+        })
+      }
     >
       <View className="flex-row gap-2 items-center">
         <Text
@@ -25,7 +30,7 @@ export const ListItem = ({ report }: ListItemProps) => {
             "uppercase",
             reportId === report.id_service_order
               ? "text-neutral-300"
-              : "text-neutral-700"
+              : "text-neutral-700",
           )}
         >
           documento:
@@ -35,7 +40,7 @@ export const ListItem = ({ report }: ListItemProps) => {
             "uppercase font-semibold",
             reportId === report.id_service_order
               ? "text-neutral-300"
-              : "text-neutral-700"
+              : "text-neutral-700",
           )}
         >
           {report.type_service_order}
@@ -47,7 +52,7 @@ export const ListItem = ({ report }: ListItemProps) => {
             "uppercase",
             reportId === report.id_service_order
               ? "text-neutral-300"
-              : "text-neutral-700"
+              : "text-neutral-700",
           )}
         >
           agência:
@@ -57,7 +62,7 @@ export const ListItem = ({ report }: ListItemProps) => {
             "uppercase font-semibold",
             reportId === report.id_service_order
               ? "text-neutral-300"
-              : "text-neutral-700"
+              : "text-neutral-700",
           )}
         >
           {report.uniorg}
@@ -69,7 +74,7 @@ export const ListItem = ({ report }: ListItemProps) => {
             "uppercase",
             reportId === report.id_service_order
               ? "text-neutral-300"
-              : "text-neutral-700"
+              : "text-neutral-700",
           )}
         >
           local:
@@ -79,7 +84,7 @@ export const ListItem = ({ report }: ListItemProps) => {
             "uppercase font-semibold",
             reportId === report.id_service_order
               ? "text-neutral-300"
-              : "text-neutral-700"
+              : "text-neutral-700",
           )}
         >
           {report.local}
@@ -91,7 +96,7 @@ export const ListItem = ({ report }: ListItemProps) => {
             "uppercase",
             reportId === report.id_service_order
               ? "text-neutral-300"
-              : "text-neutral-700"
+              : "text-neutral-700",
           )}
         >
           n˚ de serviço:
@@ -101,7 +106,7 @@ export const ListItem = ({ report }: ListItemProps) => {
             "uppercase font-semibold",
             reportId === report.id_service_order
               ? "text-neutral-300"
-              : "text-neutral-700"
+              : "text-neutral-700",
           )}
         >
           {report.id_service_order}

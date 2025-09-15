@@ -17,7 +17,7 @@ type HeaderProps = {
 export const Header = ({ renderSettings = true }: HeaderProps) => {
   const route = useRoute();
   const screenDisplayName = getScreenDisplayName(
-    route.name as keyof RouteParams
+    route.name as keyof RouteParams,
   );
   const { goBack } = useAppNavigation();
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -66,7 +66,7 @@ export const Header = ({ renderSettings = true }: HeaderProps) => {
               <Text
                 className={cn(
                   "font-semibold text-lg",
-                  action.title === "Sair" && "text-red-500"
+                  action.title === "Sair" && "text-red-500",
                 )}
               >
                 {action.title}
@@ -78,6 +78,7 @@ export const Header = ({ renderSettings = true }: HeaderProps) => {
               />
             </TouchableOpacity>
           ))}
+          <Text className="text-right text-sm text-gray-500">v2.0.0</Text>
         </DialogContent>
       </Dialog>
     </>
