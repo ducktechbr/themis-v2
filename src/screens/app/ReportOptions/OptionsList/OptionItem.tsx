@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { GestureResponderEvent, Text, TouchableOpacity, View } from "react-native";
+import {
+  GestureResponderEvent,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 import { AnswerModal } from "./AnswerModal";
 
@@ -29,7 +34,6 @@ export const OptionItem = ({
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { navigate } = useAppNavigation();
 
-  // Abrir modal automaticamente quando a imagem é da câmera
   useEffect(() => {
     if (shouldAutoOpen) {
       setIsDialogOpen(true);
@@ -80,14 +84,14 @@ export const OptionItem = ({
         disabled={isPending}
         className={cn(
           "flex-row justify-between items-center rounded-lg p-4 mb-3 min-h-16",
-          isFulfilled ? "bg-success" : "bg-white"
+          isFulfilled ? "bg-success" : "bg-white",
         )}
       >
         <View className="flex-1 mr-3">
           <Text
             className={cn(
               "text-base font-medium",
-              isFulfilled ? "text-white" : "text-black"
+              isFulfilled ? "text-white" : "text-black",
             )}
             numberOfLines={2}
             ellipsizeMode="tail"
@@ -120,6 +124,7 @@ export const OptionItem = ({
         refcod={refcod!}
         questionId={questionId!}
         optionId={optionIndex}
+        loading={isPending}
       />
     </>
   );

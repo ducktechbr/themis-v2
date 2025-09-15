@@ -4,7 +4,7 @@ import { User } from "@/types";
 
 export const signIn = async (
   username: string,
-  password: string
+  password: string,
 ): Promise<User> => {
   try {
     const formData = new FormData();

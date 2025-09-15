@@ -23,6 +23,7 @@ type AnswerModalProps = {
   refcod: number;
   questionId: number;
   optionId: number;
+  loading: boolean;
 };
 
 export const AnswerModal = ({
@@ -35,6 +36,7 @@ export const AnswerModal = ({
   refcod,
   questionId,
   optionId,
+  loading,
 }: AnswerModalProps) => {
   const [inputValue, setInputValue] = useState("");
   const { user } = useAuthStore();
@@ -146,15 +148,28 @@ export const AnswerModal = ({
         {renderAnswerInput()}
 
         <View className="flex-row gap-2 justify-center w-[50%] mx-auto">
-          <MainButton
-            title="Enviar"
-            onPress={handleSubmit}
-            disabled={
-              isSendingImage ||
-              (option.type === OptionTypeEnum.IMAGE && !imageAnswer)
-            }
-          />
-          <MainButton title="Cancelar" onPress={handleCancel} variant="error" />
+          {loading ||
+            (isSendingImage && (
+              <Text className="text-center p-3">Enviando...</Text>
+            ))}
+          {!loading && !isSendingImage && (
+            <>
+              <MainButton
+                title="Cancelar"
+                onPress={handleCancel}
+                variant="error"
+              />
+              <MainButton
+                title="Enviar"
+                onPress={handleSubmit}
+                disabled={
+                  loading ||
+                  isSendingImage ||
+                  (option.type === OptionTypeEnum.IMAGE && !imageAnswer)
+                }
+              />
+            </>
+          )}
         </View>
       </DialogContent>
     </Dialog>

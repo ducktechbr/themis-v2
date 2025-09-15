@@ -70,7 +70,7 @@ export const MainButton = ({
     <TouchableOpacity
       className={cn(
         "justify-center items-center h-14 rounded-lg w-full",
-        getButtonStyle()
+        getButtonStyle(),
       )}
       onPress={onPress}
       disabled={disabled}
