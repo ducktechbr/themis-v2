@@ -1,13 +1,7 @@
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
 import { useEffect, useMemo, useState } from "react";
-import {
-  Dimensions,
-  Image,
-  SafeAreaView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Dimensions, Image, Text, TouchableOpacity, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Header, Icon, MainButton } from "@/components";
 import { useAppNavigation, useRouteParams } from "@/hooks";

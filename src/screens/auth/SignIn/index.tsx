@@ -1,12 +1,12 @@
 import {
   Image,
   Keyboard,
-  SafeAreaView,
   TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import useViewModel from "./useViewModel";
 

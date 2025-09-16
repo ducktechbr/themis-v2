@@ -1,12 +1,13 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import { CameraView } from "expo-camera";
-import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import {
   PanGestureHandler,
   PinchGestureHandler,
   State,
 } from "react-native-gesture-handler";
 import Animated from "react-native-reanimated";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import useViewModel from "./useViewModel";
 
@@ -89,7 +90,7 @@ export const Camera = () => {
               className={cn(
                 "items-center justify-center border border-white rounded-full p-1",
                 flash === "on" && "bg-white/20",
-                flash === "auto" && "bg-yellow-500/30"
+                flash === "auto" && "bg-yellow-500/30",
               )}
               onPress={handleToggleFlashMode}
             >
@@ -98,8 +99,8 @@ export const Camera = () => {
                   flash === "on"
                     ? "flash-on"
                     : flash === "off"
-                    ? "flash-off"
-                    : "flash-auto"
+                      ? "flash-off"
+                      : "flash-auto"
                 }
                 size={20}
                 color={flash === "auto" ? "yellow" : "white"}
@@ -160,7 +161,7 @@ export const Camera = () => {
           <View
             className={cn(
               "w-10 h-10 rounded-full",
-              isCapturing ? "bg-gray-400" : "bg-primary"
+              isCapturing ? "bg-gray-400" : "bg-primary",
             )}
           />
         </TouchableOpacity>
@@ -168,7 +169,7 @@ export const Camera = () => {
         <Text
           className={cn(
             "text-white text-sm mt-2 text-center flex-1",
-            !isCapturing ? "opacity-0" : "opacity-100"
+            !isCapturing ? "opacity-0" : "opacity-100",
           )}
         >
           Capturando...
