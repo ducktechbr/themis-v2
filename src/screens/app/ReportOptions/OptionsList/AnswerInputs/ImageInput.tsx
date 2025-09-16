@@ -4,15 +4,18 @@ import { Image, Text, TouchableOpacity, View } from "react-native";
 import { Icon } from "@/components";
 import { useAppNavigation } from "@/hooks";
 import { useReportStore } from "@/stores";
+import { cn } from "@/utils";
 
 type ImageInputProps = {
   onClose: () => void;
   label?: string;
+  enableGalleryUploads: number;
 };
 
 export const ImageAnswerInput = ({
   onClose,
-  label = "Upload de imagem:",
+  label = "Upload de imagem via:",
+  enableGalleryUploads,
 }: ImageInputProps) => {
   const { navigate } = useAppNavigation();
   const { setReportStore, imageAnswer, imageSource } = useReportStore();
@@ -36,26 +39,38 @@ export const ImageAnswerInput = ({
 
   return (
     <View className="w-full">
-      <Text className="text-dark text-sm font-medium mb-2">{label}</Text>
+      <Text
+        className={cn(
+          "text-dark text-sm font-medium mb-2",
+          enableGalleryUploads === 1 ? "" : "text-center",
+        )}
+      >
+        {label}
+      </Text>
       <View className="flex-row gap-2">
+        {enableGalleryUploads === 1 && (
+          <TouchableOpacity
+            className="items-center border h-24 flex-1 justify-center rounded-md"
+            onPress={pickImage}
+          >
+            {imageAnswer && imageSource === "gallery" ? (
+              <Image
+                source={{ uri: imageAnswer.uri }}
+                className="w-full h-24 rounded-md"
+              />
+            ) : (
+              <>
+                <Icon name="Image" size={20} color="black" />
+                <Text className="text-dark font-semibold">Fotos</Text>
+              </>
+            )}
+          </TouchableOpacity>
+        )}
         <TouchableOpacity
-          className="items-center border h-24 flex-1 justify-center rounded-md"
-          onPress={pickImage}
-        >
-          {imageAnswer && imageSource === "gallery" ? (
-            <Image
-              source={{ uri: imageAnswer.uri }}
-              className="w-full h-24 rounded-md"
-            />
-          ) : (
-            <>
-              <Icon name="Image" size={20} color="black" />
-              <Text className="text-dark font-semibold">Fotos</Text>
-            </>
+          className={cn(
+            "items-center border h-24 justify-center rounded-md",
+            enableGalleryUploads === 1 ? "flex-1" : "w-36 mx-auto",
           )}
-        </TouchableOpacity>
-        <TouchableOpacity
-          className="items-center border h-24 flex-1 justify-center rounded-md"
           onPress={handleCameraPress}
         >
           {imageAnswer && imageSource === "camera" ? (

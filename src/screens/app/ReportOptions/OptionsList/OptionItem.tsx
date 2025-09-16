@@ -127,6 +127,7 @@ export const OptionItem = ({
         questionId={questionId!}
         optionId={optionIndex}
         loading={isPending}
+        enableGalleryUploads={option.enable_gallery_uploads ?? 0}
       />
     </>
   );

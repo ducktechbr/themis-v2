@@ -24,6 +24,7 @@ type AnswerModalProps = {
   questionId: number;
   optionId: number;
   loading: boolean;
+  enableGalleryUploads: number;
 };
 
 export const AnswerModal = ({
@@ -37,6 +38,7 @@ export const AnswerModal = ({
   questionId,
   optionId,
   loading,
+  enableGalleryUploads,
 }: AnswerModalProps) => {
   const [inputValue, setInputValue] = useState("");
   const { user } = useAuthStore();
@@ -122,7 +124,12 @@ export const AnswerModal = ({
         );
 
       case OptionTypeEnum.IMAGE:
-        return <ImageAnswerInput onClose={() => setIsDialogOpen(false)} />;
+        return (
+          <ImageAnswerInput
+            onClose={() => setIsDialogOpen(false)}
+            enableGalleryUploads={enableGalleryUploads}
+          />
+        );
 
       case OptionTypeEnum.SELECT:
         return null;

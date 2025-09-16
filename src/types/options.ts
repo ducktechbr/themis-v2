@@ -12,6 +12,7 @@ export type Option = {
   type: OptionTypeEnum;
   fulfilled?: boolean;
   value?: string;
+  enable_gallery_uploads?: number;
 };
 
 export type OptionsResponse = {
