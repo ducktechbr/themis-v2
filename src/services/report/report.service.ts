@@ -186,8 +186,6 @@ export const finishReport = async (
 };
 
 const normalizeUriForAndroid = (uri: string): string => {
-  console.log("URI original:", uri);
-
   if (Platform.OS === "android") {
     let normalizedUri = uri;
 

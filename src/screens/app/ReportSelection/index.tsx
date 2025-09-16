@@ -6,14 +6,19 @@ import useViewModel from "./useViewModel";
 
 import empty from "@/assets/animations/empty-state.json";
 import { AppContainer, MainButton } from "@/components";
+import { useAuthStore } from "@/stores";
+import { greetings } from "@/utils";
 
 export const ReportSelection = () => {
   const { reports, isPending, navigate, reportId } = useViewModel();
-
+  const { user } = useAuthStore();
   return (
     <AppContainer>
       {!isPending && reports && reports.length > 0 && (
         <>
+          <Text className="text-white font-bold text-lg mb-2">
+            {greetings()}, {user.name}
+          </Text>
           <ReportsList reports={reports} />
           <View className="mb-5 mt-2">
             <MainButton

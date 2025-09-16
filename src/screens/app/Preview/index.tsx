@@ -37,39 +37,11 @@ export const Preview = () => {
   }, []);
 
   const imageStyle = useMemo(() => {
-    if (viewOnly || !imageAnswer?.orientation) {
-      return {
-        width: screenDimensions.width - 32,
-        height: screenDimensions.height,
-      };
-    }
-
-    const { orientation } = imageAnswer;
-    let rotation = 0;
-
-    switch (orientation) {
-      case "portrait":
-        rotation = 0;
-        break;
-      case "portrait-upside-down":
-        rotation = 180;
-        break;
-      case "landscape-left":
-        rotation = 90;
-        break;
-      case "landscape-right":
-        rotation = -90;
-        break;
-      default:
-        rotation = 0;
-    }
-
     return {
       width: screenDimensions.width - 32,
       height: screenDimensions.height,
-      transform: [{ rotate: `${rotation}deg` }],
     };
-  }, [imageAnswer, screenDimensions, viewOnly]);
+  }, [screenDimensions]);
 
   const rotateLeft = async () => {
     if (!currentImageUri || isRotating) return;
@@ -186,22 +158,12 @@ export const Preview = () => {
         </View>
       )}
 
-      <View className="flex-1 justify-center items-center px-4">
-        <View
-          style={{
-            width: screenDimensions.width - 32,
-            height: screenDimensions.height,
-            borderRadius: 8,
-            overflow: "hidden",
-          }}
-          className="justify-center items-center"
-        >
-          <Image
-            source={{ uri: currentImageUri }}
-            style={imageStyle}
-            resizeMode="contain"
-          />
-        </View>
+      <View className="flex-1 justify-center items-center">
+        <Image
+          source={{ uri: currentImageUri }}
+          style={imageStyle}
+          resizeMode="cover"
+        />
       </View>
 
       {!viewOnly && (

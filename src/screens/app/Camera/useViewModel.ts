@@ -1,6 +1,7 @@
 import { CameraView } from "expo-camera";
-import { Accelerometer } from "expo-sensors";
+import { DeviceMotion } from "expo-sensors";
 import { useEffect, useRef, useState } from "react";
+import { Platform } from "react-native";
 
 import { useAppNavigation, useCameraPermission } from "@/hooks";
 import { useReportStore } from "@/stores";
@@ -23,53 +24,108 @@ export default function useViewModel() {
   const [zoom, setZoom] = useState(0);
 
   useEffect(() => {
-    Accelerometer.setUpdateInterval(300);
+    DeviceMotion.setUpdateInterval(300);
 
-    const subscription = Accelerometer.addListener((accelerometerData) => {
-      const { x, y } = accelerometerData;
+    const subscription = DeviceMotion.addListener((deviceMotionData) => {
+      const { accelerationIncludingGravity } = deviceMotionData;
 
+      if (!accelerationIncludingGravity) {
+        return;
+      }
+
+      const { x, y } = accelerationIncludingGravity;
       const threshold = 0.6;
+      let detectedOrientation: typeof orientation = "portrait";
 
       if (Math.abs(y) > Math.abs(x)) {
         if (y < -threshold) {
-          setOrientation("portrait");
+          detectedOrientation = "portrait";
         } else if (y > threshold) {
-          setOrientation("portrait-upside-down");
+          detectedOrientation = "portrait-upside-down";
         }
       } else {
         if (x < -threshold) {
-          setOrientation("landscape-right");
+          detectedOrientation = "landscape-right";
         } else if (x > threshold) {
-          setOrientation("landscape-left");
+          detectedOrientation = "landscape-left";
         }
+      }
+
+      if (detectedOrientation !== orientation) {
+        setOrientation(detectedOrientation);
       }
     });
 
     return () => {
       subscription?.remove();
     };
-  }, []);
+  }, [orientation]);
 
   const capturePhoto = async () => {
     if (!cameraRef.current || isCapturing) return;
 
     try {
       setIsCapturing(true);
+
       const photo = await cameraRef.current.takePictureAsync({
         quality: 0.8,
       });
 
       if (photo) {
+        const needsRotation =
+          Platform.OS === "ios" && orientation !== "portrait";
+        let finalImageUri = photo.uri;
+        let finalWidth = photo.width;
+        let finalHeight = photo.height;
+
+        if (needsRotation) {
+          try {
+            let rotationDegrees = 0;
+            switch (orientation) {
+              case "landscape-left":
+                rotationDegrees = 90;
+                break;
+              case "landscape-right":
+                rotationDegrees = -90;
+                break;
+              case "portrait-upside-down":
+                rotationDegrees = 180;
+                break;
+              default:
+                rotationDegrees = 0;
+            }
+
+            const { manipulateAsync, SaveFormat } = await import(
+              "expo-image-manipulator"
+            );
+            const rotatedImage = await manipulateAsync(
+              photo.uri,
+              [{ rotate: rotationDegrees }],
+              {
+                compress: 0.8,
+                format: SaveFormat.JPEG,
+              },
+            );
+
+            finalImageUri = rotatedImage.uri;
+            finalWidth = rotatedImage.width;
+            finalHeight = rotatedImage.height;
+          } catch (error) {
+            console.error("Error rotating image:", error);
+            finalImageUri = photo.uri;
+            finalWidth = photo.width;
+            finalHeight = photo.height;
+          }
+        }
+
         const imageAsset = {
-          uri: photo.uri,
-          width: photo.width,
-          height: photo.height,
+          uri: finalImageUri,
+          width: finalWidth,
+          height: finalHeight,
           type: "image" as const,
           fileName: `camera_photo_${Date.now()}.jpg`,
           fileSize: undefined,
-          orientation: orientation,
         };
-
         setReportStore({ imageAnswer: imageAsset, imageSource: "camera" });
         navigate("Preview", { viewOnly: false });
       }
@@ -95,14 +151,12 @@ export default function useViewModel() {
   };
 
   const handleZoomChange = (newZoom: number) => {
-    // Limita o zoom entre 0 e 1 (0 = 1x, 1 = 5x)
     const clampedZoom = Math.max(0, Math.min(newZoom, 1));
     setZoom(clampedZoom);
   };
 
   const handlePinchGesture = (scale: number) => {
-    // Calcula o novo zoom baseado na escala do gesto
-    const sensitivity = 0.015; // Sensibilidade reduzida para controle mais suave
+    const sensitivity = 0.015;
     const zoomIncrement = (scale - 1) * sensitivity;
     const newZoom = zoom + zoomIncrement;
     handleZoomChange(newZoom);
