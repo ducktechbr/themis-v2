@@ -37,17 +37,17 @@ export const MainButton = ({
   }
 
   const getButtonStyle = () => {
-    if (disabled) return "bg-neutral-500";
+    if (disabled) return "bg-neutral-800";
 
     switch (variant) {
       case "success":
-        return "bg-success";
+        return "bg-secondary border-2 border-success";
       case "error":
-        return "bg-red-500";
+        return "bg-secondary border-2 border-error";
       case "dark":
         return "bg-dark";
       default:
-        return "bg-success";
+        return "bg-secondary border-2 border-ascent";
     }
   };
 
@@ -56,13 +56,13 @@ export const MainButton = ({
 
     switch (variant) {
       case "success":
-        return "text-white";
+        return "text-success";
       case "error":
-        return "text-white";
+        return "text-error";
       case "dark":
         return "text-white";
       default:
-        return "text-white";
+        return "text-ascent";
     }
   };
 

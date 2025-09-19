@@ -121,7 +121,7 @@ export const Preview = () => {
       </View>
 
       {!viewOnly && (
-        <View className="flex-row justify-between items-center py-4 px-4">
+        <View className="flex-row justify-between items-center py-4 px-4 mb-5">
           <TouchableOpacity
             onPress={rotateLeft}
             disabled={isRotating}

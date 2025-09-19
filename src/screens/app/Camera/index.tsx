@@ -161,7 +161,7 @@ export const Camera = () => {
           <View
             className={cn(
               "w-10 h-10 rounded-full",
-              isCapturing ? "bg-gray-400" : "bg-primary",
+              isCapturing ? "bg-gray-400" : "bg-ascent",
             )}
           />
         </TouchableOpacity>

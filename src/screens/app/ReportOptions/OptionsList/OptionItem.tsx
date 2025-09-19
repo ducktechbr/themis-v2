@@ -85,15 +85,15 @@ export const OptionItem = ({
         onPress={() => setIsDialogOpen(true)}
         disabled={isPending}
         className={cn(
-          "flex-row justify-between items-center rounded-lg p-4 mb-3 min-h-16",
-          isFulfilled ? "bg-success" : "bg-white",
+          "flex-row justify-between items-center rounded-lg p-4 mb-3 min-h-16 border-2 bg-secondary",
+          isFulfilled ? "border-ascent" : "border-neutral-700",
         )}
       >
         <View className="flex-1 mr-3">
           <Text
             className={cn(
               "text-base font-medium",
-              isFulfilled ? "text-white" : "text-black",
+              isFulfilled ? "text-white" : "text-neutral-300",
             )}
             numberOfLines={2}
             ellipsizeMode="tail"
@@ -105,13 +105,13 @@ export const OptionItem = ({
         <View className="flex-row items-center">
           {isFulfilled && option.type === "image" && option.value && (
             <TouchableOpacity onPress={handlePreview} className="mr-3">
-              <Icon name="Eye" size={24} color="white" />
+              <Icon name="Eye" size={24} color="#d4d4d4" />
             </TouchableOpacity>
           )}
           <Icon
             name={isFulfilled ? "CircleCheck" : "Circle"}
             size={20}
-            color={isFulfilled ? "white" : "black"}
+            color={isFulfilled ? "#22c55e" : "#d4d4d4"}
           />
         </View>
       </TouchableOpacity>

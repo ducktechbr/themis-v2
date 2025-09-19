@@ -2,7 +2,7 @@ import { Alert, FlatList, Text, View } from "react-native";
 
 import { ListItem } from "./ListItem";
 
-import { MainButton, useToast } from "@/components";
+import { Icon, MainButton, useToast } from "@/components";
 import { useAppNavigation, useFinishReport } from "@/hooks";
 import { useAuthStore, useReportStore } from "@/stores";
 import { ReportPages, Section } from "@/types";
@@ -74,9 +74,13 @@ export const ReportPagesList = ({
               />
             )}
             {!canFinishReport && (
-              <Text className="text-neutral-600 text-center">
-                Somente o técnico responsável pode finalizar a ordem de serviço.
-              </Text>
+              <View className="items-center gap-2">
+                <Icon name="CircleAlert" size={24} color="#f3842a" />
+                <Text className="flex-1 text-ascent text-center">
+                  Somente o técnico responsável pode finalizar a ordem de
+                  serviço.
+                </Text>
+              </View>
             )}
           </View>
         )}

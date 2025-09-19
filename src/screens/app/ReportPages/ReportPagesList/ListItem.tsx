@@ -34,7 +34,7 @@ export const ListItem = ({ item, refetchReport }: ListItemProps) => {
   const [contentHeight, setContentHeight] = useState(0);
   const [dialogVisible, setDialogVisible] = useState(false);
   const [dialogAction, setDialogAction] = useState<"duplicate" | "rename">(
-    "duplicate"
+    "duplicate",
   );
   const animatedHeight = useSharedValue(0);
   const chevronRotation = useSharedValue(0);
@@ -74,7 +74,37 @@ export const ListItem = ({ item, refetchReport }: ListItemProps) => {
   };
 
   const renderContent = () => (
-    <View className="rounded-b-lg bg-white p-4">
+    <View className="rounded-b-lg bg-secondary p-4">
+      {section.duplicatable && isOpen && (
+        <View className="flex-row gap-3 mb-3">
+          <TouchableOpacity
+            className="flex-row items-center gap-2 border-2 p-2 rounded border-white flex-1"
+            onPress={handleDuplicate}
+          >
+            <Icon name="Copy" size={20} color="#d4d4d4" />
+            <Text
+              className="text-neutral-300 flex-1"
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              Duplicar
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            className="flex-row items-center gap-2 border-2 p-2 rounded border-white flex-1"
+            onPress={handleRename}
+          >
+            <Icon name="Pencil" size={20} color="#d4d4d4" />
+            <Text
+              className="text-neutral-300 flex-1"
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              Renomear
+            </Text>
+          </TouchableOpacity>
+        </View>
+      )}
       {section.itens.map((item: Item, index: number) => (
         <TouchableOpacity
           onPress={() => {
@@ -84,8 +114,10 @@ export const ListItem = ({ item, refetchReport }: ListItemProps) => {
           key={item.refcod}
           className={cn(
             "flex-row justify-between items-center rounded-lg",
-            item.fulfilled ? "bg-success" : "bg-neutral-200",
-            index !== section.itens.length - 1 && "mb-3"
+            item.fulfilled
+              ? "bg-secondary border border-ascent"
+              : "bg-secondary border-2 border-neutral-700",
+            index !== section.itens.length - 1 && "mb-3",
           )}
           style={{
             minHeight: SPACING.ITEM_MIN_HEIGHT,
@@ -94,8 +126,8 @@ export const ListItem = ({ item, refetchReport }: ListItemProps) => {
         >
           <Text
             className={cn(
-              "text-base flex-1 mr-3",
-              item.fulfilled ? "text-white" : "text-black"
+              "text-sm flex-1 mr-3",
+              item.fulfilled ? "text-white" : "text-neutral-300",
             )}
             testID="item-title"
             numberOfLines={2}
@@ -103,11 +135,13 @@ export const ListItem = ({ item, refetchReport }: ListItemProps) => {
           >
             {item.itemTitle}
           </Text>
-          {item.fulfilled ? (
-            <Icon name="CircleCheck" size={20} color="white" />
-          ) : (
-            <Icon name="Circle" size={20} color="black" />
-          )}
+          <View className="flex-shrink-0">
+            {item.fulfilled ? (
+              <Icon name="CircleCheck" size={20} color="#22c55e" />
+            ) : (
+              <Icon name="Circle" size={20} color="#d4d4d4" />
+            )}
+          </View>
         </TouchableOpacity>
       ))}
     </View>
@@ -116,8 +150,8 @@ export const ListItem = ({ item, refetchReport }: ListItemProps) => {
   return (
     <View
       className={cn(
-        section.fulfilled ? "bg-success" : "bg-white",
-        "rounded-lg shadow-sm"
+        section.fulfilled ? "border-ascent" : "border-neutral-700",
+        "rounded-lg shadow-sm bg-secondary border-2",
       )}
     >
       <Pressable
@@ -128,48 +162,29 @@ export const ListItem = ({ item, refetchReport }: ListItemProps) => {
           padding: SPACING.HEADER_PADDING,
         }}
       >
-        <View className="flex-1">
+        <View className="flex-row items-center gap-3 flex-1">
+          <Icon
+            name={section.fulfilled ? "Layers" : "Layers2"}
+            size={20}
+            color={section.fulfilled ? "#22c55e" : "#d4d4d4"}
+          />
           <Text
-            className={cn(
-              "text-base font-semibold",
-              section.fulfilled ? "text-white" : "text-black"
-            )}
+            className="text-sm font-semibold text-neutral-300 flex-1"
             numberOfLines={2}
             ellipsizeMode="tail"
           >
             {title}
           </Text>
-          {section.duplicatable && isOpen && (
-            <View className="flex-row gap-2 mt-5">
-              <TouchableOpacity
-                className="flex-row items-center gap-2 border p-1 rounded"
-                onPress={handleDuplicate}
-              >
-                <Icon name="Copy" size={20} color="black" />
-                <Text>Duplicar</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                className="flex-row items-center gap-2 border p-1 rounded"
-                onPress={handleRename}
-              >
-                <Icon name="Pencil" size={20} color="black" />
-                <Text>Renomear</Text>
-              </TouchableOpacity>
-            </View>
-          )}
         </View>
+
         <View
           className={cn(
-            "ml-3",
-            section.duplicatable && isOpen ? "self-start" : "self-center"
+            "ml-2 flex-shrink-0",
+            section.duplicatable && isOpen ? "self-start" : "self-center",
           )}
         >
           <Animated.View style={chevronStyle}>
-            <Icon
-              name="ChevronDown"
-              size={20}
-              color={section.fulfilled ? "white" : "black"}
-            />
+            <Icon name="ChevronDown" size={20} color="#d4d4d4" />
           </Animated.View>
         </View>
       </Pressable>

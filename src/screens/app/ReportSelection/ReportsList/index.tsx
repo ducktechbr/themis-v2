@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, FlatList, TextInput } from "react-native";
+import { FlatList, TextInput, View } from "react-native";
 
 import { ListItem } from "./ListItem";
 
@@ -16,14 +16,15 @@ export const ReportsList = ({ reports }: ReportsListProps) => {
     Object.values(report)
       .join(" ")
       .toLowerCase()
-      .includes(searchTerm.toLowerCase())
+      .includes(searchTerm.toLowerCase()),
   );
 
   return (
     <View className="flex-1">
       <TextInput
-        className="bg-zinc-100 p-4 text-neutral-800 font-semibold rounded shadow-xl mb-3"
-        placeholder="Buscar..."
+        className="bg-secondary p-4 text-white font-semibold rounded shadow-xl mb-3"
+        placeholder="Pesquisar"
+        placeholderTextColor="#aaa"
         value={searchTerm}
         onChangeText={setSearchTerm}
       />
