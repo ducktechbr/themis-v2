@@ -84,10 +84,10 @@ export const SignIn = () => {
             <Checkbox
               label="Me manter conectado"
               labelClasses={cn(
-                "text-neutral-300 font-semibold text-base",
+                "text-neutral-500 font-semibold text-base",
                 rememberme && "text-[#f3842a]",
               )}
-              checkboxClasses="w-5 h-5 border-2 border-neutral-300 "
+              checkboxClasses="w-5 h-5 border-2 border-neutral-500"
               checked={rememberme}
               onCheckedChange={setRememberme}
               iconColor="#f3842a"
