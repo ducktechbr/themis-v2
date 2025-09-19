@@ -166,10 +166,13 @@ export const ListItem = ({ item, refetchReport }: ListItemProps) => {
           <Icon
             name={section.fulfilled ? "Layers" : "Layers2"}
             size={20}
-            color={section.fulfilled ? "#22c55e" : "#d4d4d4"}
+            color={section.fulfilled ? "#22c55e" : "#737373"}
           />
           <Text
-            className="text-sm font-semibold text-neutral-300 flex-1"
+            className={cn(
+              "text-sm font-semibold text-neutral-300 flex-1",
+              section.fulfilled ? "text-neutral-300" : "text-neutral-500",
+            )}
             numberOfLines={2}
             ellipsizeMode="tail"
           >
@@ -184,7 +187,11 @@ export const ListItem = ({ item, refetchReport }: ListItemProps) => {
           )}
         >
           <Animated.View style={chevronStyle}>
-            <Icon name="ChevronDown" size={20} color="#d4d4d4" />
+            <Icon
+              name="ChevronDown"
+              size={20}
+              color={section.fulfilled ? "#d4d4d4" : "#737373"}
+            />
           </Animated.View>
         </View>
       </Pressable>

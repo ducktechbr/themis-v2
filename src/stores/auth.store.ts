@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Alert } from "react-native";
 import { create } from "zustand";
 
 import { useReportStore } from "./report.store";
@@ -114,7 +115,11 @@ export const useAuthStore = create<AuthStoreProps>((set) => ({
     try {
       set({ loading: true });
       const response = await signIn(username, password);
-      if (!response || response === undefined) return;
+      if (!response || response === undefined) {
+        set({ loading: false, isAuthenticated: false });
+        Alert.alert("Erro ao autenticar", "Usuário ou senha inválidos");
+        return;
+      }
       if (rememberme) {
         await AsyncStorage.setItem("username", username);
         await AsyncStorage.setItem("password", password);

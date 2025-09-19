@@ -47,11 +47,11 @@ export const SignIn = () => {
           )}
         >
           <View className="flex-row items-center w-full">
-            <View className="bg-white h-full items-center flex-row rounded-tl-lg rounded-bl-lg p-1">
-              <Icon name="User" />
+            <View className="bg-secondary h-full items-center flex-row rounded-tl-lg rounded-bl-lg p-1">
+              <Icon name="User" color="#747474" />
             </View>
             <TextInput
-              className="bg-white h-16 rounded-tr-lg rounded-br-lg text-neutral-800 font-semibold flex-1"
+              className="bg-secondary h-16 rounded-tr-lg rounded-br-lg text-neutral-300 font-semibold flex-1"
               placeholder="Usuário"
               placeholderTextColor="#747474"
               value={username}
@@ -60,11 +60,11 @@ export const SignIn = () => {
             />
           </View>
           <View className="flex-row items-center">
-            <View className="bg-white h-full items-center flex-row rounded-tl-lg rounded-bl-lg p-1">
-              <Icon name="Lock" size={22} />
+            <View className="bg-secondary h-full items-center flex-row rounded-tl-lg rounded-bl-lg p-1">
+              <Icon name="Lock" size={22} color="#747474" />
             </View>
             <TextInput
-              className="bg-white h-16  text-neutral-800 font-semibold flex-1 shadow-xl"
+              className="bg-secondary h-16  text-neutral-300 font-semibold flex-1 shadow-xl"
               placeholder="Senha"
               placeholderTextColor="#747474"
               secureTextEntry={showPassword}
@@ -74,25 +74,25 @@ export const SignIn = () => {
             />
             <TouchableOpacity
               activeOpacity={1}
-              className="bg-white h-full items-center flex-row rounded-tr-lg rounded-br-lg p-1 pr-2"
+              className="bg-secondary h-full items-center flex-row rounded-tr-lg rounded-br-lg p-1 pr-2"
               onPress={() => setShowPassword(!showPassword)}
             >
-              <Icon name={!showPassword ? "EyeOff" : "Eye"} />
+              <Icon name={!showPassword ? "EyeOff" : "Eye"} color="#747474" />
             </TouchableOpacity>
           </View>
           <TouchableOpacity onPress={() => setRememberme(!rememberme)}>
             <Checkbox
               label="Me manter conectado"
               labelClasses={cn(
-                "text-white font-semibold text-base",
-                rememberme && "text-[#2E7D32]",
+                "text-neutral-300 font-semibold text-base",
+                rememberme && "text-[#f3842a]",
               )}
-              checkboxClasses="w-5 h-5 border-2 border-white "
+              checkboxClasses="w-5 h-5 border-2 border-neutral-300 "
               checked={rememberme}
               onCheckedChange={setRememberme}
-              iconColor="#2E7D32"
+              iconColor="#f3842a"
               iconSize={14}
-              checkedBorderColor="#2E7D32"
+              checkedBorderColor="#f3842a"
             />
           </TouchableOpacity>
           <MainButton title="Entrar" onPress={handleSingIn} />
