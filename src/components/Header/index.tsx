@@ -59,13 +59,13 @@ export const Header = ({ renderSettings = true }: HeaderProps) => {
         <DialogContent>
           {settingsActions.map((action) => (
             <TouchableOpacity
-              className="flex-row justify-between items-center p-4 border-b border-primary"
+              className="flex-row justify-between items-center p-4 border-b border-neutral-700"
               key={action.title}
               onPress={action.onPress}
             >
               <Text
                 className={cn(
-                  "font-semibold text-lg",
+                  "font-semibold text-lg text-neutral-300",
                   action.title === "Sair" && "text-red-500",
                 )}
               >
@@ -74,7 +74,7 @@ export const Header = ({ renderSettings = true }: HeaderProps) => {
               <Icon
                 name="ChevronRight"
                 size={24}
-                color={action.title === "Sair" ? "red" : "black"}
+                color={action.title === "Sair" ? "red" : "white"}
               />
             </TouchableOpacity>
           ))}
