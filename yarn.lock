@@ -3403,6 +3403,13 @@ expo-sensors@~15.0.7:
   dependencies:
     invariant "^2.2.4"
 
+expo-splash-screen@^31.0.10:
+  version "31.0.10"
+  resolved "https://registry.yarnpkg.com/expo-splash-screen/-/expo-splash-screen-31.0.10.tgz#e0edd9782715b82a8eed34d5ebde778b79f850b4"
+  integrity sha512-i6g9IK798mae4yvflstQ1HkgahIJ6exzTCTw4vEdxV0J2SwiW3Tj+CwRjf0te7Zsb+7dDQhBTmGZwdv00VER2A==
+  dependencies:
+    "@expo/prebuild-config" "^54.0.3"
+
 expo-status-bar@~3.0.8:
   version "3.0.8"
   resolved "https://registry.yarnpkg.com/expo-status-bar/-/expo-status-bar-3.0.8.tgz#ada8b863a405f1619cd87a4b2b874d84e7d21ce5"

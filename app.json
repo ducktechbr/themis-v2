@@ -1,16 +1,16 @@
 {
   "expo": {
-    "name": "themis",
+    "name": "Themis",
     "slug": "themis",
     "version": "2.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "dark",
     "newArchEnabled": true,
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#09090b"
     },
     "plugins": [
       [
@@ -50,10 +50,9 @@
     },
     "android": {
       "package": "com.ducktech.themis",
-      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#09090b"
       },
       "edgeToEdgeEnabled": true,
       "permissions": [
@@ -72,9 +71,7 @@
       }
     },
     "owner": "ducktech",
-    "runtimeVersion": {
-      "policy": "appVersion"
-    },
+    "runtimeVersion": "2.0.0",
     "updates": {
       "url": "https://u.expo.dev/833ff031-580b-4c14-aeb5-8300173cc99c"
     }

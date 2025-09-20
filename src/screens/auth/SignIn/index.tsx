@@ -10,7 +10,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import useViewModel from "./useViewModel";
 
-import logo from "@/assets/images/full_logo.png";
+import logo from "@/assets/full_logo.png";
 import { Checkbox, Icon, MainButton } from "@/components";
 import { cn } from "@/utils";
 
@@ -35,7 +35,8 @@ export const SignIn = () => {
           <Image
             source={logo}
             className={cn(
-              isKeyboardOpen ? "w-[40%] h-[40%]" : "w-[55%] h-[55%]",
+              "opacity-0.5",
+              isKeyboardOpen ? "w-[40%] h-[40%]" : "w-[50%] h-[50%]",
             )}
             resizeMode="contain"
           />
