@@ -10,7 +10,7 @@ import { useAuthStore } from "@/stores";
 import { greetings } from "@/utils";
 
 export const ReportSelection = () => {
-  const { reports, isPending, navigate, reportId } = useViewModel();
+  const { reports, isPending, reportId, handleNext } = useViewModel();
   const { user } = useAuthStore();
   return (
     <AppContainer>
@@ -24,7 +24,7 @@ export const ReportSelection = () => {
             <MainButton
               title="Próximo"
               disabled={!reportId || isPending}
-              onPress={() => navigate("ReportPages")}
+              onPress={handleNext}
             />
           </View>
         </>

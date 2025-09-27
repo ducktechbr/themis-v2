@@ -129,6 +129,25 @@ export const startReportFill = async (
   }
 };
 
+export const startReport = async (
+  reportId: number,
+): Promise<{ status: string; message: string }> => {
+  try {
+    const formData = new FormData();
+    formData.append("metodo", "startServiceOrder");
+    formData.append("id_service_order", String(reportId));
+
+    const { data } = await axiosInstance.post<{
+      status: string;
+      message: string;
+    }>("/", formData);
+    return data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 export const duplicateSection = async (params: {
   documentId: number;
   sectionTitle: string;
