@@ -23,7 +23,7 @@ export const ReportPagesList = ({
   const { user } = useAuthStore();
   const { navigate } = useAppNavigation();
   const { toast } = useToast();
-  const canFinishReport = responsibleId !== user.id;
+  const canFinishReport = responsibleId == user.id;
   const { mutate: finishReport, isPending } = useFinishReport({
     onSuccess: () => {
       toast("Relatório finalizado com sucesso!", "success");
