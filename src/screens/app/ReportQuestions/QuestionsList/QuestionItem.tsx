@@ -22,15 +22,15 @@ export const QuestionItem = ({ questionId, question }: QuestionItemProps) => {
         navigate("ReportOptions");
       }}
       className={cn(
-        "bg-secondary flex-row justify-between items-center rounded-lg p-4 min-h-16 border-2",
-        question.fulfilled ? "border-ascent" : "border-neutral-700",
+        "flex-row justify-between items-center rounded-lg p-4 min-h-16 shadow-sm",
+        question.fulfilled ? "bg-success " : "bg-secondary",
       )}
     >
       <View className="flex-1 mr-3">
         <Text
           className={cn(
             "text-base font-medium",
-            question.fulfilled ? "text-white" : "text-neutral-300",
+            question.fulfilled ? "text-white" : "text-neutral-700",
           )}
           numberOfLines={2}
           ellipsizeMode="tail"
@@ -39,10 +39,8 @@ export const QuestionItem = ({ questionId, question }: QuestionItemProps) => {
         </Text>
       </View>
 
-      {question.fulfilled ? (
-        <Icon name="CircleCheck" size={20} color="#22c55e" />
-      ) : (
-        <Icon name="Circle" size={20} color="#d4d4d4" />
+      {question.fulfilled && (
+        <Icon name="CircleCheck" size={20} color="white" />
       )}
     </TouchableOpacity>
   );

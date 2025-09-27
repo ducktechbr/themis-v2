@@ -15,8 +15,8 @@ module.exports = {
         sans: ["Poppins_400Regular", "Poppins_600SemiBold", "Poppins_700Bold"],
       },
       colors: {
-        primary: "#09090b",
-        secondary: "#18181b",
+        primary: "#f4f4f5",
+        secondary: "#ffffff",
         ascent: "#f3842a",
         success: "#22c55e",
         error: "#ef4444",

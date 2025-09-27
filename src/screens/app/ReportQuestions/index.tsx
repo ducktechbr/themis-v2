@@ -11,10 +11,10 @@ export const ReportQuestions = () => {
   return (
     <AppContainer>
       <View className="px-4">
-        <Text className="text-xl font-bold mb-4 text-white">
+        <Text className="text-xl font-bold mb-4 text-neutral-700">
           {reportQuestions?.["item-title"]}
         </Text>
-        {isPending && <ActivityIndicator size="large" color="white" />}
+        {isPending && <ActivityIndicator size="large" color="black" />}
         {reportQuestions && !isPending && (
           <QuestionsList reportQuestions={reportQuestions} />
         )}

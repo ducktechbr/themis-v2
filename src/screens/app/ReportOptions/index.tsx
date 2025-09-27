@@ -32,7 +32,7 @@ export const ReportOptions = () => {
   return (
     <AppContainer>
       <View className="px-4 flex-1">
-        <Text className="text-xl font-bold mb-4 text-white">
+        <Text className="text-xl font-bold mb-4 text-neutral-700">
           {options?.question_title}
         </Text>
 

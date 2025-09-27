@@ -61,7 +61,7 @@ export const SignIn = () => {
             />
           </View>
           <View className="flex-row items-center">
-            <View className="bg-secondary h-full items-center flex-row rounded-tl-lg rounded-bl-lg p-1">
+            <View className="bg-ascent h-full items-center flex-row rounded-tl-lg rounded-bl-lg p-1">
               <Icon name="Lock" size={22} color="#747474" />
             </View>
             <TextInput

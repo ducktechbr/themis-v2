@@ -24,7 +24,7 @@ export default function App() {
     <GestureHandlerRootView>
       <QueryClientProvider client={queryClient}>
         <NavigationContainer>
-          <StatusBar style="light" />
+          <StatusBar style="dark" />
           <ToastProvider position="bottom">
             <Routes />
           </ToastProvider>

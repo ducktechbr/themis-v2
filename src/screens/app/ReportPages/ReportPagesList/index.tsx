@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Alert, FlatList, Text, View } from "react-native";
 
 import { ListItem } from "./ListItem";
@@ -24,6 +25,21 @@ export const ReportPagesList = ({
   const { navigate } = useAppNavigation();
   const { toast } = useToast();
   const canFinishReport = responsibleId == user.id;
+
+  const [highlightedSection, setHighlightedSection] = useState<{
+    title: string;
+    type: "success" | "error";
+    timestamp: number;
+  } | null>(null);
+
+  const handleSectionSuccess = (sectionTitle: string) => {
+    setHighlightedSection({
+      title: sectionTitle,
+      type: "success",
+      timestamp: Date.now(),
+    });
+  };
+
   const { mutate: finishReport, isPending } = useFinishReport({
     onSuccess: () => {
       toast("Relatório finalizado com sucesso!", "success");
@@ -61,7 +77,17 @@ export const ReportPagesList = ({
         contentContainerStyle={{ paddingBottom: 20 }}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
-          <ListItem item={item} refetchReport={refetchReport} />
+          <ListItem
+            item={item}
+            refetchReport={refetchReport}
+            highlightedItem={
+              highlightedSection?.title === item[0]
+                ? highlightedSection.title
+                : undefined
+            }
+            highlightType={highlightedSection?.type}
+            onSectionSuccess={handleSectionSuccess}
+          />
         )}
         ListFooterComponent={() => (
           <View className="mb-10 mt-6">
@@ -70,7 +96,6 @@ export const ReportPagesList = ({
                 title="Finalizar ordem de serviço"
                 onPress={handleFinishReport}
                 disabled={isPending}
-                variant="dark"
               />
             )}
             {!canFinishReport && (

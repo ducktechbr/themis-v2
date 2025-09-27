@@ -1,0 +1,35 @@
+:root {
+  /* Light Mode - Padrão */
+  --bg-primary: #ffffff;
+  --bg-cards: #f4f4f5;
+  --text-primary: #18181b;
+  --text-secondary: #71717a;
+  --lines-dividers: #e4e4e7;
+  --accent-color: #f3842a;
+
+  /* Cores adicionais para elementos específicos */
+  --sidebar-bg: #f8f9fa;
+  --sidebar-text: #18181b;
+  --sidebar-text-secondary: #6c757d;
+  --header-bg: #ffffff;
+  --card-shadow: rgba(24, 24, 27, 0.1);
+  --border-color: #e4e4e7;
+  --input-bg: #ffffff;
+  --input-border: #e4e4e7;
+  --button-bg: #f4f4f5;
+  --button-text: #18181b;
+  --hover-bg: #e9ecef;
+  --active-bg: #dee2e6;
+
+  /* Estados de botões */
+  --btn-primary-bg: var(--accent-color);
+  --btn-primary-text: #ffffff;
+  --btn-secondary-bg: #f4f4f5;
+  --btn-secondary-text: #18181b;
+
+  /* Alertas e notificações */
+  --success-color: #22c55e;
+  --warning-color: #eab308;
+  --error-color: #ef4444;
+  --info-color: #3b82f6;
+}

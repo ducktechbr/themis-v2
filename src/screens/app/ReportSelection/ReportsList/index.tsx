@@ -22,7 +22,7 @@ export const ReportsList = ({ reports }: ReportsListProps) => {
   return (
     <View className="flex-1">
       <TextInput
-        className="bg-secondary p-4 text-white font-semibold rounded shadow-xl mb-3"
+        className="bg-secondary p-4 text-white font-semibold rounded shadow-xs mb-3"
         placeholder="Pesquisar"
         placeholderTextColor="#aaa"
         value={searchTerm}

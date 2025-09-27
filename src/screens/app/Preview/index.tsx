@@ -117,7 +117,7 @@ export const Preview = () => {
   return (
     <SafeAreaView className="flex-1 bg-black">
       <View className="px-4">
-        <Header renderSettings={false} />
+        <Header renderSettings={false} darkBackground={true} />
       </View>
 
       {!viewOnly && (
@@ -181,6 +181,7 @@ export const Preview = () => {
           <View className="flex-1">
             <MainButton
               title="Ficou boa"
+              variant="success"
               onPress={() => {
                 goBack();
                 goBack();

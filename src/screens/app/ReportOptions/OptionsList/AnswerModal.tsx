@@ -142,13 +142,13 @@ export const AnswerModal = ({
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogContent>
-        <Text className="font-semibold text-xl text-neutral-300 text-center">
+        <Text className="font-semibold text-xl text-neutral-700 text-center">
           {questionTitle}
         </Text>
-        <Text className="text-neutral-300 text-lg text-center font-semibold">
+        <Text className="text-neutral-700 text-lg text-center font-semibold">
           Opção selecionada:{" "}
         </Text>
-        <Text className="text-neutral-300 font-bold text-center">
+        <Text className="text-neutral-700 font-bold text-center">
           {option.option}
         </Text>
 
@@ -157,7 +157,7 @@ export const AnswerModal = ({
         <View className="flex-row gap-2 justify-center w-[50%] mx-auto">
           {loading ||
             (isSendingImage && (
-              <Text className="text-center p-3 text-neutral-300">
+              <Text className="text-center p-3 text-neutral-700">
                 Enviando...
               </Text>
             ))}

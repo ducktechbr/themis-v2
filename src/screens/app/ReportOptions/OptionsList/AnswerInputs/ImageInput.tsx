@@ -41,7 +41,7 @@ export const ImageAnswerInput = ({
     <View className="w-full">
       <Text
         className={cn(
-          "text-neutral-300 text-sm font-medium mb-2",
+          "text-neutral-700 text-sm font-medium mb-2",
           enableGalleryUploads === 1 ? "" : "text-center",
         )}
       >
@@ -50,7 +50,7 @@ export const ImageAnswerInput = ({
       <View className="flex-row gap-2">
         {enableGalleryUploads === 1 && (
           <TouchableOpacity
-            className="items-center border h-24 flex-1 justify-center rounded-md border-neutral-300"
+            className="items-center border h-24 flex-1 justify-center rounded-md border-neutral-700"
             onPress={pickImage}
           >
             {imageAnswer && imageSource === "gallery" ? (
@@ -60,15 +60,15 @@ export const ImageAnswerInput = ({
               />
             ) : (
               <>
-                <Icon name="Image" size={20} color="#d4d4d4" />
-                <Text className="text-neutral-300 font-semibold">Fotos</Text>
+                <Icon name="Image" size={20} color="black" />
+                <Text className="text-neutral-700 font-semibold">Fotos</Text>
               </>
             )}
           </TouchableOpacity>
         )}
         <TouchableOpacity
           className={cn(
-            "items-center border h-24 justify-center rounded-md border-neutral-300",
+            "items-center border h-24 justify-center rounded-md border-neutral-700",
             enableGalleryUploads === 1 ? "flex-1" : "w-36 mx-auto",
           )}
           onPress={handleCameraPress}
@@ -80,8 +80,8 @@ export const ImageAnswerInput = ({
             />
           ) : (
             <>
-              <Icon name="Camera" size={20} color="#d4d4d4" />
-              <Text className="text-neutral-300 font-semibold">Câmera</Text>
+              <Icon name="Camera" size={20} color="black" />
+              <Text className="text-neutral-700 font-semibold">Câmera</Text>
             </>
           )}
         </TouchableOpacity>

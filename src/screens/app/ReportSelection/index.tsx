@@ -16,12 +16,13 @@ export const ReportSelection = () => {
     <AppContainer>
       {!isPending && reports && reports.length > 0 && (
         <>
-          <Text className="text-white font-bold text-lg mb-2">
+          <Text className="text-neutral-700 font-bold text-lg mb-2">
             {greetings()}, {user.name}
           </Text>
           <ReportsList reports={reports} />
           <View className="mb-5 mt-2">
             <MainButton
+              variant="success"
               title="Próximo"
               disabled={!reportId || isPending}
               onPress={handleNext}
