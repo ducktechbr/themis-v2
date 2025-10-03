@@ -26,7 +26,7 @@ export const ReportPages = () => {
       <AppContainer>
         <View className="flex-1 justify-center items-center px-6">
           <View className="items-center">
-            <Text className="text-xl font-semibold text-white mb-4">
+            <Text className="text-xl font-semibold text-neutral-700 mb-4">
               Acesso à Localização Necessário
             </Text>
             <Text className="text-base text-dark text-center mb-6 leading-6">

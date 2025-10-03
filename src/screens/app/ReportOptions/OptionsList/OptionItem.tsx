@@ -103,11 +103,6 @@ export const OptionItem = ({
         </View>
 
         <View className="flex-row items-center">
-          {isFulfilled && option.type === "image" && option.value && (
-            <TouchableOpacity onPress={handlePreview} className="mr-3">
-              <Icon name="Eye" size={24} color="white" />
-            </TouchableOpacity>
-          )}
           <Icon name="CircleCheck" size={20} color="white" />
         </View>
       </TouchableOpacity>

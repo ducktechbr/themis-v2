@@ -33,7 +33,7 @@ export const OptionsList = ({
             questionTitle={options.question_title}
             optionIndex={index}
             shouldAutoOpen={
-              imageSource === "camera" &&
+              (imageSource === "camera" || imageSource === "gallery") &&
               item.type === OptionTypeEnum.IMAGE &&
               !!imageAnswer
             }

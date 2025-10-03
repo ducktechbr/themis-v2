@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Alert, Text, View } from "react-native";
+import { Alert, Image, Text, TouchableOpacity, View } from "react-native";
 
 import {
   DateAnswerInput,
@@ -9,6 +9,7 @@ import {
 } from "./AnswerInputs";
 
 import { Dialog, DialogContent, MainButton } from "@/components";
+import { useAppNavigation } from "@/hooks";
 import { useSendImage } from "@/hooks/mutations";
 import { useAuthStore, useReportStore } from "@/stores";
 import { Option, OptionTypeEnum } from "@/types";
@@ -42,7 +43,8 @@ export const AnswerModal = ({
 }: AnswerModalProps) => {
   const [inputValue, setInputValue] = useState("");
   const { user } = useAuthStore();
-  const { imageAnswer } = useReportStore();
+  const { imageAnswer, setReportStore } = useReportStore();
+  const { navigate } = useAppNavigation();
 
   const { mutate: sendImage, isPending: isSendingImage } = useSendImage({
     onSuccess: () => {
@@ -54,7 +56,15 @@ export const AnswerModal = ({
       Alert.alert("Erro ao enviar imagem", errorMessage || "Tente novamente.");
     },
   });
-  const { setReportStore } = useReportStore();
+  const handleViewFullScreen = () => {
+    if (option.value) {
+      const imageUrl = `https://app.sistemathemis.com/${option.value}`;
+      setReportStore({ previewImageUri: imageUrl });
+      setIsDialogOpen(false);
+      navigate("Preview", { viewOnly: true });
+    }
+  };
+
   const getAnswerValue = () => {
     switch (option.type) {
       case OptionTypeEnum.TEXT:
@@ -151,6 +161,35 @@ export const AnswerModal = ({
         <Text className="text-neutral-700 font-bold text-center">
           {option.option}
         </Text>
+
+        {option.fulfilled &&
+          option.type === OptionTypeEnum.IMAGE &&
+          option.value && (
+            <View className="mb-4">
+              <View className="relative">
+                <Image
+                  source={{
+                    uri: `https://app.sistemathemis.com/${option.value}`,
+                  }}
+                  className="w-full h-48 rounded-md"
+                  resizeMode="cover"
+                />
+                <View className="absolute top-2 left-2 bg-black/60 px-3 py-1 rounded-full">
+                  <Text className="text-white text-xs font-medium">
+                    Resposta enviada
+                  </Text>
+                </View>
+              </View>
+              <TouchableOpacity
+                onPress={handleViewFullScreen}
+                className="mt-2 items-center"
+              >
+                <Text className="text-neutral-700 font-semibold text-sm underline">
+                  Ver em tela cheia
+                </Text>
+              </TouchableOpacity>
+            </View>
+          )}
 
         {renderAnswerInput()}
 
