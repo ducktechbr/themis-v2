@@ -2,7 +2,7 @@
   "expo": {
     "name": "Themis",
     "slug": "themis",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
@@ -10,7 +10,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#fff"
+      "backgroundColor": "#FFFFFF"
     },
     "plugins": [
       [
@@ -52,7 +52,7 @@
       "package": "com.ducktech.themis",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#09090b"
+        "backgroundColor": "#FFFFFF"
       },
       "edgeToEdgeEnabled": true,
       "permissions": [
@@ -71,7 +71,7 @@
       }
     },
     "owner": "ducktech",
-    "runtimeVersion": "2.0.0",
+    "runtimeVersion": "2.0.2",
     "updates": {
       "url": "https://u.expo.dev/833ff031-580b-4c14-aeb5-8300173cc99c"
     }
