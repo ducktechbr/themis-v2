@@ -33,6 +33,7 @@ export const useAuthStore = create<AuthStoreProps>((set) => ({
     matricula: null,
     device_token: "",
     status_user: 0,
+    app_version: "",
   },
   isAuthenticated: false,
   loading: false,
@@ -67,6 +68,7 @@ export const useAuthStore = create<AuthStoreProps>((set) => ({
           matricula: null,
           device_token: "",
           status_user: 0,
+          app_version: "",
         },
       });
     } catch (error) {

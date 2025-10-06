@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { FlatList, TextInput, View } from "react-native";
+import { FlatList, View } from "react-native";
 
 import { ListItem } from "./ListItem";
 
+import { SearchInput } from "@/components";
 import { Report } from "@/types";
 
 type ReportsListProps = {
@@ -21,12 +22,11 @@ export const ReportsList = ({ reports }: ReportsListProps) => {
 
   return (
     <View className="flex-1">
-      <TextInput
-        className="bg-secondary p-4 text-white font-semibold rounded shadow-xs mb-3"
+      <SearchInput
         placeholder="Pesquisar"
-        placeholderTextColor="#aaa"
         value={searchTerm}
         onChangeText={setSearchTerm}
+        className="mb-3"
       />
       <FlatList
         data={filteredReports}

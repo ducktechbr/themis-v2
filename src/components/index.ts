@@ -6,4 +6,5 @@ export * from "./Icon";
 export * from "./LoadingSpinner";
 export * from "./MainButton";
 export * from "./ScreenLoading";
+export * from "./SearchInput";
 export * from "./Toast";
