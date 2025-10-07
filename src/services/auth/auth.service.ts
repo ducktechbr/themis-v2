@@ -11,7 +11,7 @@ export const signIn = async (
     formData.append("metodo", "login_app");
     formData.append("username", username);
     formData.append("password", password);
-    formData.append("app_version", "2.0.1");
+    formData.append("app_version", "2.0.3");
     const { data } = await axiosInstance.post<SignInResponse>("/", formData);
 
     if (!data.status) {
