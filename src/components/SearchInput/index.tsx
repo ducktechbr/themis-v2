@@ -1,6 +1,6 @@
 import { TextInput, View } from "react-native";
 
-import { Icon } from "@/components";
+import { Icon } from "../Icon";
 
 type SearchInputProps = {
   placeholder?: string;

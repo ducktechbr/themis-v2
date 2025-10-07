@@ -2,7 +2,7 @@
   "expo": {
     "name": "Themis",
     "slug": "themis",
-    "version": "2.0.2",
+    "version": "2.0.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
@@ -43,7 +43,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.ducktech.Themis",
-      "buildNumber": "17",
+      // "buildNumber": "18",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
@@ -71,7 +71,7 @@
       }
     },
     "owner": "ducktech",
-    "runtimeVersion": "2.0.2",
+    "runtimeVersion": "2.0.3",
     "updates": {
       "url": "https://u.expo.dev/833ff031-580b-4c14-aeb5-8300173cc99c"
     }

@@ -17,7 +17,7 @@ export const ReportSelection = () => {
       {!isPending && reports && reports.length > 0 && (
         <>
           <Text className="text-neutral-700 font-bold text-lg mb-2">
-            {greetings()}, {user.name}
+            {greetings()}, {user.username}
           </Text>
           <ReportsList reports={reports} />
           <View className="mb-5 mt-2">

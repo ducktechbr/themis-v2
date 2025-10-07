@@ -1,6 +1,7 @@
 import {
   Image,
   Keyboard,
+  Text,
   TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -11,7 +12,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import useViewModel from "./useViewModel";
 
 import logo from "@/assets/full_logo.png";
-import { Checkbox, Icon, MainButton } from "@/components";
+import {
+  Checkbox,
+  Dialog,
+  DialogContent,
+  Icon,
+  MainButton,
+} from "@/components";
 import { cn } from "@/utils";
 
 export const SignIn = () => {
@@ -21,11 +28,14 @@ export const SignIn = () => {
     isKeyboardOpen,
     showPassword,
     rememberme,
+    outdatedVersionError,
     setRememberme,
     setUsername,
     setPassword,
     setShowPassword,
     handleSingIn,
+    handleUpdateApp,
+    handleCloseModal,
   } = useViewModel();
 
   return (
@@ -98,6 +108,27 @@ export const SignIn = () => {
           </TouchableOpacity>
           <MainButton title="Entrar" onPress={handleSingIn} />
         </View>
+
+        {/* Modal de versão desatualizada */}
+        <Dialog open={!!outdatedVersionError} onOpenChange={handleCloseModal}>
+          <DialogContent>
+            <View className="gap-4">
+              <View className="items-center gap-2">
+                <Icon name="AlertTriangle" size={48} color="#f3842a" />
+                <Text className="text-xl font-bold text-neutral-700 text-center">
+                  Atualização Necessária
+                </Text>
+              </View>
+              <Text className="text-base text-neutral-600 text-center">
+                {outdatedVersionError}
+              </Text>
+              <MainButton
+                title="Atualizar Aplicativo"
+                onPress={handleUpdateApp}
+              />
+            </View>
+          </DialogContent>
+        </Dialog>
       </SafeAreaView>
     </TouchableWithoutFeedback>
   );

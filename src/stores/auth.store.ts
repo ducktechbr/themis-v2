@@ -5,17 +5,19 @@ import { create } from "zustand";
 import { useReportStore } from "./report.store";
 
 import { signIn } from "@/services/auth";
-import { User } from "@/types";
+import { OutdatedVersionError, User } from "@/types";
 
 type AuthStoreProps = {
   user: User;
   isAuthenticated: boolean;
   loading: boolean;
+  outdatedVersionError: string | null;
   signIn: (username: string, password: string, rememberme: boolean) => void;
   initializeAuth: () => void;
   signOut: () => void;
   setUser: (user: User) => void;
   updateUserCoordinates: (latitude: number, longitude: number) => void;
+  clearOutdatedVersionError: () => void;
 };
 
 export const useAuthStore = create<AuthStoreProps>((set) => ({
@@ -33,10 +35,11 @@ export const useAuthStore = create<AuthStoreProps>((set) => ({
     matricula: null,
     device_token: "",
     status_user: 0,
-    app_version: "",
   },
   isAuthenticated: false,
   loading: false,
+  outdatedVersionError: null,
+  clearOutdatedVersionError: () => set({ outdatedVersionError: null }),
   signOut: async () => {
     try {
       await AsyncStorage.removeItem("username");
@@ -68,7 +71,6 @@ export const useAuthStore = create<AuthStoreProps>((set) => ({
           matricula: null,
           device_token: "",
           status_user: 0,
-          app_version: "",
         },
       });
     } catch (error) {
@@ -87,7 +89,7 @@ export const useAuthStore = create<AuthStoreProps>((set) => ({
     })),
   initializeAuth: async () => {
     try {
-      set({ loading: true });
+      set({ loading: true, outdatedVersionError: null });
 
       const username = await AsyncStorage.getItem("username");
       const password = await AsyncStorage.getItem("password");
@@ -103,11 +105,19 @@ export const useAuthStore = create<AuthStoreProps>((set) => ({
       }
     } catch (error) {
       console.error("Erro no auto login:", error);
-      try {
-        await AsyncStorage.removeItem("username");
-        await AsyncStorage.removeItem("password");
-      } catch (storageError) {
-        console.error("Erro ao remover credenciais:", storageError);
+
+      // Verifica se é erro de versão desatualizada
+      if (error instanceof OutdatedVersionError) {
+        set({ outdatedVersionError: error.message });
+        // Não remove as credenciais, pois o problema é a versão
+      } else {
+        // Para outros erros, remove as credenciais
+        try {
+          await AsyncStorage.removeItem("username");
+          await AsyncStorage.removeItem("password");
+        } catch (storageError) {
+          console.error("Erro ao remover credenciais:", storageError);
+        }
       }
     } finally {
       set({ loading: false });
@@ -115,7 +125,7 @@ export const useAuthStore = create<AuthStoreProps>((set) => ({
   },
   signIn: async (username: string, password: string, rememberme: boolean) => {
     try {
-      set({ loading: true });
+      set({ loading: true, outdatedVersionError: null });
       const response = await signIn(username, password);
       if (!response || response === undefined) {
         set({ loading: false, isAuthenticated: false });
@@ -129,7 +139,13 @@ export const useAuthStore = create<AuthStoreProps>((set) => ({
       set({ loading: false, isAuthenticated: true, user: response });
     } catch (error) {
       set({ loading: false });
-      console.log(error);
+
+      if (error instanceof OutdatedVersionError) {
+        set({ outdatedVersionError: error.message });
+      } else {
+        console.log(error);
+        Alert.alert("Erro", "Ocorreu um erro ao fazer login. Tente novamente.");
+      }
     }
   },
 }));

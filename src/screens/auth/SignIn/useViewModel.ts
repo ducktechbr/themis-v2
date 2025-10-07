@@ -1,11 +1,13 @@
 import { useState } from "react";
+import { Linking } from "react-native";
 
 import { useKeyboardListener } from "@/hooks";
 import { useAuthStore } from "@/stores";
 import { cn } from "@/utils";
 
 export default function useViewModel() {
-  const { signIn } = useAuthStore();
+  const { signIn, outdatedVersionError, clearOutdatedVersionError } =
+    useAuthStore();
   const isKeyboardOpen = useKeyboardListener();
 
   const [username, setUsername] = useState("");
@@ -21,17 +23,28 @@ export default function useViewModel() {
     signIn(username, password, rememberme);
   };
 
+  const handleUpdateApp = () => {
+    Linking.openURL("https://install-app.sistemathemis.com");
+  };
+
+  const handleCloseModal = () => {
+    clearOutdatedVersionError();
+  };
+
   return {
     username,
     password,
     isKeyboardOpen,
     showPassword,
     rememberme,
+    outdatedVersionError,
     setRememberme,
     setUsername,
     setPassword,
     cn,
     setShowPassword,
     handleSingIn,
+    handleUpdateApp,
+    handleCloseModal,
   };
 }

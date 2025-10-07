@@ -7,12 +7,26 @@ export type User = {
   name: string;
   email: string;
   username: string;
+  password?: string;
   assinatura: string | null;
+  create_at?: string;
   last_date_login: string | null;
   matricula: string | null;
   device_token: string;
   status_user: number;
-  app_version: string;
   latitude?: number;
   longitude?: number;
 };
+
+export type SignInResponse = {
+  data?: User[];
+  status: boolean;
+  error?: string;
+};
+
+export class OutdatedVersionError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "OutdatedVersionError";
+  }
+}
