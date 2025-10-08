@@ -32,7 +32,7 @@ export const ReportSelection = () => {
       )}
       {!isPending && reports && reports.length === 0 && (
         <View className="flex-1 items-center justify-center">
-          <Text className="text-white font-bold text-lg">
+          <Text className="text-neutral-700 font-bold text-lg">
             Você não possuiu relatórios para preencher!
           </Text>
           <LottieView source={empty} style={{ width: 300, height: 300 }} />

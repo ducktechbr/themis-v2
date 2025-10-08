@@ -33,7 +33,7 @@ export const QuestionsList = ({ reportQuestions }: QuestionsListProps) => {
         data={filteredQuestions}
         keyExtractor={(item) => item[0]}
         ItemSeparatorComponent={() => <View className="my-2" />}
-        contentContainerStyle={{ paddingBottom: 200 }}
+        contentContainerStyle={{ paddingBottom: 300 }}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
           <QuestionItem questionId={item[0]} question={item[1]} />

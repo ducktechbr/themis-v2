@@ -1,6 +1,8 @@
 import { axiosInstance } from "../config";
 
-import { OutdatedVersionError, SignInResponse, User } from "@/types";
+import { OutdatedVersionError, User } from "@/types";
+
+const CURRENT_APP_VERSION = "2.0.4";
 
 export const signIn = async (
   username: string,
@@ -8,21 +10,26 @@ export const signIn = async (
 ): Promise<User> => {
   try {
     const formData = new FormData();
-    formData.append("metodo", "login_app");
+    formData.append("metodo", "loginv2");
     formData.append("username", username);
     formData.append("password", password);
-    formData.append("app_version", "2.0.3");
-    const { data } = await axiosInstance.post<SignInResponse>("/", formData);
+    formData.append("app_version", CURRENT_APP_VERSION);
 
-    if (!data.status) {
+    const { data } = await axiosInstance.post<
+      User[] | { status: boolean; error?: string }
+    >("/", formData);
+
+    if (!Array.isArray(data)) {
       if (data.error) {
         throw new OutdatedVersionError(data.error);
       }
       throw new Error("Erro ao fazer login");
     }
 
-    if (data.data && data.data.length > 0) {
-      return data.data[0];
+    console.log(data);
+
+    if (data.length > 0) {
+      return data[0];
     }
 
     throw new Error("Resposta inválida do servidor");

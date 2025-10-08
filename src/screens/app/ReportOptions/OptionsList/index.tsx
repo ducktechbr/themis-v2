@@ -3,6 +3,7 @@ import { FlatList, View } from "react-native";
 
 import { OptionItem } from "./OptionItem";
 
+import { MainButton } from "@/components";
 import { Option, OptionTypeEnum } from "@/types";
 
 type OptionsListProps = {
@@ -20,12 +21,14 @@ export const OptionsList = ({
   imageSource,
 }: OptionsListProps) => {
   return (
-    <View>
+    <View className="flex-1">
       <FlatList
         data={options.options}
         keyExtractor={(item, index) => `${item.option}-${index}`}
         ItemSeparatorComponent={() => <View className="my-2" />}
-        contentContainerStyle={{ paddingBottom: 50 }}
+        contentContainerStyle={{
+          paddingBottom: 50,
+        }}
         showsVerticalScrollIndicator={false}
         renderItem={({ item, index }) => (
           <OptionItem
@@ -40,6 +43,9 @@ export const OptionsList = ({
           />
         )}
       />
+      <View className="pb-5">
+        <MainButton title="Feito!" onPress={() => {}} />
+      </View>
     </View>
   );
 };

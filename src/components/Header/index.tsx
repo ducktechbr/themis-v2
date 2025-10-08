@@ -27,7 +27,6 @@ export const Header = ({
   const [settingsOpen, setSettingsOpen] = useState(false);
   const { signOut } = useAuthStore();
 
-  // Define colors based on background
   const titleColor = darkBackground ? "text-white" : "text-neutral-700";
   const iconColor = darkBackground ? "white" : "black";
 
@@ -88,7 +87,7 @@ export const Header = ({
               />
             </TouchableOpacity>
           ))}
-          <Text className="text-right text-sm text-gray-500">v2.0.2</Text>
+          <Text className="text-right text-sm text-gray-500">v2.0.4</Text>
         </DialogContent>
       </Dialog>
     </>

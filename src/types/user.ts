@@ -16,6 +16,7 @@ export type User = {
   status_user: number;
   latitude?: number;
   longitude?: number;
+  app_version?: string;
 };
 
 export type SignInResponse = {
