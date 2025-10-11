@@ -2,7 +2,7 @@ import { axiosInstance } from "../config";
 
 import { OutdatedVersionError, User } from "@/types";
 
-const CURRENT_APP_VERSION = "2.0.4";
+const CURRENT_APP_VERSION = "2.0.5";
 
 export const signIn = async (
   username: string,

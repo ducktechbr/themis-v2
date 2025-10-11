@@ -87,7 +87,7 @@ export const Header = ({
               />
             </TouchableOpacity>
           ))}
-          <Text className="text-right text-sm text-gray-500">v2.0.4</Text>
+          <Text className="text-right text-sm text-gray-500">v2.0.5</Text>
         </DialogContent>
       </Dialog>
     </>
