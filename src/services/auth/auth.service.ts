@@ -26,8 +26,6 @@ export const signIn = async (
       throw new Error("Erro ao fazer login");
     }
 
-    console.log(data);
-
     if (data.length > 0) {
       return data[0];
     }

@@ -14,9 +14,7 @@ export default function useViewModel() {
     onSuccess: () => {
       navigate("ReportPages");
     },
-    onError: () => {
-      // Handle error if needed
-    },
+    onError: () => {},
   });
 
   useFocusEffect(

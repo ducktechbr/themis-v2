@@ -4,6 +4,7 @@ import { FlatList, View } from "react-native";
 import { OptionItem } from "./OptionItem";
 
 import { MainButton } from "@/components";
+import { useAppNavigation } from "@/hooks";
 import { Option, OptionTypeEnum } from "@/types";
 
 type OptionsListProps = {
@@ -20,6 +21,7 @@ export const OptionsList = ({
   imageAnswer,
   imageSource,
 }: OptionsListProps) => {
+  const { goBack } = useAppNavigation();
   return (
     <View className="flex-1">
       <FlatList
@@ -44,7 +46,7 @@ export const OptionsList = ({
         )}
       />
       <View className="pb-5">
-        <MainButton title="Feito!" onPress={() => {}} />
+        <MainButton title="Feito!" onPress={goBack} />
       </View>
     </View>
   );
