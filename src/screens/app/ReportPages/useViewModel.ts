@@ -1,5 +1,4 @@
-import { useFocusEffect } from "@react-navigation/native";
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 
 import {
   useGetCoordinates,
@@ -34,12 +33,6 @@ export default function useViewModel() {
       startReportFill(reportId);
     }
   }, [reportId, startReportFill]);
-
-  useFocusEffect(
-    useCallback(() => {
-      refetchReport();
-    }, [refetchReport])
-  );
 
   return {
     reportPages,

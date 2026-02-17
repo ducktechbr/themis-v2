@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Alert, FlatList, Text, View } from "react-native";
 
 import { ListItem } from "./ListItem";
@@ -19,7 +19,10 @@ export const ReportPagesList = ({
   reportPages,
   refetchReport,
 }: ReportPagesListProps) => {
-  const sections: SectionEntry[] = Object.entries(reportPages);
+  const sections: SectionEntry[] = useMemo(
+    () => Object.entries(reportPages),
+    [reportPages],
+  );
   const { reportId, responsibleId } = useReportStore();
   const { user } = useAuthStore();
   const { navigate } = useAppNavigation();
@@ -45,10 +48,12 @@ export const ReportPagesList = ({
       toast("Relatório finalizado com sucesso!", "success");
       navigate("ReportSelection");
     },
-    onError: () => {
-      toast("Erro ao finalizar relatório", "destructive");
+    onError: (errorMessage) => {
+      toast(errorMessage ?? "Erro ao finalizar relatório. Tente novamente.", "destructive");
     },
   });
+
+  const keyExtractor = useCallback((item: SectionEntry) => item[0], []);
 
   const handleFinishReport = () => {
     Alert.alert(
@@ -72,10 +77,12 @@ export const ReportPagesList = ({
     <View>
       <FlatList
         data={sections}
-        keyExtractor={(item) => item[0]}
+        keyExtractor={keyExtractor}
         ItemSeparatorComponent={() => <View className="my-3" />}
         contentContainerStyle={{ paddingBottom: 20 }}
         showsVerticalScrollIndicator={false}
+        initialNumToRender={10}
+        maxToRenderPerBatch={5}
         renderItem={({ item }) => (
           <ListItem
             item={item}

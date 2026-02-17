@@ -27,7 +27,7 @@ export const useDuplicateSection = ({
     onSuccess: (data, variables) => {
       // Invalidate report pages query to refresh the list
       queryClient.invalidateQueries({
-        queryKey: ["reportPages", variables.documentId],
+        queryKey: ["documentPages", variables.documentId],
       });
 
       onSuccess();

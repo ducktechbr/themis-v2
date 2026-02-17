@@ -1,3 +1,4 @@
+import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
 import { Icon } from "@/components";
@@ -11,7 +12,7 @@ type QuestionItemProps = {
   question: Question;
 };
 
-export const QuestionItem = ({ questionId, question }: QuestionItemProps) => {
+export const QuestionItem = React.memo(({ questionId, question }: QuestionItemProps) => {
   const { setReportStore } = useReportStore();
   const { navigate } = useAppNavigation();
 
@@ -44,4 +45,4 @@ export const QuestionItem = ({ questionId, question }: QuestionItemProps) => {
       )}
     </TouchableOpacity>
   );
-};
+});

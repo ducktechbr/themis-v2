@@ -1,5 +1,5 @@
 import { useIsFocused } from "@react-navigation/native";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   GestureResponderEvent,
   Text,
@@ -23,7 +23,7 @@ type OptionItemProps = {
   shouldAutoOpen?: boolean;
 };
 
-export const OptionItem = ({
+export const OptionItem = React.memo(({
   option,
   questionTitle,
   optionIndex,
@@ -52,8 +52,8 @@ export const OptionItem = ({
       }
       toast("Resposta enviada com sucesso!", "success");
     },
-    onError: () => {
-      toast("Erro ao enviar resposta!", "destructive");
+    onError: (errorMessage) => {
+      toast(errorMessage ?? "Erro ao enviar resposta. Tente novamente.", "destructive");
     },
   });
 
@@ -122,4 +122,4 @@ export const OptionItem = ({
       />
     </>
   );
-};
+});

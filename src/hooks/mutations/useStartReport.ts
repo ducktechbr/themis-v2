@@ -23,7 +23,7 @@ export const useStartReport = ({
         queryKey: ["reports"],
       });
       queryClient.invalidateQueries({
-        queryKey: ["reportPages", reportId],
+        queryKey: ["documentPages", reportId],
       });
 
       onSuccess();

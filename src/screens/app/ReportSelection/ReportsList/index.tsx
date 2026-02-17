@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { FlatList, View } from "react-native";
 
 import { ListItem } from "./ListItem";
@@ -13,17 +13,31 @@ type ReportsListProps = {
 export const ReportsList = ({ reports }: ReportsListProps) => {
   const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredReports = reports.filter((report) =>
-    Object.values(report)
-      .join(" ")
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase()),
+  const filteredReports = useMemo(
+    () =>
+      reports.filter((report) =>
+        Object.values(report)
+          .join(" ")
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()),
+      ),
+    [reports, searchTerm],
+  );
+
+  const renderItem = useCallback(
+    ({ item }: { item: Report }) => <ListItem report={item} />,
+    [],
+  );
+
+  const keyExtractor = useCallback(
+    (item: Report) => String(item.id_service_order),
+    [],
   );
 
   return (
     <View className="flex-1">
       <SearchInput
-        placeholder="Pesquisar"
+        placeholder="Pesquisar por endereço, OS, tipo..."
         value={searchTerm}
         onChangeText={setSearchTerm}
         className="mb-3"
@@ -33,8 +47,11 @@ export const ReportsList = ({ reports }: ReportsListProps) => {
         contentContainerStyle={{ paddingBottom: 30 }}
         ItemSeparatorComponent={() => <View className="my-2" />}
         showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => <ListItem report={item} />}
-        keyExtractor={(item) => String(item.id_service_order)}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
+        initialNumToRender={10}
+        maxToRenderPerBatch={5}
+        removeClippedSubviews
       />
     </View>
   );

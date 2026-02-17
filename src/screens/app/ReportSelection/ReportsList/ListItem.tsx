@@ -1,3 +1,4 @@
+import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
 import { Icon } from "@/components";
@@ -9,7 +10,7 @@ type ListItemProps = {
   report: Report;
 };
 
-export const ListItem = ({ report }: ListItemProps) => {
+export const ListItem = React.memo(({ report }: ListItemProps) => {
   const { setReportStore, reportId } = useReportStore();
   return (
     <TouchableOpacity
@@ -122,4 +123,4 @@ export const ListItem = ({ report }: ListItemProps) => {
       </View>
     </TouchableOpacity>
   );
-};
+});

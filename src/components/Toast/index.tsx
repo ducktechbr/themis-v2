@@ -126,17 +126,18 @@ function ToastProvider({
   const toast: ToastContextProps["toast"] = (
     message: string,
     variant: ToastVariant = "default",
-    duration: number = 3000,
+    duration?: number,
     position: "top" | "bottom" = "top",
     showProgress: boolean = true
   ) => {
+    const defaultDuration = variant === "destructive" ? 5000 : 3000;
     setMessages((prev) => [
       ...prev,
       {
         id: Date.now(),
         text: message,
         variant,
-        duration,
+        duration: duration ?? defaultDuration,
         position,
         showProgress,
       },

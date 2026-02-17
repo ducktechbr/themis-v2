@@ -12,16 +12,15 @@ export const useFinishReport = ({
   onError,
 }: {
   onSuccess: () => void;
-  onError: () => void;
+  onError: (error?: string) => void;
 }) => {
   const queryClient = useQueryClient();
 
   return useMutation<FinishReportResponse, Error, number>({
     mutationFn: finishReport,
     onSuccess: (data, reportId) => {
-      // Invalidate all report-related queries
       queryClient.invalidateQueries({
-        queryKey: ["reportPages", reportId],
+        queryKey: ["documentPages", reportId],
       });
       queryClient.invalidateQueries({
         queryKey: ["reports"],
@@ -29,8 +28,12 @@ export const useFinishReport = ({
 
       onSuccess();
     },
-    onError: () => {
-      onError();
+    onError: (error) => {
+      if (error.message.includes("Network Error")) {
+        onError("Sem conexão com a internet. Verifique sua rede e tente novamente.");
+      } else {
+        onError("Erro ao finalizar relatório. Tente novamente.");
+      }
     },
   });
 };

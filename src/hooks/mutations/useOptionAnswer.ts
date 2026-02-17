@@ -8,14 +8,16 @@ export const useOptionAnswer = ({
   onError,
 }: {
   onSuccess: () => void;
-  onError: () => void;
+  onError: (error?: string) => void;
 }) => {
   const queryClient = useQueryClient();
 
   return useMutation<AnswerResponse, Error, AnswerParams>({
     mutationFn: sendQuestionAnswer,
     onSuccess: (data, variables) => {
-      // Invalidate specific queries with parameters
+      queryClient.invalidateQueries({
+        queryKey: ["documentPages", variables.reportId],
+      });
       queryClient.invalidateQueries({
         queryKey: ["reportQuestions", variables.reportId, variables.refcod],
       });
@@ -30,8 +32,14 @@ export const useOptionAnswer = ({
 
       onSuccess();
     },
-    onError: () => {
-      onError();
+    onError: (error) => {
+      if (error.message.includes("Network Error")) {
+        onError("Sem conexão com a internet. Verifique sua rede e tente novamente.");
+      } else if (error.message.includes("timeout")) {
+        onError("A requisição demorou muito. Tente novamente.");
+      } else {
+        onError("Erro ao enviar resposta. Tente novamente.");
+      }
     },
   });
 };

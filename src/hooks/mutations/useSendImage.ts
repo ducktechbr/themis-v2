@@ -28,7 +28,7 @@ export const useSendImage = ({
     mutationFn: sendImage,
     onSuccess: (data, variables) => {
       queryClient.invalidateQueries({
-        queryKey: ["reportPages", variables.reportId],
+        queryKey: ["documentPages", variables.reportId],
       });
       queryClient.invalidateQueries({
         queryKey: ["reportQuestions", variables.reportId, variables.refcod],

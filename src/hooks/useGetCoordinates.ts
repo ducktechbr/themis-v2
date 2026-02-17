@@ -71,7 +71,7 @@ export const useGetCoordinates = () => {
       }
 
       const location = await getCurrentPositionAsync({
-        accuracy: Accuracy.Balanced,
+        accuracy: Accuracy.High,
       });
 
       const { latitude, longitude } = location.coords;
